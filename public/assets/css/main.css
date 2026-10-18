@@ -387,7 +387,7 @@ button{
 .marquee:hover .marquee-track{animation-play-state:paused;}
 @keyframes marquee{from{transform:translateX(0);} to{transform:translateX(-50%);}}
 .marquee-item{flex:none; display:flex; align-items:center;}
-.marquee-item img{height:44px; width:auto; max-width:170px; object-fit:contain;
+.marquee-item img{height:56px; width:auto; max-width:200px; object-fit:contain;
   filter:none; opacity:1; transition:transform .3s ease;}
 .marquee-item img:hover{transform:scale(1.05);}
 
@@ -855,7 +855,7 @@ button{
     mask-image:linear-gradient(0deg, transparent 4%, #000 30%);}
   .hero-photo{-webkit-mask-image:none; mask-image:none; opacity:0;}
   .marquee-track{gap:48px;}
-  .marquee-item img{height:34px;}
+  .marquee-item img{height:44px;}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important; transition:none !important;}
