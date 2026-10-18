@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { whyData, affiliationsData } from '../data/marvethabi';
 
 interface AboutPageProps {
@@ -9,62 +9,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
-
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const [counts, setCounts] = useState({
-    blackOwned: 0,
-    experience: 0,
-    projects: 0,
-    disciplines: 0,
-  });
-
-  const statsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-
-          const duration = 1600;
-          const startTime = performance.now();
-
-          const animate = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = 1 - Math.pow(1 - progress, 3);
-
-            setCounts({
-              blackOwned: Math.floor(ease * 100),
-              experience: Math.floor(ease * 13),
-              projects: Math.floor(ease * 100),
-              disciplines: Math.floor(ease * 3),
-            });
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            } else {
-              setCounts({
-                blackOwned: 100,
-                experience: 13,
-                projects: 100,
-                disciplines: 3,
-              });
-            }
-          };
-
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasAnimated]);
 
   return (
     <main className="about-page detail-page">
@@ -95,32 +39,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ============ STATS ROW (TIGHTER COUNTERS) ============ */}
-      <section className="stats" ref={statsRef}>
-        <div className="stats-grid-bg" aria-hidden="true"></div>
-        <div className="wrap stats-row">
-          <div className="stat">
-            <span className="num stat-v">{counts.blackOwned}%</span>
-            <span className="stat-l">Black Owned</span>
-          </div>
-          <div className="stat">
-            <span className="num stat-v">Level 1</span>
-            <span className="stat-l">B-BBEE</span>
-          </div>
-          <div className="stat">
-            <span className="num stat-v">{counts.experience}+</span>
-            <span className="stat-l">Years Experience</span>
-          </div>
-          <div className="stat">
-            <span className="num stat-v">{counts.projects}+</span>
-            <span className="stat-l">Projects</span>
-          </div>
-          <div className="stat">
-            <span className="num stat-v">{counts.disciplines}</span>
-            <span className="stat-l">Core Engineering Disciplines</span>
-          </div>
-        </div>
-      </section>
+
 
       {/* ============ STORY & CREDENTIALS ============ */}
       <section className="detail-body-section">

@@ -1,69 +1,82 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './components/HomePage';
+import { ServicesPage } from './components/ServicesPage';
+import { ServiceDetailPage } from './components/ServiceDetailPage';
+import { IndustriesPage } from './components/IndustriesPage';
+import { IndustryDetailPage } from './components/IndustryDetailPage';
+import { AboutPage } from './components/AboutPage';
+import { LeadershipPage } from './components/LeadershipPage';
+import { ProcessPage } from './components/ProcessPage';
+import { ContactPage } from './components/ContactPage';
 
-// Code-split heavy page components to minimize initial parse time and improve perceived speed
-const ServicesPage = lazy(() =>
-  import('./components/ServicesPage').then((m) => ({ default: m.ServicesPage }))
-);
-const ServiceDetailPage = lazy(() =>
-  import('./components/ServiceDetailPage').then((m) => ({ default: m.ServiceDetailPage }))
-);
-const IndustriesPage = lazy(() =>
-  import('./components/IndustriesPage').then((m) => ({ default: m.IndustriesPage }))
-);
-const IndustryDetailPage = lazy(() =>
-  import('./components/IndustryDetailPage').then((m) => ({ default: m.IndustryDetailPage }))
-);
-const AboutPage = lazy(() =>
-  import('./components/AboutPage').then((m) => ({ default: m.AboutPage }))
-);
-const LeadershipPage = lazy(() =>
-  import('./components/LeadershipPage').then((m) => ({ default: m.LeadershipPage }))
-);
-const ProcessPage = lazy(() =>
-  import('./components/ProcessPage').then((m) => ({ default: m.ProcessPage }))
-);
-const ContactPage = lazy(() =>
-  import('./components/ContactPage').then((m) => ({ default: m.ContactPage }))
-);
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  onReset?: () => void;
+}
 
-const PageFallback: React.FC = () => (
-  <div
-    style={{
-      minHeight: '60vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '16px',
-      background: '#fff',
-    }}
-  >
-    <div
-      style={{
-        width: '36px',
-        height: '36px',
-        border: '3px solid rgba(51, 102, 89, 0.15)',
-        borderTopColor: '#336659',
-        borderRadius: '50%',
-        animation: 'spin 0.8s linear infinite',
-      }}
-    />
-    <span
-      className="num"
-      style={{
-        fontSize: '11px',
-        letterSpacing: '0.15em',
-        color: '#6e7e78',
-        textTransform: 'uppercase',
-      }}
-    >
-      Loading Specification...
-    </span>
-  </div>
-);
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('App caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div
+          style={{
+            minHeight: '60vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '18px',
+            padding: '40px 20px',
+            textAlign: 'center',
+            background: '#fff',
+          }}
+        >
+          <h2 style={{ fontSize: '24px', color: 'var(--ink, #0e1e1a)', margin: 0 }}>
+            Unable to Display Specification
+          </h2>
+          <p style={{ maxWidth: '480px', color: '#55655F', margin: 0, fontSize: '15px' }}>
+            We encountered an unexpected interface state while rendering this page.
+          </p>
+          <button
+            className="btn btn-brand"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              this.setState({ hasError: false });
+              if (this.props.onReset) {
+                this.props.onReset();
+              } else {
+                window.location.href = '/';
+              }
+            }}
+          >
+            Return to Home
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState<string>(() => {
@@ -92,69 +105,37 @@ export const App: React.FC = () => {
     const normalized = currentPath.replace(/\/+$/, '') || '/';
 
     if (normalized === '/services') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <ServicesPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <ServicesPage onNavigate={navigateTo} />;
     }
 
     if (normalized.startsWith('/services/')) {
       const slug = normalized.replace('/services/', '');
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <ServiceDetailPage slug={slug} onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <ServiceDetailPage slug={slug} onNavigate={navigateTo} />;
     }
 
     if (normalized === '/industries') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <IndustriesPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <IndustriesPage onNavigate={navigateTo} />;
     }
 
     if (normalized.startsWith('/industries/')) {
       const slug = normalized.replace('/industries/', '');
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <IndustryDetailPage slug={slug} onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <IndustryDetailPage slug={slug} onNavigate={navigateTo} />;
     }
 
     if (normalized === '/about') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <AboutPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <AboutPage onNavigate={navigateTo} />;
     }
 
     if (normalized === '/leadership' || normalized === '/team') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <LeadershipPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <LeadershipPage onNavigate={navigateTo} />;
     }
 
     if (normalized === '/process') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <ProcessPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <ProcessPage onNavigate={navigateTo} />;
     }
 
     if (normalized === '/contact') {
-      return (
-        <Suspense fallback={<PageFallback />}>
-          <ContactPage onNavigate={navigateTo} />
-        </Suspense>
-      );
+      return <ContactPage onNavigate={navigateTo} />;
     }
 
     // Default to HomePage
@@ -162,11 +143,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <>
+    <ErrorBoundary onReset={() => navigateTo('/')}>
       <Header currentPath={currentPath} onNavigate={navigateTo} />
       {renderCurrentPage()}
       <Footer onNavigate={navigateTo} />
-    </>
+    </ErrorBoundary>
   );
 };
 

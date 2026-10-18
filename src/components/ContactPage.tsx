@@ -149,28 +149,6 @@ const SERVICES_CATALOGUE: ServiceAssignment[] = [
     leadEmail: 'thabang@marvethabi.co.za',
     leadPhone: '+27 72 834 7953',
   },
-
-  // Jonas Lufuluabo
-  {
-    id: 'drc-expansion',
-    name: 'DRC & Central African Regional Business Development',
-    leadName: 'Jonas Lufuluabo',
-    leadRole: 'Director — Business Development (DRC)',
-    leadReg: 'B.Sc Computer Science · Cisco Certified',
-    leadPhoto: 'jonas.jpg',
-    leadEmail: 'drc@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-  {
-    id: 'cross-border-alliances',
-    name: 'Cross-Border Mining Alliances & Infrastructure Partnerships',
-    leadName: 'Jonas Lufuluabo',
-    leadRole: 'Director — Business Development (DRC)',
-    leadReg: 'Regional Commercial Leader',
-    leadPhoto: 'jonas.jpg',
-    leadEmail: 'drc@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
 ];
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
@@ -361,13 +339,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     </optgroup>
                     <optgroup label="Environmental Resource Management & Studies (Lead: Thabang Ngoatle — SACNASP)">
                       {SERVICES_CATALOGUE.filter((s) => s.leadName.includes('Thabang')).map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.name} &bull; Lead: {s.leadName}
-                        </option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="DRC & Central African Regional Expansion (Lead: Jonas Lufuluabo)">
-                      {SERVICES_CATALOGUE.filter((s) => s.leadName.includes('Jonas')).map((s) => (
                         <option key={s.id} value={s.id}>
                           {s.name} &bull; Lead: {s.leadName}
                         </option>
@@ -632,95 +603,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* RIGHT SIDEBAR — DIRECT DESKS */}
-          <aside className="detail-sidebar" aria-label="Direct Team Desks" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* DIRECT DESKS */}
-            <div className="side-card" style={{ borderTop: '3px solid var(--btn-green)', background: '#fff', padding: '24px' }}>
-              <span className="label" style={{ color: 'var(--brand)', display: 'block', marginBottom: '6px' }}>
-                DIRECT PRACTICE DESKS
-              </span>
-              <h4 style={{ fontSize: '17px', color: 'var(--ink)', margin: '0 0 16px' }}>
-                Direct Director Lines
-              </h4>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {/* Marvelous */}
-                <div style={{ borderBottom: '1px solid var(--line)', paddingBottom: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                    <img
-                      src="/assets/images/marvelous.jpg?v=2"
-                      alt="Marvelous Ngoatle"
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
-                        Marvelous Ngoatle
-                      </div>
-                      <div style={{ fontSize: '11px', color: 'var(--btn-green-dark)', fontWeight: 600 }}>
-                        Pr.Tech.Eng (ECSA) &middot; Reliability & Electrical
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink)', marginTop: '4px' }}>
-                    <strong>Tel:</strong> +27 82 412 3847 &middot;{' '}
-                    <span style={{ color: 'var(--brand)' }}>marvelous@marvethabi.co.za</span>
-                  </div>
-                </div>
-
-                {/* Thabang */}
-                <div style={{ borderBottom: '1px solid var(--line)', paddingBottom: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                    <img
-                      src="/assets/images/thabang.jpg?v=2"
-                      alt="Thabang Ngoatle"
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
-                        Thabang Ngoatle
-                      </div>
-                      <div style={{ fontSize: '11px', color: 'var(--btn-green-dark)', fontWeight: 600 }}>
-                        Pr.Sci.Nat (SACNASP) &middot; Environmental & Water
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink)', marginTop: '4px' }}>
-                    <strong>Tel:</strong> +27 72 834 7953 &middot;{' '}
-                    <span style={{ color: 'var(--brand)' }}>thabang@marvethabi.co.za</span>
-                  </div>
-                </div>
-
-                {/* Jonas */}
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                    <img
-                      src="/assets/images/jonas.jpg?v=2"
-                      alt="Jonas Lufuluabo"
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
-                    />
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
-                        Jonas Lufuluabo
-                      </div>
-                      <div style={{ fontSize: '11px', color: 'var(--btn-green-dark)', fontWeight: 600 }}>
-                        Director &middot; Business Development (DRC)
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink)', marginTop: '4px' }}>
-                    <strong>Tel:</strong> +27 82 412 3847 &middot;{' '}
-                    <span style={{ color: 'var(--brand)' }}>drc@marvethabi.co.za</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          {/* RIGHT SIDEBAR */}
+          <aside className="detail-sidebar" aria-label="Practice Information" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* HEAD OFFICE */}
             <div className="side-card" style={{ background: '#fff', padding: '24px' }}>
               <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 10px' }}>Head Office</h4>

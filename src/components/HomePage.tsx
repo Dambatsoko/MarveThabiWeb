@@ -252,6 +252,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   textAlign: 'center',
+                  borderRadius: '6px',
                   transition: 'transform 0.25s ease, background 0.25s ease, border-color 0.25s ease',
                 }}
                 title={`Explore how MarveThabi serves the ${ind.name} sector`}
