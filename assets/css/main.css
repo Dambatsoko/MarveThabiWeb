@@ -1853,6 +1853,250 @@ button{
   margin: 0;
 }
 
+/* ---------- OUR ACCREDITATION SECTION ---------- */
+.accred-section {
+  padding: 80px 0;
+  background: var(--grey, #F4F7F6);
+  border-top: 1px solid var(--line, #E1E8E6);
+}
+
+.accred-card {
+  background: #fff;
+  border: 1px solid var(--line, #E1E8E6);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px -12px rgba(15, 27, 24, 0.12);
+}
+
+.accred-header-bar {
+  background: #143D2F;
+  color: #fff;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.accred-header-icon {
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.accred-header-title {
+  font-family: var(--font-heading, 'Inter Tight');
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fff;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.accred-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .accred-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.accred-content {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.accred-lead-paras p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #2D3D36;
+  margin-bottom: 12px;
+}
+
+.accred-lead-paras p:last-child {
+  margin-bottom: 0;
+}
+
+.accred-standards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line, #E1E8E6);
+  border-bottom: 1px solid var(--line, #E1E8E6);
+}
+
+@media (max-width: 580px) {
+  .accred-standards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.accred-standard-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.accred-standard-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1.8px solid #234D3D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #234D3D;
+  background: #F6F9F7;
+  flex-shrink: 0;
+}
+
+.accred-standard-info strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #143D2F;
+  letter-spacing: 0.02em;
+}
+
+.accred-standard-info span {
+  display: block;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #47564F;
+  margin-top: 2px;
+}
+
+.accred-footer-note p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #47564F;
+  margin: 0;
+}
+
+.accred-photo-wrap {
+  position: relative;
+  background: #F7FAF9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-left: 1px solid var(--line, #E1E8E6);
+}
+
+@media (max-width: 900px) {
+  .accred-photo-wrap {
+    border-left: none;
+    border-top: 1px solid var(--line, #E1E8E6);
+  }
+}
+
+.accred-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  max-height: 520px;
+}
+
+/* ---------- PROFESSIONAL AFFILIATIONS SECTION ---------- */
+.affil-section {
+  padding: 80px 0;
+  background: #fff;
+  border-top: 1px solid var(--line, #E1E8E6);
+}
+
+.affil-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .affil-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .affil-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 440px) {
+  .affil-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.affil-grid-card {
+  background: #fff;
+  border: 1px solid var(--line, #E1E8E6);
+  border-radius: 8px;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  min-height: 180px;
+  justify-content: space-between;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.affil-grid-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--brand, #336659);
+  box-shadow: 0 14px 28px -10px rgba(15, 27, 24, 0.12);
+}
+
+.affil-logo-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.affil-logo-box img {
+  height: 58px;
+  width: auto;
+  max-width: 155px;
+  object-fit: contain;
+  filter: none;
+  opacity: 1;
+  transition: transform 0.25s ease;
+}
+
+.affil-grid-card:hover .affil-logo-box img {
+  transform: scale(1.05);
+}
+
+.affil-name-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: #3C4A45;
+  line-height: 1.35;
+  text-align: center;
+  display: block;
+}
+
 
 
 

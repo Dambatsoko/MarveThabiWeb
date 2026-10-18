@@ -4,6 +4,8 @@ import {
   clientsData,
   industriesData,
 } from '../data/marvethabi';
+import { AccreditationSection } from './AccreditationSection';
+import { AffiliationsSection } from './AffiliationsSection';
 
 interface HomePageProps {
   onNavigate?: (path: string) => void;
@@ -328,6 +330,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* ============ OUR ACCREDITATION ============ */}
+      <AccreditationSection />
+
+      {/* ============ PROFESSIONAL AFFILIATIONS ============ */}
+      <AffiliationsSection />
 
       {/* ============ CONTACT ============ */}
       <section className="contact" id="contact">

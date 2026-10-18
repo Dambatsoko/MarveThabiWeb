@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { AccreditationSection } from './AccreditationSection';
+import { AffiliationsSection } from './AffiliationsSection';
 
 interface AboutPageProps {
   onNavigate: (path: string) => void;
@@ -420,6 +422,12 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* ============ OUR ACCREDITATION ============ */}
+      <AccreditationSection />
+
+      {/* ============ PROFESSIONAL AFFILIATIONS ============ */}
+      <AffiliationsSection />
 
       {/* ============ FOOTER TAGLINE STRIP ============ */}
       <section className="about-tagline-strip" aria-label="Corporate Tagline">

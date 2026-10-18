@@ -493,9 +493,11 @@ export const serviceGroupsData: ServiceGroup[] = [
 ];
 
 export const affiliationsData: Affiliation[] = [
-  { logo: 'aff-ecsa.png', name: 'ECSA, Engineering Council of South Africa' },
-  { logo: 'aff-saiee.png', name: 'SAIEE, South African Institute of Electrical Engineers' },
-  { logo: 'aff-sacnasp.png', name: 'SACNASP, South African Council for Natural Scientific Professions' },
+  { logo: 'cidb-construction-industry-development-board-logo.png', name: 'Construction Industry Development Board (cidb)' },
+  { logo: 'sacnasp-logo.png', name: 'South African Council for Natural Scientific Professions (SACNASP)' },
+  { logo: 'electrical-contractors-association-eca-logo.png', name: 'Electrical Contractors Association (ECA)' },
+  { logo: 'saiee-logo.png', name: 'South African Institute of Electrical Engineers (SAIEE)' },
+  { logo: 'ecsa-engineering-council-of-south-africa-logo.png', name: 'Engineering Council of South Africa (ECSA)' },
 ];
 
 export function sanitizeTitle(title: string): string {
