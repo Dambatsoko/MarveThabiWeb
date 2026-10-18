@@ -374,22 +374,49 @@ button{
 .fstat-v{font-size:20px; color:var(--brand-light);}
 .fstat-l{font-size:12px; color:rgba(255,255,255,0.75); letter-spacing:0.02em;}
 
-/* ---------- CLIENTS MARQUEE ---------- */
+/* ---------- CLIENTS SECTION ---------- */
 .cred{background:#fff; padding:64px 0 56px; border-bottom:1px solid var(--line); overflow:hidden;}
-.cred-head{text-align:center; color:var(--ink); margin:0 auto 40px;
+.cred-wrap{display:flex; flex-direction:column; align-items:center; margin-bottom:28px;}
+.cred-head{text-align:center; color:var(--ink); margin:0 0 16px;
   font-family:var(--font-head); font-weight:700; letter-spacing:-0.025em; line-height:1.08;
   font-size:clamp(22px, 2.6vw, 32px); text-transform:none; max-width:none;}
-.marquee{position:relative; overflow:hidden; max-width:960px; margin:0 auto;
-  -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);}
-.marquee-track{display:flex; align-items:center; gap:80px; width:max-content;
-  animation:marquee 32s linear infinite; padding:8px 0;}
+
+.client-view-toggle{display:inline-flex; align-items:center; background:#F4F7F6;
+  border:1px solid #DCE5E2; border-radius:24px; padding:3px; gap:4px;}
+.client-toggle-btn{border:none; background:transparent; color:#55655F;
+  font-family:var(--font-body); font-size:12.5px; font-weight:600; padding:6px 14px;
+  border-radius:20px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+  transition:all .2s ease;}
+.client-toggle-btn:hover{color:var(--brand);}
+.client-toggle-btn.active{background:#fff; color:var(--brand-dark); box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+
+.marquee{position:relative; overflow:hidden; max-width:1240px; margin:0 auto;
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);}
+.marquee-track{display:flex; align-items:center; gap:64px; width:max-content;
+  animation:marquee 45s linear infinite; padding:12px 0;}
 .marquee:hover .marquee-track{animation-play-state:paused;}
 @keyframes marquee{from{transform:translateX(0);} to{transform:translateX(-50%);}}
-.marquee-item{flex:none; display:flex; align-items:center;}
-.marquee-item img{height:56px; width:auto; max-width:200px; object-fit:contain;
+.marquee-item{flex:none; display:flex; align-items:center; justify-content:center; padding:0 8px;}
+.marquee-item img{height:54px; width:auto; max-width:190px; object-fit:contain;
   filter:none; opacity:1; transition:transform .3s ease;}
-.marquee-item img:hover{transform:scale(1.05);}
+.marquee-item img:hover{transform:scale(1.06);}
+
+.client-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:16px; max-width:1240px; margin:0 auto; padding:0 20px;}
+@media (max-width: 1100px){
+  .client-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media (max-width: 768px){
+  .client-grid{grid-template-columns:repeat(3,1fr); gap:12px;}
+}
+@media (max-width: 500px){
+  .client-grid{grid-template-columns:repeat(2,1fr); gap:10px;}
+}
+.client-grid-card{background:#fff; border:1px solid var(--line); border-radius:6px; padding:16px 12px;
+  display:flex; align-items:center; justify-content:center; min-height:84px;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;}
+.client-grid-card:hover{transform:translateY(-2px); border-color:var(--brand); box-shadow:0 8px 20px -6px rgba(0,0,0,0.08);}
+.client-grid-card img{max-height:48px; width:auto; max-width:130px; object-fit:contain;}
 
 /* ---------- SECTION HEADS ---------- */
 .sec-head{margin-bottom:64px; max-width:640px;}

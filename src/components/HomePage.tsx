@@ -20,6 +20,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     details: '',
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [clientView, setClientView] = useState<'carousel' | 'grid'>('carousel');
 
   // Setup scroll reveals
   useEffect(() => {
@@ -196,33 +197,79 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ============ CLIENTS MARQUEE ============ */}
-      <section className="cred">
-        <div className="wrap">
-          <p className="cred-head">Our Clients</p>
-        </div>
-        <div className="marquee">
-          <div className="marquee-track">
-            {[0, 1].map((pass) => (
-              <React.Fragment key={pass}>
-                {clientsData.map((client, idx) => (
-                  <span
-                    key={`${pass}-${idx}`}
-                    className="marquee-item"
-                    aria-hidden={pass === 1 ? 'true' : undefined}
-                  >
-                    <img
-                      src={`/assets/images/${client.logo}`}
-                      alt={pass === 0 ? client.name : ''}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </span>
-                ))}
-              </React.Fragment>
-            ))}
+      {/* ============ CLIENTS SECTION ============ */}
+      <section className="cred" aria-labelledby="cred-title">
+        <div className="wrap cred-wrap">
+          <p className="cred-head" id="cred-title">Our Clients</p>
+          <div className="client-view-toggle" role="group" aria-label="Client logos display mode">
+            <button
+              type="button"
+              className={`client-toggle-btn ${clientView === 'carousel' ? 'active' : ''}`}
+              onClick={() => setClientView('carousel')}
+              aria-pressed={clientView === 'carousel'}
+              title="Continuous marquee animation"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+              Scroll View
+            </button>
+            <button
+              type="button"
+              className={`client-toggle-btn ${clientView === 'grid' ? 'active' : ''}`}
+              onClick={() => setClientView('grid')}
+              aria-pressed={clientView === 'grid'}
+              title="View all 14 clients in a grid"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+              Grid View (14)
+            </button>
           </div>
         </div>
+
+        {clientView === 'carousel' ? (
+          <div className="marquee" aria-label="Scrolling client logos">
+            <div className="marquee-track">
+              {[0, 1].map((pass) => (
+                <React.Fragment key={pass}>
+                  {clientsData.map((client, idx) => (
+                    <span
+                      key={`${pass}-${idx}`}
+                      className="marquee-item"
+                      aria-hidden={pass === 1 ? 'true' : undefined}
+                      title={client.name}
+                    >
+                      <img
+                        src={`/assets/images/${client.logo}`}
+                        alt={pass === 0 ? client.name : ''}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                  ))}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="client-grid" role="list" aria-label="All 14 client logos">
+            {clientsData.map((client) => (
+              <div key={client.name} className="client-grid-card" role="listitem" title={client.name}>
+                <img
+                  src={`/assets/images/${client.logo}`}
+                  alt={client.name}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ============ INDUSTRIES ============ */}

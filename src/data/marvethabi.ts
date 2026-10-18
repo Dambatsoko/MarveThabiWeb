@@ -136,13 +136,20 @@ export const servicesData: ServiceSummary[] = [
 ];
 
 export const clientsData: Client[] = [
-  { name: 'Anglo American', logo: 'client-anglo.png' },
-  { name: 'Glencore', logo: 'client-glencore.png' },
-  { name: 'Harmony Gold', logo: 'client-harmony.png' },
-  { name: 'Thungela', logo: 'client-thungela.png' },
-  { name: 'Valterra Platinum', logo: 'client-valterra.png' },
-  { name: 'Umgeni Water', logo: 'client-umgeni.png' },
-  { name: 'City of Ekurhuleni', logo: 'client-ekurhuleni.png' },
+  { name: 'Anglo American', logo: 'anglo-american-logo.png' },
+  { name: 'Glencore Operations South Africa', logo: 'glencore-logo.png' },
+  { name: 'Sibanye-Stillwater', logo: 'sibanye-stillwater-logo.png' },
+  { name: 'Impala Platinum (Implats)', logo: 'implats-platinum-logo.png' },
+  { name: 'Harmony Gold Mining Company', logo: 'harmony-gold-mining-logo.png' },
+  { name: 'Modikwa Platinum Mine', logo: 'modikwa-platinum-mine-logo.png' },
+  { name: 'Thungela Resources', logo: 'thungela-logo.png' },
+  { name: 'Valterra Platinum', logo: 'valterra-platinum-logo.png' },
+  { name: 'Department of Public Works & Infrastructure', logo: 'department-of-public-works-and-infrastructure-south-africa-logo.png' },
+  { name: 'Gauteng Provincial Government - Roads & Transport', logo: 'gauteng-provincial-government-public-transport-logo.png' },
+  { name: 'City of Ekurhuleni Metropolitan Municipality', logo: 'city-of-ekurhuleni-logo.png' },
+  { name: 'Umgeni-uThukela Water', logo: 'umgeni-water-amanzi-logo.png' },
+  { name: 'Atlantis Special Economic Zone', logo: 'atlantis-special-economic-zone-logo.png' },
+  { name: 'Matakanye Construction', logo: 'matakanye-construction-logo.png' },
 ];
 
 export const industriesData: Industry[] = [
