@@ -1,0 +1,6 @@
+{
+  "name": "MarveThabi Consulting Engineers",
+  "description": "Multidisciplinary South African engineering consultancy delivering specialist Reliability Engineering, Asset Management, Electrical Engineering and Geo-Environmental solutions.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

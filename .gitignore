@@ -1,0 +1,10 @@
+# WordPress local / generated files
+*.log
+.DS_Store
+Thumbs.db
+wp-config.php
+.env
+.env.*
+node_modules/
+dist/
+build/
