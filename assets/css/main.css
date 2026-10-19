@@ -971,7 +971,7 @@ button{
   border-color:rgba(100,156,8,0.55);}
 .sline-media{position:relative; min-height:260px; overflow:hidden;}
 .sline-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-  filter:grayscale(1) brightness(0.82); transition:filter .5s ease, transform .7s ease;}
+  filter:none; transition:transform .7s ease;}
 .sline:hover .sline-media img{filter:none; transform:scale(1.045);}
 .sline-ref{position:absolute; top:16px; left:16px; z-index:2; font-size:12px; letter-spacing:0;
   color:#fff; background:rgba(15,27,24,0.8); padding:8px 12px; border-radius:4px;}
