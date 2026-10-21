@@ -168,8 +168,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                           loading="lazy"
                           decoding="async"
                         />
-                        <span className="num sline-ref">{svc.ref}</span>
-                        <div className="sline-scan" aria-hidden="true"></div>
                       </div>
                       <div className="sline-body">
                         <div className="sline-head">

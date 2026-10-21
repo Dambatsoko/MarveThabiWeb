@@ -67,12 +67,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                   overflow: 'hidden',
                   marginBottom: '32px',
                   border: '1px solid var(--line)',
-                  background: 'var(--slate, #0F1B18)',
+                  background: 'transparent',
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                   justifyContent: 'center',
-                  padding: '16px',
-                  minHeight: '260px',
+                  padding: 0,
+                  minHeight: '240px',
                 }}
               >
                 <img
@@ -87,9 +87,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                     maxWidth: '100%',
                     maxHeight: '480px',
                     objectFit: 'contain',
-                    objectPosition: 'center',
+                    objectPosition: 'top center',
                     display: 'block',
-                    margin: '0 auto',
+                    margin: '0',
                   }}
                 />
               </div>

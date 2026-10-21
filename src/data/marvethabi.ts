@@ -455,7 +455,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'AQ-07',
         icon: 'air',
-        img: 'waste-and-emissions-management.png',
+        img: 'air-quality-management.png',
         title: 'Air Quality Management',
         desc: 'Dust, emissions and noise kept measurable, reportable and compliant.',
         items: [
@@ -469,7 +469,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'GG-08',
         icon: 'leaf',
-        img: 'waste-and-emissions-management.png',
+        img: 'greenhouse-gas-management.png',
         title: 'Greenhouse Gas Management',
         desc: 'Carbon accounting and national reporting done to the decimal.',
         items: [
@@ -884,7 +884,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Air Quality Management',
     category: 'Environmental Resource Management',
     tagline: 'Dust Fallout Monitoring, Atmospheric Licensing & Noise Assessment',
-    image: 'waste-and-emissions-management.png',
+    image: 'air-quality-management.png',
     summary:
       'Comprehensive ambient air quality monitoring, atmospheric emission licensing, and environmental noise assessments keeping industrial operations measurable and compliant.',
     docNo: 'MT-ENV-AQ-07',
@@ -915,7 +915,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Greenhouse Gas Management',
     category: 'Environmental Resource Management',
     tagline: 'Carbon Footprint Accounting & Mandatory Emissions Reporting',
-    image: 'waste-and-emissions-management.png',
+    image: 'greenhouse-gas-management.png',
     summary:
       "MarveThabi assists organisations to navigate South Africa's climate change legislation through precise carbon footprint calculations, NAEIS reporting, and statutory greenhouse gas management.",
     docNo: 'MT-ENV-GG-08',
