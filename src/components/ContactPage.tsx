@@ -4,173 +4,20 @@ interface ContactPageProps {
   onNavigate?: (path: string) => void;
 }
 
-interface ServiceAssignment {
-  id: string;
-  name: string;
-  leadName: string;
-  leadRole: string;
-  leadReg: string;
-  leadPhoto: string;
-  leadEmail: string;
-  leadPhone: string;
-}
-
-const SERVICES_CATALOGUE: ServiceAssignment[] = [
-  // Marvelous Ngoatle
-  {
-    id: 'reliability-engineering',
-    name: 'Reliability Engineering & Vibration Analysis',
-    leadName: 'Marvelous Ngoatle',
-    leadRole: 'Director — Reliability Engineering',
-    leadReg: 'Pr.Tech.Eng (ECSA)',
-    leadPhoto: 'marvelous.jpg',
-    leadEmail: 'marvelous@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-  {
-    id: 'condition-monitoring',
-    name: 'Condition Monitoring (Vibration, Oil DGA, Thermography)',
-    leadName: 'Marvelous Ngoatle',
-    leadRole: 'Director — Reliability Engineering',
-    leadReg: 'Pr.Tech.Eng (ECSA)',
-    leadPhoto: 'marvelous.jpg',
-    leadEmail: 'marvelous@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-  {
-    id: 'asset-management',
-    name: 'Asset Management & ISO 55000 Asset Registers',
-    leadName: 'Marvelous Ngoatle',
-    leadRole: 'Director — Reliability Engineering',
-    leadReg: 'Pr.Tech.Eng (ECSA)',
-    leadPhoto: 'marvelous.jpg',
-    leadEmail: 'marvelous@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-  {
-    id: 'electrical-engineering',
-    name: 'Electrical Infrastructure & Substation Engineering (11kV–132kV)',
-    leadName: 'Marvelous Ngoatle',
-    leadRole: 'Director — Reliability Engineering',
-    leadReg: 'Pr.Tech.Eng (ECSA)',
-    leadPhoto: 'marvelous.jpg',
-    leadEmail: 'marvelous@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-  {
-    id: 'electrical-construction',
-    name: 'Electrical Construction, Maintenance & SANS 10142 COCs',
-    leadName: 'Marvelous Ngoatle',
-    leadRole: 'Director — Reliability Engineering',
-    leadReg: 'Pr.Tech.Eng (ECSA) · Wireman\'s Licence',
-    leadPhoto: 'marvelous.jpg',
-    leadEmail: 'marvelous@marvethabi.co.za',
-    leadPhone: '+27 82 412 3847',
-  },
-
-  // Thabang Ngoatle
-  {
-    id: 'water-management',
-    name: 'Water Management & Water Use Licences (WULA)',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'waste-management',
-    name: 'Waste Management, Hazardous Classification & Sewage Audits',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'air-quality',
-    name: 'Air Quality Management & Dust Fallout Networks (ASTM D1739)',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'greenhouse-gas',
-    name: 'Greenhouse Gas & Carbon Tax Auditing (NAEIS)',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'hydrogeology',
-    name: 'Hydrogeological Studies, Geophysics & Aquifer Yield Testing',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'authorisations-licences',
-    name: 'Environmental Authorisations, EIA & Basic Assessments',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'compliance-audits',
-    name: 'Environmental Compliance Audits & ECO Site Monitoring',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP) · SAMTRAC',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-  {
-    id: 'mine-rehabilitation',
-    name: 'Mine Rehabilitation & Environmental Closure Liabilities',
-    leadName: 'Thabang Ngoatle',
-    leadRole: 'Director — Environmental Management',
-    leadReg: 'Pr.Sci.Nat (SACNASP)',
-    leadPhoto: 'thabang.jpg',
-    leadEmail: 'thabang@marvethabi.co.za',
-    leadPhone: '+27 72 834 7953',
-  },
-];
-
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const [selectedServiceId, setSelectedServiceId] = useState<string>('reliability-engineering');
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [ticketRef, setTicketRef] = useState<string>('');
-
   const [formData, setFormData] = useState({
     name: '',
     organisation: '',
     email: '',
     phone: '',
-    location: '',
+    service: 'General Technical Enquiry',
     message: '',
   });
-
-  const selectedService =
-    SERVICES_CATALOGUE.find((s) => s.id === selectedServiceId) || SERVICES_CATALOGUE[0];
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -185,20 +32,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
       setFormStatus('error');
       return;
     }
-    const randomTicket = `MT-${Math.floor(1000 + Math.random() * 9000)}`;
-    setTicketRef(randomTicket);
     setFormStatus('success');
   };
 
   const handleReset = () => {
     setFormStatus('idle');
-    setTicketRef('');
     setFormData({
       name: '',
       organisation: '',
       email: '',
       phone: '',
-      location: '',
+      service: 'General Technical Enquiry',
       message: '',
     });
   };
@@ -211,190 +55,113 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
         <div className="wrap">
           <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a href="/" onClick={(e) => { e.preventDefault(); onNavigate?.('/'); }}>
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.('/');
+              }}
+            >
               Home
             </a>
             <span aria-hidden="true">&rsaquo;</span>
             <span>Contact Us</span>
           </nav>
-          <h1 className="svc-hero-title">Start an Engineering Consultation</h1>
+          <h1 className="svc-hero-title">Contact Us</h1>
           <p className="lead svc-hero-sub">
-            Every technical consultation is handled directly by our registered Directors. Connect directly
-            with our discipline leaders for technical scoping, regulatory compliance, and project assurance.
+            Speak directly with our registered engineering and environmental specialists.
+            Send us your project details or technical requirements, and our team will respond within one business day.
           </p>
           <div className="svc-hero-tags">
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Director-Led Technical Scoping</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>&le; 24-Hour Review Response</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>South Africa &amp; Regional DRC Engagements</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>Director-Led Scoping</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>24-Hour Response</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>National &amp; SADC Coverage</span>
           </div>
         </div>
       </section>
 
-      {/* ============ FORM & SIDEBAR ============ */}
+      {/* ============ CONTACT & FORM SECTION ============ */}
       <section className="detail-body-section" style={{ background: '#F8FAF9', padding: '56px 0 80px' }}>
         <div className="wrap detail-grid" style={{ alignItems: 'start' }}>
-          {/* SIMPLIFIED, CLEAN FORM */}
+          {/* SIMPLIFIED ENQUIRY FORM */}
           <div>
-            <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '4px', padding: '36px 32px' }}>
-              <div style={{ marginBottom: '28px', borderBottom: '1px solid var(--line)', paddingBottom: '18px' }}>
+            <div
+              style={{
+                background: '#fff',
+                border: '1px solid var(--line)',
+                borderRadius: '8px',
+                padding: '36px 32px',
+                boxShadow: '0 4px 20px -8px rgba(15,27,24,0.08)',
+              }}
+            >
+              <div style={{ marginBottom: '24px', borderBottom: '1px solid var(--line)', paddingBottom: '16px' }}>
                 <span className="label" style={{ color: 'var(--brand)', display: 'block', marginBottom: '4px' }}>
-                  TECHNICAL SCOPING ENQUIRY
+                  GET IN TOUCH
                 </span>
-                <h2 style={{ fontSize: '26px', color: 'var(--ink)', margin: 0, fontFamily: 'var(--font-heading)' }}>
-                  Request Consultation
+                <h2 style={{ fontSize: '24px', color: 'var(--ink)', margin: 0, fontFamily: 'var(--font-heading)' }}>
+                  Send an Enquiry
                 </h2>
-                <p style={{ margin: '6px 0 0', fontSize: '14.5px', color: '#55655F', lineHeight: 1.5 }}>
-                  Choose your required discipline. The form automatically assigns your project to the lead Director.
+                <p style={{ margin: '6px 0 0', fontSize: '14px', color: '#55655F', lineHeight: 1.5 }}>
+                  Fill in your details below and a registered consultant will review your enquiry.
                 </p>
               </div>
 
-              {/* SUCCESS MESSAGE */}
+              {/* SUCCESS NOTICE */}
               {formStatus === 'success' && (
                 <div
                   style={{
                     background: '#EAF4F0',
                     borderLeft: '4px solid var(--btn-green)',
-                    padding: '24px',
-                    borderRadius: '3px',
-                    marginBottom: '28px',
+                    padding: '20px 24px',
+                    borderRadius: '4px',
+                    marginBottom: '24px',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span className="side-chip num" style={{ background: '#fff', color: 'var(--btn-green-dark)', fontWeight: 700 }}>
-                      REF: {ticketRef}
-                    </span>
-                    <span style={{ fontSize: '12px', color: 'var(--btn-green-dark)', fontWeight: 600 }}>
-                      Response within 24 Hours
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: '18px', color: 'var(--ink)', margin: '0 0 6px' }}>
-                    Enquiry Routed to {selectedService.leadName}
+                  <h3 style={{ fontSize: '17px', color: 'var(--ink)', margin: '0 0 6px' }}>
+                    Thank you, {formData.name}
                   </h3>
                   <p style={{ fontSize: '14px', color: '#2B3934', lineHeight: 1.6, margin: 0 }}>
-                    Thank you, <strong>{formData.name}</strong>. Your project requirement for{' '}
-                    <strong>{selectedService.name}</strong> has been transmitted directly to{' '}
-                    <strong>{selectedService.leadName}</strong> ({selectedService.leadRole}). Our desk will contact you shortly.
+                    Your enquiry regarding <strong>{formData.service}</strong> has been received. A registered
+                    engineer will review your requirements and respond within one business day.
                   </p>
                   <button
                     type="button"
                     onClick={handleReset}
                     className="btn btn-ghost"
-                    style={{ marginTop: '16px', fontSize: '12.5px', padding: '6px 14px' }}
+                    style={{ marginTop: '14px', fontSize: '12.5px', padding: '6px 14px', cursor: 'pointer' }}
                   >
-                    Submit Another Enquiry
+                    Send Another Message
                   </button>
                 </div>
               )}
 
-              {/* ERROR MESSAGE */}
+              {/* ERROR NOTICE */}
               {formStatus === 'error' && (
                 <div
                   style={{
                     background: '#FBEFEC',
                     borderLeft: '4px solid #B4543A',
-                    padding: '16px 20px',
+                    padding: '14px 18px',
                     color: '#7C3A28',
-                    marginBottom: '24px',
-                    borderRadius: '2px',
+                    marginBottom: '20px',
+                    borderRadius: '4px',
                     fontSize: '14px',
                   }}
                 >
-                  Please ensure your <strong>Name</strong>, <strong>Email</strong>, and{' '}
-                  <strong>Project Requirement</strong> are filled in.
+                  Please ensure your <strong>Full Name</strong>, <strong>Email Address</strong>, and{' '}
+                  <strong>Message</strong> are filled in.
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-                {/* 1. SERVICE SELECT WITH LINKED DIRECTOR */}
-                <div>
-                  <label
-                    htmlFor="service-select"
-                    style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
-                  >
-                    Required Engineering or Environmental Service <span style={{ color: '#c85a48' }}>*</span>
-                  </label>
-                  <select
-                    id="service-select"
-                    name="service"
-                    value={selectedServiceId}
-                    onChange={(e) => setSelectedServiceId(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '12px 14px',
-                      fontSize: '14.5px',
-                      fontWeight: 600,
-                      color: 'var(--ink)',
-                      background: '#fff',
-                      border: '1px solid var(--line)',
-                      borderRadius: '3px',
-                      outline: 'none',
-                    }}
-                  >
-                    <optgroup label="Engineering Services & Reliability (Lead: Marvelous Ngoatle — ECSA)">
-                      {SERVICES_CATALOGUE.filter((s) => s.leadName.includes('Marvelous')).map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.name} &bull; Lead: {s.leadName}
-                        </option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="Environmental Resource Management & Studies (Lead: Thabang Ngoatle — SACNASP)">
-                      {SERVICES_CATALOGUE.filter((s) => s.leadName.includes('Thabang')).map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.name} &bull; Lead: {s.leadName}
-                        </option>
-                      ))}
-                    </optgroup>
-                  </select>
-
-                  {/* COMPACT ASSIGNED LEAD BADGE */}
-                  <div
-                    style={{
-                      marginTop: '10px',
-                      background: '#F0F5F2',
-                      border: '1px solid #D5E2DC',
-                      borderLeft: '3px solid var(--btn-green)',
-                      padding: '10px 14px',
-                      borderRadius: '3px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                    }}
-                  >
-                    <img
-                      src={`/assets/images/${selectedService.leadPhoto}?v=2`}
-                      alt={selectedService.leadName}
-                      loading="lazy"
-                      decoding="async"
-                      style={{
-                        width: '38px',
-                        height: '38px',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        flexShrink: 0,
-                      }}
-                    />
-                    <div style={{ flexGrow: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: '11px', color: 'var(--brand)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                        Assigned Practice Lead
-                      </div>
-                      <div style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
-                        {selectedService.leadName}
-                        <span style={{ fontSize: '12px', fontWeight: 500, color: '#55655F', marginLeft: '6px' }}>
-                          ({selectedService.leadRole} &middot; {selectedService.leadReg})
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2. NAME & ORGANISATION */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                {/* 1. NAME & ORGANISATION */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                   <div>
                     <label
                       htmlFor="field-name"
                       style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
                     >
-                      Your Full Name <span style={{ color: '#c85a48' }}>*</span>
+                      Full Name <span style={{ color: '#c85a48' }}>*</span>
                     </label>
                     <input
                       id="field-name"
@@ -410,7 +177,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                         fontSize: '14px',
                         background: '#fff',
                         border: '1px solid var(--line)',
-                        borderRadius: '3px',
+                        borderRadius: '4px',
                         boxSizing: 'border-box',
                       }}
                     />
@@ -421,7 +188,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       htmlFor="field-organisation"
                       style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
                     >
-                      Organisation / Mining House / Municipality
+                      Organisation / Company
                     </label>
                     <input
                       id="field-organisation"
@@ -429,28 +196,28 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       name="organisation"
                       value={formData.organisation}
                       onChange={handleInputChange}
-                      placeholder="e.g. Anglo American / City of Ekurhuleni"
+                      placeholder="e.g. Mining House / Municipality"
                       style={{
                         width: '100%',
                         padding: '11px 14px',
                         fontSize: '14px',
                         background: '#fff',
                         border: '1px solid var(--line)',
-                        borderRadius: '3px',
+                        borderRadius: '4px',
                         boxSizing: 'border-box',
                       }}
                     />
                   </div>
                 </div>
 
-                {/* 3. EMAIL & PHONE */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+                {/* 2. EMAIL & PHONE */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                   <div>
                     <label
                       htmlFor="field-email"
                       style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
                     >
-                      Corporate Email Address <span style={{ color: '#c85a48' }}>*</span>
+                      Email Address <span style={{ color: '#c85a48' }}>*</span>
                     </label>
                     <input
                       id="field-email"
@@ -466,7 +233,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                         fontSize: '14px',
                         background: '#fff',
                         border: '1px solid var(--line)',
-                        borderRadius: '3px',
+                        borderRadius: '4px',
                         boxSizing: 'border-box',
                       }}
                     />
@@ -477,7 +244,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       htmlFor="field-phone"
                       style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
                     >
-                      Contact Telephone / Mobile
+                      Telephone / Mobile
                     </label>
                     <input
                       id="field-phone"
@@ -492,74 +259,63 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                         fontSize: '14px',
                         background: '#fff',
                         border: '1px solid var(--line)',
-                        borderRadius: '3px',
+                        borderRadius: '4px',
                         boxSizing: 'border-box',
                       }}
                     />
                   </div>
                 </div>
 
-                {/* 4. FACILITY / SITE LOCATION */}
+                {/* 3. SERVICE DISCIPLINE (SIMPLIFIED TO 5 CLEAR OPTIONS) */}
                 <div>
                   <label
-                    htmlFor="field-location"
+                    htmlFor="field-service"
                     style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
                   >
-                    Facility or Site Location
+                    Area of Enquiry
                   </label>
-                  <input
-                    id="field-location"
-                    type="text"
-                    name="location"
-                    value={formData.location}
+                  <select
+                    id="field-service"
+                    name="service"
+                    value={formData.service}
                     onChange={handleInputChange}
-                    placeholder="e.g. Pretoria / Emalahleni / Rustenburg / Lubumbashi"
                     style={{
                       width: '100%',
                       padding: '11px 14px',
                       fontSize: '14px',
+                      fontWeight: 500,
+                      color: 'var(--ink)',
                       background: '#fff',
                       border: '1px solid var(--line)',
-                      borderRadius: '3px',
+                      borderRadius: '4px',
                       boxSizing: 'border-box',
+                      cursor: 'pointer',
                     }}
-                  />
+                  >
+                    <option value="General Technical Enquiry">General Technical Enquiry</option>
+                    <option value="Reliability Engineering & Condition Monitoring">Reliability Engineering &amp; Condition Monitoring</option>
+                    <option value="Asset Management & ISO 55000">Asset Management &amp; ISO 55000 Frameworks</option>
+                    <option value="Electrical Engineering & Infrastructure">Electrical Infrastructure &amp; Construction</option>
+                    <option value="Environmental & Water Management">Environmental Compliance &amp; Water Licences (WULA)</option>
+                    <option value="Geological & Hydrogeological Studies">Geological &amp; Hydrogeological Studies</option>
+                  </select>
                 </div>
 
-                {/* 5. PROJECT REQUIREMENT & TECHNICAL OBJECTIVES (FIXED SPACING & SKEWERING) */}
+                {/* 4. MESSAGE */}
                 <div>
-                  <div style={{ marginBottom: '6px' }}>
-                    <label
-                      htmlFor="field-message"
-                      style={{
-                        display: 'block',
-                        fontSize: '13.5px',
-                        fontWeight: 700,
-                        color: 'var(--ink)',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Project Requirement & Technical Objectives <span style={{ color: '#c85a48' }}>*</span>
-                    </label>
-                    <span
-                      style={{
-                        display: 'block',
-                        fontSize: '12.5px',
-                        color: '#6e7e78',
-                        lineHeight: 1.45,
-                      }}
-                    >
-                      Please describe the equipment, standards (e.g. ISO 55000, SANS 10142, WULA), deliverables, or specific problem statement.
-                    </span>
-                  </div>
-
+                  <label
+                    htmlFor="field-message"
+                    style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}
+                  >
+                    Project Details or Scope <span style={{ color: '#c85a48' }}>*</span>
+                  </label>
                   <textarea
                     id="field-message"
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    rows={5}
-                    placeholder={`Outline your technical scope for ${selectedService.leadName}...\nExample: Requesting vibration baseline analysis and thermal inspection for 4 critical pump drives and transformer condition assessment at our processing facility.`}
+                    rows={4}
+                    placeholder="Tell us briefly about your project, site location, timeline or technical requirements..."
                     required
                     style={{
                       width: '100%',
@@ -567,7 +323,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       fontSize: '14px',
                       background: '#fff',
                       border: '1px solid var(--line)',
-                      borderRadius: '3px',
+                      borderRadius: '4px',
                       boxSizing: 'border-box',
                       lineHeight: 1.5,
                       fontFamily: 'inherit',
@@ -581,7 +337,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   type="submit"
                   className="btn btn-brand"
                   style={{
-                    padding: '15px 28px',
+                    padding: '14px 28px',
                     fontSize: '15px',
                     fontWeight: 700,
                     width: '100%',
@@ -590,36 +346,71 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     justifyContent: 'center',
                     gap: '10px',
                     cursor: 'pointer',
+                    borderRadius: '4px',
                   }}
                 >
-                  <span>Submit Scoping Request to {selectedService.leadName}</span>
+                  <span>Send Enquiry</span>
                   <span aria-hidden="true">&rarr;</span>
                 </button>
 
                 <p style={{ margin: 0, textAlign: 'center', fontSize: '12px', color: '#6e7e78' }}>
-                  Direct technical transmission &middot; Statutory confidentiality &middot; Direct response within 24 hours
+                  Professional confidentiality &middot; Responses within one business day
                 </p>
               </form>
             </div>
           </div>
 
-          {/* RIGHT SIDEBAR */}
-          <aside className="detail-sidebar" aria-label="Practice Information" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* RIGHT SIDEBAR: DIRECT CONTACT & ACCREDITATIONS */}
+          <aside className="detail-sidebar" aria-label="Contact Information" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* DIRECT CONTACT */}
+            <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px' }}>
+              <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 14px', fontWeight: 700 }}>
+                Direct Contact
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', color: '#3C4A45' }}>
+                <div>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
+                    Email
+                  </span>
+                  <a href="mailto:info@marvethabi.co.za" style={{ color: 'var(--ink)', textDecoration: 'none', fontWeight: 600 }}>
+                    info@marvethabi.co.za
+                  </a>
+                </div>
+                <div>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
+                    Telephone
+                  </span>
+                  <p style={{ margin: 0, fontWeight: 600, color: 'var(--ink)' }}>+27 82 412 3847</p>
+                  <p style={{ margin: '2px 0 0', fontWeight: 600, color: 'var(--ink)' }}>+27 72 834 7953</p>
+                </div>
+                <div>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
+                    Office Hours
+                  </span>
+                  <p style={{ margin: 0 }}>Monday &ndash; Friday: 08:00 &ndash; 17:00</p>
+                </div>
+              </div>
+            </div>
+
             {/* HEAD OFFICE */}
-            <div className="side-card" style={{ background: '#fff', padding: '24px' }}>
-              <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 10px' }}>Head Office</h4>
+            <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px' }}>
+              <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 10px', fontWeight: 700 }}>
+                Head Office
+              </h4>
               <p style={{ fontSize: '13.5px', color: '#3C4A45', lineHeight: 1.55, margin: 0 }}>
                 Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182, Gauteng, South Africa
               </p>
             </div>
 
-            {/* STATUTORY REGISTRATIONS */}
-            <div className="side-card" style={{ background: '#fff', padding: '24px' }}>
-              <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 12px' }}>Practice Credentials</h4>
+            {/* PRACTICE CREDENTIALS */}
+            <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px' }}>
+              <h4 style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 12px', fontWeight: 700 }}>
+                Registrations &amp; Compliance
+              </h4>
               <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px', color: '#47564F' }}>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>B-BBEE Standing:</span>
-                  <strong style={{ color: 'var(--btn-green-dark)' }}>Level 1 (135%)</strong>
+                  <span>B-BBEE Status:</span>
+                  <strong style={{ color: 'var(--btn-green-dark)' }}>Level 1 (135% Recognition)</strong>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span>Engineering Council:</span>
@@ -630,8 +421,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   <strong>SACNASP Registered</strong>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Occupational Safety:</span>
-                  <strong>SAMTRAC Certified</strong>
+                  <span>Contractor DB:</span>
+                  <strong>CIDB Registered</strong>
+                </li>
+                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span>Public Supplier:</span>
+                  <strong>CSD Registered</strong>
                 </li>
               </ul>
             </div>
@@ -641,3 +436,5 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
     </main>
   );
 };
+
+export default ContactPage;

@@ -309,8 +309,8 @@ button{
   height:36px;
   line-height:1;
   font-family:var(--font-body);
-  font-weight:450;
-  font-size:17px;
+  font-weight:400;
+  font-size:16px;
   letter-spacing:-0.2px;
   color:var(--ink);
   transition:color .2s;
@@ -1163,7 +1163,7 @@ button{
 /* ---------- ACTIVE NAV LINK ---------- */
 .nav-links a.active{
   color:var(--btn-green);
-  font-weight:600;
+  font-weight:400;
 }
 
 /* ---------- INTERNAL PAGES CONTAINER (8-10% wider: 1330px vs 1220px) ---------- */
