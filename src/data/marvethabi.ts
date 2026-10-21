@@ -344,7 +344,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'EC-03',
         icon: 'plug',
-        img: 'Electronic&ElectricalEngineering.png',
+        img: 'electrical-construction-contracting.png',
         title: 'Electrical Construction & Contracting',
         desc: 'Installation, commissioning and certification for residential, commercial and industrial sites.',
         items: [
@@ -691,7 +691,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Electrical Construction',
     category: 'Engineering Services',
     tagline: 'Installation, Commissioning, Maintenance & Compliance Certification',
-    image: 'Electronic&ElectricalEngineering.png',
+    image: 'electrical-construction-contracting.png',
     summary:
       'MarveThabi delivers professional electrical installation, commissioning, maintenance, fault-finding and statutory compliance certification for commercial, industrial and infrastructure facilities.',
     docNo: 'MT-ENG-EC-03',
