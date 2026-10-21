@@ -94,7 +94,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
             <div className="about-collage-wrap">
               <img
-                src="/assets/images/about-us-top-right-photo-collage.png"
+                src="/assets/images/aboutus.png"
                 alt="MarveThabi multidisciplinary engineering operations: plant engineering, open-pit mining, industrial processing infrastructure, and environmental sustainability"
                 className="about-collage-img"
                 loading="eager"

@@ -230,37 +230,37 @@ export const capabilitiesData: Capability[] = [
     title: 'Electrical Infrastructure',
     description:
       'Transmission, reticulation and substation engineering for utilities, municipalities and industry. From 11kV distribution networks to bulk supply upgrades, designs are delivered to SANS and utility standards with full compliance documentation.',
-    image: 'electrical-infrastructure.jpg',
+    image: 'Electronic&ElectricalEngineering.png',
   },
   {
     title: 'Asset Management',
     description:
       'ISO55000-aligned asset management frameworks covering asset registers, master data, lifecycle costing and digital twins. Built for public entities that must account for every asset on their books.',
-    image: 'asset-management.jpg',
+    image: 'assetmanagement.png',
   },
   {
     title: 'Environmental Monitoring',
     description:
       'Groundwater monitoring networks, environmental audits and compliance reporting that keep operations within licence conditions and ahead of regulatory review.',
-    image: 'environmental-resource-management.jpg',
+    image: 'environmental-resource-management.png',
   },
   {
     title: 'Reliability Engineering',
     description:
       'Criticality analysis, root cause analysis and condition monitoring programmes that reduce unplanned downtime across plant and network assets.',
-    image: 'reliability-engineering.jpg',
+    image: 'reliability-monitoring.png',
   },
   {
     title: 'Hydrogeology',
     description:
       'Aquifer characterisation, borehole siting, water use licensing and geohydrological reporting for mines, municipalities and developers.',
-    image: 'hydrogeological-studies.jpg',
+    image: 'specialist-environmental-hydrogeological-studies.png',
   },
   {
     title: 'Power Systems',
     description:
       'Load studies, protection coordination, generator and solar integration, and network master planning for growing demand.',
-    image: 'electrical-construction.jpg',
+    image: 'Electronic&ElectricalEngineering.png',
   },
 ];
 
@@ -294,13 +294,13 @@ export const serviceGroupsData: ServiceGroup[] = [
     no: '01',
     id: 'engineering-services',
     title: 'Engineering Services',
-    intro: 'Reliability, asset management and electrical engineering delivered to ISO55000, SANS and utility standards, from plant floor to municipal network.',
+    intro: 'Reliability, asset management, electrical and mining engineering delivered to ISO 55000, SANS and utility standards, from plant floor to municipal network.',
     services: [
       {
         ref: 'RE-01',
         icon: 'wave',
-        img: 'reliability-engineering.jpg',
-        title: 'Reliability Engineering Services',
+        img: 'reliability-monitoring.png',
+        title: 'Reliability Engineering & Monitoring',
         desc: 'Condition-based programmes that find failure before failure finds the plant.',
         items: [
           'Reliability-Centred Maintenance (RCM) implementation',
@@ -314,7 +314,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'AM-02',
         icon: 'register',
-        img: 'asset-management.jpg',
+        img: 'assetmanagement.png',
         title: 'Asset Management Services',
         desc: 'ISO55000 frameworks that account for every asset, from register to digital twin.',
         items: [
@@ -327,10 +327,25 @@ export const serviceGroupsData: ServiceGroup[] = [
         ],
       },
       {
+        ref: 'CM-01',
+        icon: 'wave',
+        img: 'Condition-Monitoring.png',
+        title: 'Condition Monitoring',
+        desc: 'Early fault detection, non-destructive testing and precision asset diagnostics.',
+        items: [
+          'Vibration Analysis and rotating equipment diagnostics',
+          'Oil Sampling and Oil Condition Analysis',
+          'Infrared Thermography for electrical and mechanical plant',
+          'Motor Circuit Analysis (MCA) & Transformer DGA',
+          'Non-Destructive Testing (NDT) & Ultrasonic thickness testing',
+          'Equipment degradation tracking and maintenance recommendations',
+        ],
+      },
+      {
         ref: 'EC-03',
         icon: 'plug',
-        img: 'electrical-construction.jpg',
-        title: 'Electrical Construction',
+        img: 'Electronic&ElectricalEngineering.png',
+        title: 'Electrical Construction & Contracting',
         desc: 'Installation, commissioning and certification for residential, commercial and industrial sites.',
         items: [
           'Generator Installation, Commissioning, Maintenance and Repair',
@@ -344,8 +359,8 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'EE-04',
         icon: 'pylon',
-        img: 'electrical-infrastructure.jpg',
-        title: 'Electrical and Electronic Engineering',
+        img: 'Electronic&ElectricalEngineering.png',
+        title: 'Electronic & Electrical Engineering',
         desc: 'Infrastructure engineering from transmission line to township reticulation.',
         items: [
           'Electrical Infrastructure Design and Development',
@@ -353,9 +368,37 @@ export const serviceGroupsData: ServiceGroup[] = [
           'Municipal and Township Electrical Reticulation Design',
           'Street and Area Lighting Design',
           'Standby Power Systems Design — Generators and UPS',
-          'Lightning Protection and Earthing Design',
-          'Voice and Data Infrastructure Design',
-          'Access Control, Security, CCTV and Fire Alarm Systems Design',
+          'Lightning Protection, Earthing, Access Control & Fire Alarm Systems',
+        ],
+      },
+      {
+        ref: 'ME-05',
+        icon: 'gear',
+        img: 'mining-engineering-services.png',
+        title: 'Mining Engineering Services',
+        desc: 'Specialist engineering support for open-pit, underground, and processing infrastructure.',
+        items: [
+          'Heavy Mining Machinery Reliability & Maintenance Strategies',
+          'Pit Dewatering, Slurry and Mine Pumping Systems Engineering',
+          'Plant Beneficiation Asset Management & Optimization',
+          'Mine Electrical Reticulation, Substation & Switchgear Systems',
+          'Statutory Mine Health & Safety Compliance Engineering',
+          'Mine Closure Infrastructure Decommissioning Support',
+        ],
+      },
+      {
+        ref: 'PM-06',
+        icon: 'register',
+        img: 'project-development-project-management.png',
+        title: 'Project Development & Project Management',
+        desc: 'End-to-end technical project delivery from inception through commissioning.',
+        items: [
+          'Project Development, Scoping & Feasibility Studies',
+          'Engineering Project Management & Construction Supervision',
+          'Contract Administration & Quality Assurance (QA/QC)',
+          'Statutory Compliance & Permitting Project Coordination',
+          'Budgeting, Cost Control & Milestone Schedule Tracking',
+          'Handover, As-Built Documentation & Operational Transition',
         ],
       },
     ],
@@ -367,9 +410,38 @@ export const serviceGroupsData: ServiceGroup[] = [
     intro: 'Licensing, monitoring and management plans that keep water, waste, air and carbon within regulation.',
     services: [
       {
+        ref: 'GE-04',
+        icon: 'drop',
+        img: 'environmental-resource-management.png',
+        title: 'Environmental Resource Management',
+        desc: 'Integrated environmental management and specialist advisory for sustainable operations.',
+        items: [
+          'Integrated Environmental Management & Strategic Advisory',
+          'Water Use Licensing, Catchment Water Balances and Monitoring',
+          'Waste Classification, Licensing and Integrated Waste Plans',
+          'Air Quality Monitoring, Dust Fallout Networks and AEL Support',
+          'Greenhouse Gas Accounting and Mandatory NAEIS Reporting',
+        ],
+      },
+      {
+        ref: 'WS-06',
+        icon: 'waste',
+        img: 'waste-and-emissions-management.png',
+        title: 'Waste & Emissions Management',
+        desc: 'Classification, licensing and plans that turn waste and emissions liabilities into managed streams.',
+        items: [
+          'Waste Licensing and Classification according to NEM:WA standards',
+          'Integrated Waste Management Plans (IWMP)',
+          'Sewage Plant Performance Audits and Effluent Compliance',
+          'Dust Fallout Monitoring Networks & ASTM D1739 Reporting',
+          'Atmospheric Emission Licence (AEL) Applications and Reviews',
+          'Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting',
+        ],
+      },
+      {
         ref: 'WM-05',
         icon: 'drop',
-        img: 'water-management.jpg',
+        img: 'environmental-resource-management.png',
         title: 'Water Management',
         desc: 'From licence application to long-term monitoring of ground and surface water.',
         items: [
@@ -381,23 +453,9 @@ export const serviceGroupsData: ServiceGroup[] = [
         ],
       },
       {
-        ref: 'WS-06',
-        icon: 'waste',
-        img: 'waste-management.jpg',
-        title: 'Waste Management',
-        desc: 'Classification, licensing and plans that turn waste liabilities into managed streams.',
-        items: [
-          'Waste Licensing and Classification according to NEM:WA standards',
-          'Integrated Waste Management Plans (IWMP)',
-          'Sewage Plant Performance Audits and Effluent Compliance',
-          'Waste Minimisation, Handling, Storage and Disposal Protocols',
-          'Hazardous and General Waste Compliance Audits',
-        ],
-      },
-      {
         ref: 'AQ-07',
         icon: 'air',
-        img: 'air-quality-management.jpg',
+        img: 'waste-and-emissions-management.png',
         title: 'Air Quality Management',
         desc: 'Dust, emissions and noise kept measurable, reportable and compliant.',
         items: [
@@ -411,7 +469,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'GG-08',
         icon: 'leaf',
-        img: 'greenhouse-gas-management.jpg',
+        img: 'waste-and-emissions-management.png',
         title: 'Greenhouse Gas Management',
         desc: 'Carbon accounting and national reporting done to the decimal.',
         items: [
@@ -427,13 +485,13 @@ export const serviceGroupsData: ServiceGroup[] = [
     no: '03',
     id: 'specialist-studies',
     title: 'Specialist Studies',
-    intro: 'Hydrogeology, authorisations, audits and rehabilitation, the specialist work that unlocks and closes projects.',
+    intro: 'Hydrogeology, authorisations, audits, surveying and rehabilitation, the specialist work that unlocks and closes projects.',
     services: [
       {
         ref: 'HS-09',
         icon: 'borehole',
-        img: 'hydrogeological-studies.jpg',
-        title: 'Hydrogeological Studies',
+        img: 'specialist-environmental-hydrogeological-studies.png',
+        title: 'Specialist Environmental & Hydrogeological Studies',
         desc: 'Reading the ground: geophysics, boreholes and aquifers characterised with precision.',
         items: [
           'Hydrogeological and Environmental Studies',
@@ -445,10 +503,38 @@ export const serviceGroupsData: ServiceGroup[] = [
         ],
       },
       {
+        ref: 'GS-10',
+        icon: 'terrain',
+        img: 'geological-services.png',
+        title: 'Geological Services',
+        desc: 'Subsurface geological investigations, rock mass classification and structural profiling.',
+        items: [
+          'Geological Mapping & Subsurface Characterisation',
+          'Lithological and Structural Core Logging',
+          'Geotechnical Foundation and Slope Stability Assessments',
+          'Mineral Resource Horizon Identification & Delineation',
+          'Geological Risk Mitigation for Civil & Mining Infrastructure',
+        ],
+      },
+      {
+        ref: 'SS-11',
+        icon: 'wave',
+        img: 'surveying-services.png',
+        title: 'Surveying Services',
+        desc: 'High-precision engineering and topographical surveys for design and construction.',
+        items: [
+          'Engineering & Topographical Site Surveys',
+          'Cadastral and Servitude Boundary Delineation',
+          'Infrastructure As-Built Surveys & Volumetric Calculations',
+          'Digital Terrain Modeling (DTM) & Contour Mapping',
+          'Construction Setting-Out & Deformation Monitoring',
+        ],
+      },
+      {
         ref: 'AP-10',
         icon: 'permit',
-        img: 'environmental-authorisations.jpg',
-        title: 'Authorisation, Permits and Licences',
+        img: 'environmental-authorisations-permits-licensing.png',
+        title: 'Environmental Authorisations, Permits & Licensing',
         desc: 'The full authorisation pathway, from EIA to mining right, managed end to end.',
         items: [
           'Water Use Licence Applications (WULA)',
@@ -462,7 +548,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'CA-11',
         icon: 'audit',
-        img: 'environmental-compliance.jpg',
+        img: 'environmental-compliance-audits-monitoring.png',
         title: 'Environmental Compliance Audits and Monitoring',
         desc: 'Independent audits that find the gap before the regulator does.',
         items: [
@@ -477,8 +563,8 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'ER-12',
         icon: 'rehab',
-        img: 'environmental-rehabilitation.jpg',
-        title: 'Environmental Rehabilitation',
+        img: 'environmental-rehabilitation-risk-management.png',
+        title: 'Environmental Rehabilitation & Risk Management',
         desc: 'Returning disturbed land to stable, compliant, productive condition.',
         items: [
           'Rehabilitation and Remedial Action Plans for Disturbed and Mining Land',
@@ -543,7 +629,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Reliability Engineering',
     category: 'Engineering Services',
     tagline: 'Asset Reliability, Availability and Maintainability Methodologies',
-    image: 'reliability-engineering.jpg',
+    image: 'reliability-monitoring.png',
     summary:
       'MarveThabi improves asset reliability, availability and maintainability through structured, data-driven reliability engineering methodologies. Our engineering programmes reduce unplanned downtime, improve maintenance effectiveness, manage operational risk and extend asset life.',
     docNo: 'MT-ENG-RE-01',
@@ -574,7 +660,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Asset Management',
     category: 'Engineering Services',
     tagline: 'ISO 55000 Principles, Asset Performance & Lifecycle Cost',
-    image: 'asset-management.jpg',
+    image: 'assetmanagement.png',
     summary:
       "MarveThabi's Asset Management services are aligned with ISO 55000 principles and focus on asset performance, risk and lifecycle cost. The approach integrates technical, financial and risk considerations to support decision-making, governance and long-term asset value.",
     docNo: 'MT-ENG-AM-02',
@@ -605,7 +691,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Electrical Construction',
     category: 'Engineering Services',
     tagline: 'Installation, Commissioning, Maintenance & Compliance Certification',
-    image: 'electrical-construction.jpg',
+    image: 'Electronic&ElectricalEngineering.png',
     summary:
       'MarveThabi delivers professional electrical installation, commissioning, maintenance, fault-finding and statutory compliance certification for commercial, industrial and infrastructure facilities.',
     docNo: 'MT-ENG-EC-03',
@@ -637,7 +723,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Electrical & Electronic Engineering',
     category: 'Engineering Services',
     tagline: 'Power Infrastructure Design, Reticulation & Technical Assurance',
-    image: 'electrical-infrastructure.jpg',
+    image: 'Electronic&ElectricalEngineering.png',
     summary:
       'Professional electrical engineering services for industrial and commercial facilities. We deliver robust power distribution designs, municipal reticulation schemes, backup power systems, and technical compliance audits.',
     docNo: 'MT-ENG-EE-04',
@@ -685,7 +771,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Condition Monitoring',
     category: 'Engineering Services',
     tagline: 'Early Fault Detection, Non-Destructive Testing & Asset Diagnostics',
-    image: 'condition-monitoring.jpg',
+    image: 'Condition-Monitoring.png',
     summary:
       'Advanced condition monitoring supporting predictive and proactive maintenance strategies. The purpose is early fault detection, reduced unplanned downtime and improved asset reliability.',
     docNo: 'MT-ENG-CM-01',
@@ -736,7 +822,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Water Management',
     category: 'Environmental Resource Management',
     tagline: 'Water Use Licensing, Balances & Catchment Quality Protection',
-    image: 'water-management.jpg',
+    image: 'environmental-resource-management.png',
     summary:
       'Integrated water resource management services supporting statutory water use licensing, conservation and demand management planning, and comprehensive surface and groundwater monitoring networks.',
     docNo: 'MT-ENV-WM-05',
@@ -767,7 +853,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Waste Management',
     category: 'Environmental Resource Management',
     tagline: 'Waste Classification, Licensing & Sewage Plant Performance Audits',
-    image: 'waste-management.jpg',
+    image: 'waste-and-emissions-management.png',
     summary:
       'MarveThabi provides waste classification, waste management licensing, integrated waste planning, and sewage plant performance audits for industrial and municipal operations.',
     docNo: 'MT-ENV-WS-06',
@@ -798,7 +884,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Air Quality Management',
     category: 'Environmental Resource Management',
     tagline: 'Dust Fallout Monitoring, Atmospheric Licensing & Noise Assessment',
-    image: 'air-quality-management.jpg',
+    image: 'waste-and-emissions-management.png',
     summary:
       'Comprehensive ambient air quality monitoring, atmospheric emission licensing, and environmental noise assessments keeping industrial operations measurable and compliant.',
     docNo: 'MT-ENV-AQ-07',
@@ -829,7 +915,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Greenhouse Gas Management',
     category: 'Environmental Resource Management',
     tagline: 'Carbon Footprint Accounting & Mandatory Emissions Reporting',
-    image: 'greenhouse-gas-management.jpg',
+    image: 'waste-and-emissions-management.png',
     summary:
       "MarveThabi assists organisations to navigate South Africa's climate change legislation through precise carbon footprint calculations, NAEIS reporting, and statutory greenhouse gas management.",
     docNo: 'MT-ENV-GG-08',
@@ -860,7 +946,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Hydrogeological Studies',
     category: 'Specialist Studies',
     tagline: 'Geophysics, Borehole Development & Aquifer Yield Characterisation',
-    image: 'hydrogeological-studies.jpg',
+    image: 'specialist-environmental-hydrogeological-studies.png',
     summary:
       'Scientific groundwater investigation, geophysical subsurface imaging, borehole development and aquifer yield testing directed by SACNASP-registered geohydrologists.',
     docNo: 'MT-SCI-HS-09',
@@ -892,7 +978,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Authorisation, Permits and Licences',
     category: 'Specialist Studies',
     tagline: 'EIA, Water Licences, Waste Permits & Mining Rights Approvals',
-    image: 'environmental-authorisations.jpg',
+    image: 'environmental-authorisations-permits-licensing.png',
     summary:
       'MarveThabi manages the entire statutory environmental approval process, from screening and environmental impact assessments to mining permits, water licences, and public participation.',
     docNo: 'MT-ENV-AP-10',
@@ -924,7 +1010,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Environmental Compliance Audits & Monitoring',
     category: 'Specialist Studies',
     tagline: 'Independent Statutory Audits, ECO Oversight & Biomonitoring',
-    image: 'environmental-compliance.jpg',
+    image: 'environmental-compliance-audits-monitoring.png',
     summary:
       'Independent environmental auditing, on-site Environmental Control Officer (ECO) supervision, and ecological biomonitoring that identify compliance gaps before regulatory enforcement.',
     docNo: 'MT-ENV-CA-11',
@@ -957,7 +1043,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Environmental Rehabilitation',
     category: 'Specialist Studies',
     tagline: 'Remediation, Land Rehabilitation & Sustainable Closure Planning',
-    image: 'environmental-rehabilitation.jpg',
+    image: 'environmental-rehabilitation-risk-management.png',
     summary:
       'Practical environmental rehabilitation, contaminated land remediation, and mine closure planning that restore disturbed terrain to compliant, stable, and sustainable condition.',
     docNo: 'MT-ENV-ER-12',
@@ -988,7 +1074,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Environmental Services',
     category: 'Environmental & Natural Sciences',
     tagline: 'Integrated Environmental Management, Studies & Statutory Compliance',
-    image: 'environmental-resource-management.jpg',
+    image: 'environmental-resource-management.png',
     summary:
       'MarveThabi provides integrated environmental management and specialist advisory services supporting regulatory compliance, sustainable resource use and responsible project development across mining, industrial, utilities and infrastructure sectors.',
     docNo: 'MT-ENV-GE-04',
@@ -1020,6 +1106,166 @@ export const dedicatedServicesData: DedicatedService[] = [
       'Full statutory environmental compliance, defensible authorizations, minimized closure liabilities, and sustainable resource management.',
     standards: ['National Water Act (NWA 36/1998)', 'NEMA (Act 107/1998)', 'NEM:WA & NEM:AQA', 'SACNASP Code of Conduct'],
     sectors: ['Mining & Minerals', 'Municipalities & Water Utilities', 'Industrial & Manufacturing', 'Energy & Power Infrastructure', 'Commercial & Civil Development'],
+  },
+  {
+    slug: 'mining-engineering-services',
+    ref: 'ME-05',
+    title: 'Mining Engineering Services',
+    category: 'Engineering Services',
+    tagline: 'Heavy Plant Reliability, Dewatering Hydrogeology & Beneficiation Systems',
+    image: 'mining-engineering-services.png',
+    summary:
+      'Comprehensive engineering support for open-pit, underground, and mineral beneficiation operations. We deliver reliable heavy plant maintenance tactics, mine dewatering infrastructure, and statutory safety compliance.',
+    docNo: 'MT-ENG-ME-05',
+    objective:
+      'To optimize extraction asset performance, reduce equipment breakdown risks, and ensure safe, compliant mine engineering operations.',
+    capabilities: [
+      {
+        group: 'Mining Infrastructure & Equipment Engineering',
+        items: [
+          'Heavy Mining Machinery Reliability & Maintenance Strategies',
+          'Pit Dewatering, Slurry and Mine Pumping Systems Engineering',
+          'Plant Beneficiation Asset Management & Optimization',
+          'Mine Electrical Reticulation, Substation & Switchgear Systems',
+          'Statutory Mine Health & Safety Compliance Engineering',
+          'Mine Closure Infrastructure Decommissioning Support',
+        ],
+      },
+    ],
+    approach:
+      'Our multidisciplinary engineers work directly on-site with mine operations to design, audit, and maintain heavy rotating equipment, high-voltage electrical networks, and dewatering pumps, ensuring rigorous adherence to the Mine Health and Safety Act.',
+    outcomeStatement:
+      'Maximized production uptime, stabilized pit dewatering operations, and zero statutory compliance non-conformances.',
+    standards: ['Mine Health and Safety Act (Act 29 of 1996)', 'SANS 10142', 'ISO 55000', 'ECSA Standards'],
+    sectors: ['Opencast Coal & Iron Ore Mines', 'Deep Level Gold & Platinum Mines', 'Quarries & Aggregates', 'Processing & Smelting Complexes'],
+  },
+  {
+    slug: 'project-development-project-management',
+    ref: 'PM-06',
+    title: 'Project Development & Project Management',
+    category: 'Engineering Services',
+    tagline: 'End-to-End Infrastructure Delivery, QA/QC & Commissioning Supervision',
+    image: 'project-development-project-management.png',
+    summary:
+      'Turnkey project management and technical development services guiding infrastructure, energy, and industrial projects from initial concept and feasibility through construction and handover.',
+    docNo: 'MT-ENG-PM-06',
+    objective:
+      'To ensure infrastructure projects are executed on schedule, within approved budgets, and in strict compliance with engineering specifications and statutory standards.',
+    capabilities: [
+      {
+        group: 'Technical Project Delivery & Contract Supervision',
+        items: [
+          'Project Development, Scoping & Feasibility Studies',
+          'Engineering Project Management & Construction Supervision',
+          'Contract Administration & Quality Assurance (QA/QC)',
+          'Statutory Compliance & Permitting Project Coordination',
+          'Budgeting, Cost Control & Milestone Schedule Tracking',
+          'Handover, As-Built Documentation & Operational Transition',
+        ],
+      },
+    ],
+    approach:
+      'We deploy structured project lifecycle methodologies (PMBOK/FIDIC/NEC) to oversee engineering contractors, manage procurement, coordinate multidisciplinary stakeholders, and supervise construction milestones.',
+    outcomeStatement:
+      'Projects delivered safely on budget and on schedule, fully certified with comprehensive handover documentation.',
+    standards: ['ISO 21500 (Project Management)', 'FIDIC / NEC3 / GCC Contract Frameworks', 'ECSA Code of Practice'],
+    sectors: ['Municipal Infrastructure', 'Energy & Transmission Upgrades', 'Mining Capital Projects', 'Industrial Developments'],
+  },
+  {
+    slug: 'geological-services',
+    ref: 'GS-10',
+    title: 'Geological Services',
+    category: 'Specialist Studies',
+    tagline: 'Subsurface Geology, Structural Profiling & Geotechnical Core Logging',
+    image: 'geological-services.png',
+    summary:
+      'Specialist geological mapping, drill core logging, and rock mass characterisation providing defensible earth science data for engineering foundations, mining stability, and resource development.',
+    docNo: 'MT-SCI-GS-10',
+    objective:
+      'To characterize subsurface strata, assess rock mass integrity, and mitigate geological hazards for civil and mining infrastructure.',
+    capabilities: [
+      {
+        group: 'Subsurface Exploration & Structural Geology',
+        items: [
+          'Geological Mapping & Subsurface Characterisation',
+          'Lithological and Structural Core Logging',
+          'Geotechnical Foundation and Slope Stability Assessments',
+          'Mineral Resource Horizon Identification & Delineation',
+          'Geological Risk Mitigation for Civil & Mining Infrastructure',
+          'Geophysical Subsurface Imaging Integration',
+        ],
+      },
+    ],
+    approach:
+      'Led by registered SACNASP geologists, our investigations combine field mapping, borehole drill core analysis, and rock mechanic testing to develop comprehensive geological ground models.',
+    outcomeStatement:
+      'Defensible geological parameters, reduced geotechnical foundation risk, and optimized structural stability for slopes and pits.',
+    standards: ['SANS 634 (Geotechnical Investigations)', 'SACNASP Code of Conduct', 'SAMREC Code'],
+    sectors: ['Mining & Quarry Operations', 'Heavy Civil Infrastructure', 'Substation & Renewable Energy Siting', 'Linear Pipeline & Road Corridors'],
+  },
+  {
+    slug: 'surveying-services',
+    ref: 'SS-11',
+    title: 'Surveying Services',
+    category: 'Specialist Studies',
+    tagline: 'Precision Topographical, Cadastral, As-Built & Volumetric Surveying',
+    image: 'surveying-services.png',
+    summary:
+      'High-precision land, topographical, and engineering surveying delivering millimeter-accurate spatial datasets, digital terrain models, and construction setting-out.',
+    docNo: 'MT-SCI-SS-11',
+    objective:
+      'To deliver millimeter-accurate spatial positioning, volumetric measurements, and terrain modeling that underpin engineering design and construction.',
+    capabilities: [
+      {
+        group: 'Precision Engineering & Land Surveying',
+        items: [
+          'Engineering & Topographical Site Surveys',
+          'Cadastral and Servitude Boundary Delineation',
+          'Infrastructure As-Built Surveys & Volumetric Calculations',
+          'Digital Terrain Modeling (DTM) & Contour Mapping',
+          'Construction Setting-Out & Deformation Monitoring',
+          'High-Resolution GNSS / Total Station Field Data Acquisition',
+        ],
+      },
+    ],
+    approach:
+      'Utilizing calibrated GNSS RTK receivers, robotic total stations, and modern photogrammetric mapping software, our surveyors capture precise coordinate data compliant with South African cadastral and engineering survey standards.',
+    outcomeStatement:
+      'Defensible spatial models, accurate stockpile and excavation volumes, and error-free construction positioning.',
+    standards: ['Land Survey Act (Act 8 of 1997)', 'SANS Spatial Data Standards', 'SAGC Professional Standards'],
+    sectors: ['Civil Construction Contractors', 'Mines & Quarry Stockpile Audits', 'Municipal Servitudes & Townships', 'Power Lines & Pipeline Corridors'],
+  },
+  {
+    slug: 'waste-and-emissions-management',
+    ref: 'WEM-08',
+    title: 'Waste & Emissions Management',
+    category: 'Environmental Resource Management',
+    tagline: 'Integrated Waste Classification, AEL Licensing, Dust Fallout & Carbon Accounting',
+    image: 'waste-and-emissions-management.png',
+    summary:
+      'Comprehensive environmental compliance covering hazardous and general waste classification, atmospheric emission licensing, ASTM D1739 dust fallout monitoring, and statutory greenhouse gas accounting.',
+    docNo: 'MT-ENV-WEM-08',
+    objective:
+      'To provide single-source statutory compliance across waste generation, atmospheric discharges, and carbon tax liabilities for industrial and mining facilities.',
+    capabilities: [
+      {
+        group: 'Waste & Atmospheric Emissions Solutions',
+        items: [
+          'Waste Classification and Waste Management Licences (NEM:WA)',
+          'Integrated Waste Management Plans (IWMP)',
+          'Sewage Plant Effluent Performance Audits',
+          'Dust Fallout Monitoring Networks and ASTM D1739 Monthly Reporting',
+          'Atmospheric Emission Licence (AEL) Applications and Statutory Audits',
+          'Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting',
+        ],
+      },
+    ],
+    approach:
+      'We combine chemical laboratory analysis, calibrated air sampling, and IPCC Tier accounting protocols to ensure complete statutory compliance under South Africa’s environmental legislation.',
+    outcomeStatement:
+      'Zero regulatory penalties, maintained atmospheric and waste licences, and full statutory emissions transparency.',
+    standards: ['NEM:WA (Act 59/2008)', 'NEM:AQA (Act 39/2004)', 'Climate Change Act', 'SANS 10234'],
+    sectors: ['Industrial Manufacturing', 'Mining Operations', 'Municipalities', 'Petrochemical & Energy Facilities'],
   },
 ];
 
@@ -1143,6 +1389,21 @@ export function getDedicatedService(slug: string): DedicatedService | undefined 
   ) {
     return dedicatedServicesData.find((s) => s.slug === 'environmental-rehabilitation');
   }
+  if (normalized.includes('mining') || normalized === 'me-05') {
+    return dedicatedServicesData.find((s) => s.slug === 'mining-engineering-services');
+  }
+  if (normalized.includes('project-development') || normalized.includes('project-management') || normalized === 'pm-06') {
+    return dedicatedServicesData.find((s) => s.slug === 'project-development-project-management');
+  }
+  if (normalized.includes('geolog') || normalized === 'gs-10') {
+    return dedicatedServicesData.find((s) => s.slug === 'geological-services');
+  }
+  if (normalized.includes('survey') || normalized === 'ss-11') {
+    return dedicatedServicesData.find((s) => s.slug === 'surveying-services');
+  }
+  if (normalized.includes('waste-and-emissions') || normalized === 'wem-08') {
+    return dedicatedServicesData.find((s) => s.slug === 'waste-and-emissions-management');
+  }
   if (normalized.includes('reliab') || normalized === 're-01') {
     return dedicatedServicesData.find((s) => s.slug === 'reliability-engineering');
   }
@@ -1170,30 +1431,45 @@ export function getServiceSlugForRef(ref: string): string {
       return 'electrical-and-electronic-engineering';
     case 'CM-01':
       return 'condition-monitoring';
-    case 'WM-05':
-      return 'water-management';
+    case 'ME-05':
+      return 'mining-engineering-services';
+    case 'PM-06':
+      return 'project-development-project-management';
+    case 'GE-04':
+      return 'geo-environmental';
     case 'WS-06':
       return 'waste-management';
+    case 'WM-05':
+      return 'water-management';
     case 'AQ-07':
       return 'air-quality-management';
     case 'GG-08':
       return 'greenhouse-gas-management';
+    case 'WEM-08':
+      return 'waste-and-emissions-management';
     case 'HS-09':
       return 'hydrogeological-studies';
+    case 'GS-10':
+      return 'geological-services';
+    case 'SS-11':
+      return 'surveying-services';
     case 'AP-10':
       return 'authorisation-permits-and-licences';
     case 'CA-11':
       return 'compliance-audits-and-monitoring';
     case 'ER-12':
       return 'environmental-rehabilitation';
-    case 'GE-04':
-      return 'geo-environmental';
     default:
       if (upper.startsWith('RE')) return 'reliability-engineering';
       if (upper.startsWith('AM')) return 'asset-management';
       if (upper.startsWith('EC')) return 'electrical-construction';
       if (upper.startsWith('EE')) return 'electrical-and-electronic-engineering';
       if (upper.startsWith('CM')) return 'condition-monitoring';
+      if (upper.startsWith('ME')) return 'mining-engineering-services';
+      if (upper.startsWith('PM')) return 'project-development-project-management';
+      if (upper.startsWith('GS')) return 'geological-services';
+      if (upper.startsWith('SS')) return 'surveying-services';
+      if (upper.startsWith('WEM')) return 'waste-and-emissions-management';
       if (upper.startsWith('WM')) return 'water-management';
       if (upper.startsWith('WS')) return 'waste-management';
       if (upper.startsWith('AQ')) return 'air-quality-management';
