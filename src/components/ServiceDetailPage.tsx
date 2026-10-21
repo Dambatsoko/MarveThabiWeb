@@ -60,13 +60,19 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           <div className="detail-prose">
             {service.image && (
               <div
+                className="service-detail-media-wrap"
                 style={{
                   width: '100%',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   overflow: 'hidden',
                   marginBottom: '32px',
                   border: '1px solid var(--line)',
-                  background: 'var(--grey)',
+                  background: 'var(--slate, #0F1B18)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '16px',
+                  minHeight: '260px',
                 }}
               >
                 <img
@@ -78,9 +84,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                   style={{
                     width: '100%',
                     height: 'auto',
-                    maxHeight: '380px',
-                    objectFit: 'cover',
+                    maxWidth: '100%',
+                    maxHeight: '480px',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
                     display: 'block',
+                    margin: '0 auto',
                   }}
                 />
               </div>
