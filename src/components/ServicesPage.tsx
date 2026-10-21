@@ -71,7 +71,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 96;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
       setActiveSpy(id);
     }
   };
