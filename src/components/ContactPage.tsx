@@ -57,6 +57,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           <nav className="page-hero-nav" aria-label="Breadcrumb">
             <a
               href="/"
+              aria-label="Return to MarveThabi homepage"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate?.('/');
@@ -336,6 +337,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 <button
                   type="submit"
                   className="btn btn-brand"
+                  aria-label="Send project enquiry to registered engineers"
                   style={{
                     padding: '14px 28px',
                     fontSize: '15px',
@@ -388,6 +390,43 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     Office Hours
                   </span>
                   <p style={{ margin: 0 }}>Monday &ndash; Friday: 08:00 &ndash; 17:00</p>
+                </div>
+                <div>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
+                    Social Media
+                  </span>
+                  <a
+                    href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit MarveThabi on LinkedIn (opens in a new tab)"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      color: '#0A66C2',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: '13.5px',
+                    }}
+                  >
+                    <img
+                      src="/assets/images/linkedin.png"
+                      alt=""
+                      aria-hidden="true"
+                      width="22"
+                      height="22"
+                      style={{
+                        width: '22px',
+                        height: '22px',
+                        objectFit: 'contain',
+                        borderRadius: '4px',
+                        flexShrink: 0,
+                        display: 'block',
+                      }}
+                    />
+                    MarveThabi on LinkedIn &rarr;
+                  </a>
                 </div>
               </div>
             </div>

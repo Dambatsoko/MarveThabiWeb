@@ -70,7 +70,14 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({ onNavigate }) =>
 
         <div className="wrap">
           <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a href="/" onClick={(e) => { e.preventDefault(); onNavigate('/'); }}>
+            <a
+              href="/"
+              aria-label="Return to MarveThabi homepage"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/');
+              }}
+            >
               Home
             </a>
             <span aria-hidden="true">&rsaquo;</span>
@@ -153,6 +160,7 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({ onNavigate }) =>
                 <div style={{ paddingTop: '14px', marginTop: '4px', borderTop: '1px solid var(--line)' }}>
                   <a
                     href={`/industries/${sec.slug}`}
+                    aria-label={`Explore how MarveThabi services fit the ${sec.name} sector`}
                     onClick={(e) => {
                       e.preventDefault();
                       onNavigate(`/industries/${sec.slug}`);
@@ -180,13 +188,13 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({ onNavigate }) =>
       <section className="cred" style={{ background: 'var(--grey)' }}>
         <div className="wrap">
           <h2 className="cred-head">Trusted by Industry Leaders Across South Africa</h2>
-          <div className="marquee">
+          <div className="marquee" aria-label="Scrolling client logos">
             <div className="marquee-track" aria-hidden="true">
               {clientsData.concat(clientsData).map((c, idx) => (
                 <div key={idx} className="marquee-item">
                   <img
                     src={`/assets/images/${c.logo}`}
-                    alt={c.name}
+                    alt={`${c.name} logo - MarveThabi client`}
                     loading="lazy"
                     decoding="async"
                   />
@@ -209,6 +217,7 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({ onNavigate }) =>
           <a
             href="/contact"
             className="btn btn-brand"
+            aria-label="Request consultation for your sector requirement"
             onClick={(e) => {
               e.preventDefault();
               onNavigate('/contact');

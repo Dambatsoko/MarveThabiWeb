@@ -29,12 +29,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           <nav className="page-hero-nav" aria-label="Breadcrumb">
             <a
               href="/services"
+              aria-label="Return to Engineering Services catalogue"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate('/services');
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" focusable="false">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
               All Services
@@ -77,7 +78,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               >
                 <img
                   src={`/assets/images/${service.image}`}
-                  alt={`${service.title} - MarveThabi Consulting Engineers`}
+                  alt={`${service.title} (${service.ref}) - MarveThabi technical engineering deliverable in ${service.category}`}
+                  aria-label={`${service.title} (${service.ref}) service photograph`}
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   decoding="async"
@@ -185,12 +187,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
 
             <div className="side-card">
               <h4>Related Service Lines</h4>
-              <div className="side-nav-list">
+              <div className="side-nav-list" role="navigation" aria-label="Related services">
                 {relatedServices.map((s) => (
                   <a
                     key={s.slug}
                     href={`/services/${s.slug}`}
                     className="side-nav-item"
+                    aria-label={`View specifications for ${s.title} (${s.ref})`}
+                    aria-current={s.slug === service.slug ? 'page' : undefined}
                     onClick={(e) => {
                       e.preventDefault();
                       onNavigate(`/services/${s.slug}`);
@@ -202,12 +206,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                     }}
                   >
                     <span>{s.title}</span>
-                    <span className="num">{s.ref}</span>
+                    <span className="num" aria-hidden="true">{s.ref}</span>
                   </a>
                 ))}
               </div>
               <a
                 href="/services"
+                aria-label="Return to full Engineering Services catalogue"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -235,6 +240,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               <a
                 href="/contact"
                 className="btn btn-brand btn-full"
+                aria-label={`Request consultation for ${service.title}`}
                 onClick={(e) => {
                   e.preventDefault();
                   onNavigate('/contact');
@@ -259,6 +265,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           <a
             href="/contact"
             className="btn btn-brand"
+            aria-label="Request a technical consultation with our registered engineering team"
             onClick={(e) => {
               e.preventDefault();
               onNavigate('/contact');

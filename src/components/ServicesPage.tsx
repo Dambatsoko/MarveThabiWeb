@@ -11,6 +11,27 @@ interface ServicesPageProps {
   onNavigate: (path: string) => void;
 }
 
+const serviceAltMap: Record<string, string> = {
+  'RE-01': 'Reliability engineering specialist performing vibration analysis and diagnostic testing on industrial rotating plant machinery',
+  'AM-02': 'Physical asset management verification, lifecycle costing, and ISO 55000 asset register hierarchy classification',
+  'CM-01': 'Condition monitoring diagnostics technician utilizing infrared thermography and ultrasonic testing on operational electrical and mechanical equipment',
+  'EC-03': 'Electrical contractor installing commercial switchgear, backup diesel generator, and high-voltage cable reticulation systems',
+  'EE-04': 'High-voltage electrical substation infrastructure, overhead transmission lines, and municipal reticulation network',
+  'ME-05': 'Heavy mining equipment maintenance, pit dewatering pumps, and processing plant infrastructure engineering',
+  'PM-06': 'Engineering project managers reviewing construction blueprints and technical specifications during on-site quality assurance',
+  'GE-04': 'Environmental scientist collecting water samples and conducting catchment resource management in the natural environment',
+  'WS-06': 'Industrial waste classification, emissions monitoring equipment, and environmental waste compliance auditing',
+  'WM-05': 'Hydrogeologist monitoring groundwater borehole yield and water quality for Water Use Licence (WULA) compliance',
+  'AQ-07': 'Specialist air quality monitoring station with dust fallout sampling gauges and atmospheric emissions testing equipment',
+  'GG-08': 'Greenhouse gas emissions monitoring, carbon footprint calculation, and mandatory NAEIS reporting instrumentation',
+  'HS-09': 'Hydrogeologist conducting geophysical resistivity survey and borehole yield testing for groundwater aquifer characterisation',
+  'GS-10': 'Geologist performing rock mass core logging, foundation structural analysis, and geotechnical subsurface mapping',
+  'SS-11': 'Professional land surveyor operating high-precision electronic total station and GNSS rover for topographical site mapping',
+  'AP-10': 'Environmental consultant preparing statutory EIA, EMPr, and environmental authorisation documentation for regulatory compliance',
+  'CA-11': 'Environmental Control Officer (ECO) inspecting site water runoff channels and performing aquatic biomonitoring',
+  'ER-12': 'Mine land environmental rehabilitation featuring contaminated soil remediation and indigenous vegetation restoration',
+};
+
 export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
   const [activeSpy, setActiveSpy] = useState<string>('engineering-services');
 
@@ -90,7 +111,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
         <div className="wrap">
           <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a href="/" onClick={(e) => { e.preventDefault(); onNavigate('/'); }}>
+            <a
+              href="/"
+              aria-label="Return to MarveThabi homepage"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/');
+              }}
+            >
               Home
             </a>
             <span aria-hidden="true">&rsaquo;</span>
@@ -102,15 +130,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
             reliability, electrical and geo-environmental work across government, mining,
             energy and industry.
           </p>
-          <div className="svc-hero-index">
+          <div className="svc-hero-index" role="navigation" aria-label="Service categories quick jump">
             {serviceGroupsData.map((g) => (
               <a
                 key={g.id}
                 href={`#${g.id}`}
                 className="svc-hero-chip"
+                aria-label={`Jump to Group ${g.no}: ${g.title}`}
                 onClick={(e) => scrollToTarget(e, g.id)}
               >
-                <span className="num">{g.no}</span>
+                <span className="num" aria-hidden="true">{g.no}</span>
                 {g.title}
               </a>
             ))}
@@ -129,9 +158,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                 <a
                   href={`#${g.id}`}
                   className={`svc-dir-group ${activeSpy === g.id ? 'active' : ''}`}
+                  aria-label={`Navigate to Group ${g.no}: ${g.title}`}
+                  aria-current={activeSpy === g.id ? 'true' : undefined}
                   onClick={(e) => scrollToTarget(e, g.id)}
                 >
-                  <span className="num">{g.no}</span> {g.title}
+                  <span className="num" aria-hidden="true">{g.no}</span> {g.title}
                 </a>
                 {g.services.map((svc) => {
                   const sid = sanitizeTitle(svc.title);
@@ -140,9 +171,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                       key={svc.ref}
                       href={`#${sid}`}
                       className={`svc-dir-item ${activeSpy === sid ? 'active' : ''}`}
+                      aria-label={`Navigate to ${svc.title} (${svc.ref})`}
+                      aria-current={activeSpy === sid ? 'true' : undefined}
                       onClick={(e) => scrollToTarget(e, sid)}
                     >
-                      <span className="num">{svc.ref}</span> {svc.title}
+                      <span className="num" aria-hidden="true">{svc.ref}</span> {svc.title}
                     </a>
                   );
                 })}
@@ -164,12 +197,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
                 {g.services.map((svc) => {
                   const sid = sanitizeTitle(svc.title);
+                  const imageAlt = serviceAltMap[svc.ref] || `${svc.title} - ${svc.ref} engineering service`;
                   return (
                     <article key={svc.ref} className="sline reveal" id={sid}>
                       <div className="sline-media">
                         <img
                           src={`/assets/images/${svc.img}`}
-                          alt={svc.title}
+                          alt={imageAlt}
+                          aria-label={`${svc.title} (${svc.ref}) service photograph`}
                           referrerPolicy="no-referrer"
                           loading="lazy"
                           decoding="async"
@@ -191,6 +226,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                         <a
                           href={`/services/${getServiceSlugForRef(svc.ref)}`}
                           className="sline-more-btn"
+                          aria-label={`Read technical specifications and deliverables for ${svc.title} (${svc.ref})`}
                           onClick={(e) => {
                             e.preventDefault();
                             onNavigate(`/services/${getServiceSlugForRef(svc.ref)}`);
@@ -207,6 +243,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             aria-hidden="true"
+                            focusable="false"
                           >
                             <path d="M5 12h14M12 5l7 7-7 7" />
                           </svg>
@@ -229,12 +266,12 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
             Our engineers and scientists are registered with the statutory councils that
             govern South African engineering and natural science practice.
           </p>
-          <div className="affil-row">
+          <div className="affil-row" role="list">
             {affiliationsData.map((aff, i) => (
-              <div key={aff.name} className={`affil-card reveal r-delay-${i}`}>
+              <div key={aff.name} className={`affil-card reveal r-delay-${i}`} role="listitem">
                 <img
                   src={`/assets/images/${aff.logo}`}
-                  alt={aff.name}
+                  alt={`${aff.name} logo - professional registration`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -257,6 +294,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
           <a
             href="/contact"
             className="btn btn-brand"
+            aria-label="Request a technical consultation with our registered engineers"
             onClick={(e) => {
               e.preventDefault();
               onNavigate('/contact');

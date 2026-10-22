@@ -49,6 +49,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
           >
             <a
               href="/"
+              aria-label="Return to MarveThabi homepage"
               onClick={(e) => handleLink(e, '/')}
               style={{ color: '#fff', textDecoration: 'none' }}
             >
@@ -57,6 +58,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
             <span aria-hidden="true">&rsaquo;</span>
             <a
               href="/industries"
+              aria-label="Browse all industries served"
               onClick={(e) => handleLink(e, '/industries')}
               style={{ color: '#fff', textDecoration: 'none' }}
             >
@@ -254,6 +256,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                       <div style={{ paddingTop: '8px', borderTop: '1px solid #f0f4f2' }}>
                         <a
                           href={`/services/${svc.slug}`}
+                          aria-label={`View technical specifications for ${svc.name} (${svc.ref})`}
                           onClick={(e) => handleLink(e, `/services/${svc.slug}`)}
                           style={{
                             fontSize: '13px',
@@ -475,6 +478,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
             <a
               href="/contact"
               className="btn btn-brand"
+              aria-label="Request consultation for your sector project"
               onClick={(e) => handleLink(e, '/contact')}
             >
               Request Consultation
@@ -482,6 +486,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
             <a
               href="/services"
               className="btn btn-ghost"
+              aria-label="Browse full master services catalogue"
               onClick={(e) => handleLink(e, '/services')}
             >
               Master Services Catalogue
@@ -534,6 +539,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
               <a
                 key={ind.name}
                 href={`/industries/${ind.slug}`}
+                aria-label={`Explore how MarveThabi services fit the ${ind.name} industry`}
                 onClick={(e) => handleLink(e, `/industries/${ind.slug}`)}
                 style={{
                   background: 'rgba(255,255,255,0.05)',

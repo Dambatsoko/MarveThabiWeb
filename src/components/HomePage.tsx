@@ -92,6 +92,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <a
                 href="/services"
                 className="btn btn-brand"
+                aria-label="Explore our engineering and environmental services catalogue"
                 onClick={(e) => {
                   e.preventDefault();
                   if (onNavigate) {
@@ -106,6 +107,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <a
                 href="/contact"
                 className="btn btn-ghost"
+                aria-label="Request a technical consultation with our registered engineering team"
                 onClick={(e) => {
                   e.preventDefault();
                   if (onNavigate) {
@@ -209,9 +211,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               className={`client-toggle-btn ${clientView === 'carousel' ? 'active' : ''}`}
               onClick={() => setClientView('carousel')}
               aria-pressed={clientView === 'carousel'}
+              aria-label="Switch client logos to continuous scrolling marquee view"
               title="Continuous marquee animation"
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
               Scroll View
@@ -221,9 +224,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               className={`client-toggle-btn ${clientView === 'grid' ? 'active' : ''}`}
               onClick={() => setClientView('grid')}
               aria-pressed={clientView === 'grid'}
+              aria-label="Switch client logos to 14-client grid view"
               title="View all 14 clients in a grid"
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <rect x="3" y="3" width="7" height="7" />
                 <rect x="14" y="3" width="7" height="7" />
                 <rect x="14" y="14" width="7" height="7" />
@@ -248,7 +252,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     >
                       <img
                         src={`/assets/images/${client.logo}`}
-                        alt={pass === 0 ? client.name : ''}
+                        alt={pass === 0 ? `${client.name} logo - MarveThabi client` : ''}
                         loading="lazy"
                         decoding="async"
                       />
@@ -264,7 +268,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div key={client.name} className="client-grid-card" role="listitem" title={client.name}>
                 <img
                   src={`/assets/images/${client.logo}`}
-                  alt={client.name}
+                  alt={`${client.name} logo - MarveThabi client`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -288,6 +292,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 key={ind.name}
                 href={`/industries/${ind.slug}`}
                 className={`ind-card ind-card-link reveal r-delay-${i % 4}`}
+                aria-label={`Explore how MarveThabi engineering services serve the ${ind.name} sector`}
                 onClick={(e) => {
                   e.preventDefault();
                   if (onNavigate) {
@@ -446,7 +451,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                 ></textarea>
               </label>
-              <button type="submit" className="btn btn-brand btn-full">
+              <button type="submit" className="btn btn-brand btn-full" aria-label="Send project enquiry to registered engineers">
                 Send Enquiry
               </button>
             </form>

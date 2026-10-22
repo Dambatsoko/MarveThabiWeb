@@ -142,7 +142,7 @@ export const clientsData: Client[] = [
   { name: 'Impala Platinum (Implats)', logo: 'implats-platinum-logo.png' },
   { name: 'Harmony Gold Mining Company', logo: 'harmony-gold-mining-logo.png' },
   { name: 'Modikwa Platinum Mine', logo: 'modikwa-platinum-mine-logo.png' },
-  { name: 'Thungela Resources', logo: 'thungela-logo.png' },
+  { name: 'Thungela Resources', logo: 'thungela.png' },
   { name: 'Valterra Platinum', logo: 'valterra-platinum-logo.png' },
   { name: 'Department of Public Works & Infrastructure', logo: 'department-of-public-works-and-infrastructure-south-africa-logo.png' },
   { name: 'Gauteng Provincial Government - Roads & Transport', logo: 'gauteng-provincial-government-public-transport-logo.png' },

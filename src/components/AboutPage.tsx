@@ -21,6 +21,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <nav className="page-hero-nav" aria-label="Breadcrumb">
             <a
               href="/"
+              aria-label="Return to MarveThabi homepage"
               onClick={(e) => {
                 e.preventDefault();
                 onNavigate('/');

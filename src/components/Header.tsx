@@ -53,11 +53,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         <nav
           className={`nav-links navigation ${menuOpen ? 'open' : ''}`}
           id="nav-links"
-          aria-label="Primary"
+          aria-label="Primary site navigation"
         >
           <a
             href="/"
             className={currentPath === '/' ? 'active' : ''}
+            aria-current={currentPath === '/' ? 'page' : undefined}
+            aria-label="Navigate to Home page"
             onClick={(e) => handleLinkClick(e, '/')}
           >
             Home
@@ -65,6 +67,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <a
             href="/about"
             className={currentPath === '/about' ? 'active' : ''}
+            aria-current={currentPath === '/about' ? 'page' : undefined}
+            aria-label="Navigate to About Us page"
             onClick={(e) => handleLinkClick(e, '/about')}
           >
             About Us
@@ -72,6 +76,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <a
             href="/services"
             className={isServicesActive ? 'active' : ''}
+            aria-current={isServicesActive ? 'page' : undefined}
+            aria-label="Navigate to Engineering Services catalogue"
             onClick={(e) => handleLinkClick(e, '/services')}
           >
             Our Services
@@ -79,6 +85,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <a
             href="/leadership"
             className={isLeadershipActive ? 'active' : ''}
+            aria-current={isLeadershipActive ? 'page' : undefined}
+            aria-label="Navigate to Leadership and Team page"
             onClick={(e) => handleLinkClick(e, '/leadership')}
           >
             Our Team
@@ -86,6 +94,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <a
             href="/process"
             className={currentPath === '/process' ? 'active' : ''}
+            aria-current={currentPath === '/process' ? 'page' : undefined}
+            aria-label="Navigate to Engineering Process page"
             onClick={(e) => handleLinkClick(e, '/process')}
           >
             Our Process
@@ -93,6 +103,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <a
             href="/contact"
             className={currentPath === '/contact' ? 'active' : ''}
+            aria-current={currentPath === '/contact' ? 'page' : undefined}
+            aria-label="Navigate to Contact Us page"
             onClick={(e) => handleLinkClick(e, '/contact')}
           >
             Contact Us
@@ -102,12 +114,47 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         {/* Zone 3: Right CTA button */}
         <div className="header-cta">
           <a
+            href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="header-social-btn"
+            aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
+            title="Follow MarveThabi on LinkedIn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              borderRadius: '6px',
+              textDecoration: 'none',
+              flexShrink: 0,
+              boxSizing: 'border-box',
+              overflow: 'hidden',
+              boxShadow: '0 2px 6px rgba(10,102,194,0.18)',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            }}
+          >
+            <img
+              src="/assets/images/linkedin.png"
+              alt="LinkedIn"
+              width="36"
+              height="36"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
+          </a>
+          <a
             href="/MarveThabiProfile.pdf"
             download="MarveThabiProfile.pdf"
             className="btn btn-brand btn-sm header-cta-btn"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Download MarveThabi Corporate Profile PDF"
+            aria-label="Download MarveThabi Corporate Profile PDF (Opens in new tab)"
           >
             <svg
               width="14"
@@ -119,6 +166,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               aria-hidden="true"
+              focusable="false"
               style={{ marginRight: '6px', display: 'inline-block', verticalAlign: '-1px' }}
             >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -130,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           <button
             className="burger"
             id="burger"
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={menuOpen ? 'true' : 'false'}
             aria-controls="nav-links"
             onClick={() => setMenuOpen(!menuOpen)}

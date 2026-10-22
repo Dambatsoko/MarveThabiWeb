@@ -92,7 +92,14 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
 
         <div className="wrap">
           <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a href="/" onClick={(e) => { e.preventDefault(); onNavigate('/'); }}>
+            <a
+              href="/"
+              aria-label="Return to MarveThabi homepage"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/');
+              }}
+            >
               Home
             </a>
             <span aria-hidden="true">&rsaquo;</span>
@@ -195,6 +202,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
           <a
             href="/contact"
             className="btn btn-brand"
+            aria-label="Request a consultation to initiate Phase 01 for your project"
             onClick={(e) => {
               e.preventDefault();
               onNavigate('/contact');

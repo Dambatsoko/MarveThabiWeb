@@ -21,7 +21,7 @@ export const AffiliationsSection: React.FC = () => {
               <div className="affil-logo-box">
                 <img
                   src={`/assets/images/${aff.logo}`}
-                  alt={aff.name}
+                  alt={`${aff.name} logo - professional statutory registration`}
                   loading="lazy"
                   decoding="async"
                 />
