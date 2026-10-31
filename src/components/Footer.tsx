@@ -1,5 +1,6 @@
 import React from 'react';
 import { servicesData, getServiceSlugForRef } from '../data/marvethabi';
+import { NAV_LINKS } from '../utils/navigation';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
@@ -82,24 +83,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
         <div>
           <span className="foot-h">Company</span>
-          <a href="/services" aria-label="Browse full services catalogue" onClick={(e) => handleLink(e, '/services')}>
-            Our Services
-          </a>
-          <a href="/industries" aria-label="Browse industries served by MarveThabi" onClick={(e) => handleLink(e, '/industries')}>
-            Industries
-          </a>
-          <a href="/about" aria-label="Read about MarveThabi company history and accreditation" onClick={(e) => handleLink(e, '/about')}>
-            About
-          </a>
-          <a href="/leadership" aria-label="Meet MarveThabi registered directors and leadership team" onClick={(e) => handleLink(e, '/leadership')}>
-            Leadership & Team
-          </a>
-          <a href="/process" aria-label="View 5-stage engineering delivery framework" onClick={(e) => handleLink(e, '/process')}>
-            Process
-          </a>
-          <a href="/contact" aria-label="Contact MarveThabi for technical engineering consultations" onClick={(e) => handleLink(e, '/contact')}>
-            Contact
-          </a>
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              aria-label={link.ariaLabel}
+              onClick={(e) => handleLink(e, link.href)}
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
         <div>
           <span className="foot-h">Contact</span>

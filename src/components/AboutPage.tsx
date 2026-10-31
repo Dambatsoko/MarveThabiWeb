@@ -57,7 +57,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   lineHeight: 1.15,
                 }}
               >
-                Engineering Fundamentals. Hands-On Operational Experience.
+                Technical Expertise. Practical Experience. Professional Excellence.
               </h2>
               <div
                 style={{
@@ -70,25 +70,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                 }}
               >
                 <p>
-                  MarveThabi Consulting Engineers (MCE) is a professional engineering and consulting
-                  firm delivering integrated solutions in Reliability Engineering, Asset Management,
-                  Electrical Engineering, Condition Monitoring, and Environmental Management.
+                  MarveThabi Consulting Engineers (MCE) is a multidisciplinary consulting firm
+                  specialising in engineering and environmental services. Our areas of expertise
+                  include reliability engineering, physical asset management, electrical engineering,
+                  condition monitoring, environmental management, and environmental compliance.
                 </p>
                 <p>
-                  The company was established to respond to the increasing demand for technically
-                  sound, compliant, and practical engineering solutions within the mining,
-                  industrial, utilities, and infrastructure sectors. MCE combines strong
-                  engineering fundamentals with extensive hands-on operational experience,
-                  enabling us to support clients across the entire asset lifecycle, from planning
-                  and design, through operation and maintenance, to optimisation and
-                  life-extension.
+                  Established in response to the growing demand for specialised technical and
+                  environmental expertise, MCE serves clients across the mining, industrial,
+                  utilities, and infrastructure sectors. We provide professional services that address
+                  engineering challenges, environmental risks, regulatory compliance, and the
+                  sustainable management of resources.
                 </p>
                 <p>
-                  Our services are underpinned by data-driven decision-making, risk-based
-                  methodologies, and strict alignment with recognised industry standards and
-                  regulatory frameworks. We pride ourselves on delivering solutions that are not
-                  only technically robust but also practical, sustainable, and aligned with our
-                  clients’ operational realities.
+                  Our approach is grounded in technical expertise, practical industry experience,
+                  scientific assessment, and risk-based decision-making. We are committed to delivering
+                  reliable, technically sound, and environmentally responsible services tailored to
+                  our clients' operational requirements and regulatory obligations.
                 </p>
               </div>
             </div>

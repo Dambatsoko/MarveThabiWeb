@@ -122,13 +122,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
               Home
             </a>
             <span aria-hidden="true">&rsaquo;</span>
-            <span>Engineering Services</span>
+            <span>Engineering &amp; Environmental Consulting</span>
           </nav>
-          <h1 className="svc-hero-title">Engineering Services</h1>
+          <h1 className="svc-hero-title">Engineering &amp; Environmental Consulting</h1>
           <p className="lead svc-hero-sub">
-            Three disciplines. Twelve service lines. One accountable consultancy for
-            reliability, electrical and geo-environmental work across government, mining,
-            energy and industry.
+            Delivering specialised engineering and environmental consulting services across the
+            mining, industrial, energy, infrastructure, and public sectors, with a focus on
+            technical excellence, regulatory compliance, operational reliability, and
+            environmental sustainability.
           </p>
           <div className="svc-hero-index" role="navigation" aria-label="Service categories quick jump">
             {serviceGroupsData.map((g) => (

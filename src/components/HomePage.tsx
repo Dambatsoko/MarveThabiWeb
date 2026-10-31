@@ -82,7 +82,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <span className="dot" aria-hidden="true"></span>
               <span>CSD: Active</span>
             </div>
-            <h1 className="hero-title">Engineering Solutions That Build Africa &amp; Beyond</h1>
+            <h1 className="hero-title">Integrated Engineering &amp; Environmental Solutions That Build Africa &amp; Beyond</h1>
             <p className="hero-sub lead">
               Delivering specialist Reliability Engineering, Asset Management, Electrical
               Engineering and Geo-Environmental solutions for government, municipalities,

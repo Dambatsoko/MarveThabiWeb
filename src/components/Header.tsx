@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { NAV_LINKS, isLinkActive } from '../utils/navigation';
 
 interface HeaderProps {
   currentPath: string;
@@ -7,11 +8,14 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  // Monitor scroll for shadow and slight height compression
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 30);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -20,99 +24,87 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setMenuOpen(false);
-    onNavigate(href);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // Handle drawer accessibility (scroll lock and Escape key)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
 
-  const isServicesActive = currentPath === '/services' || currentPath.startsWith('/services');
-  const isLeadershipActive = currentPath === '/leadership' || currentPath === '/team';
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+      // Automatically focus the close button when opened for screen reader accessibility
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
+  const handleLinkClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+      onNavigate(href);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    [onNavigate]
+  );
 
   return (
     <header className={`nav ${isScrolled ? 'nav-scrolled' : ''}`} id="site-nav">
       <div className="header-inner">
-        {/* Zone 1: Logo — far left */}
-        <a
-          href="/"
-          className="logo"
-          aria-label="MarveThabi Consulting Engineers"
-          onClick={(e) => handleLinkClick(e, '/')}
-        >
-          <img
-            src="/assets/images/marvethabilogo.jpg"
-            alt="MarveThabi Consulting Engineers"
-            decoding="async"
-            width="168"
-            height="70"
-          />
-        </a>
-
-        {/* Zone 2: Navigation — genuinely centered */}
-        <nav
-          className={`nav-links navigation ${menuOpen ? 'open' : ''}`}
-          id="nav-links"
-          aria-label="Primary site navigation"
-        >
+        {/* Zone 1: Logo — far left in its own protected layout column */}
+        <div className="header-logo-col">
           <a
             href="/"
-            className={currentPath === '/' ? 'active' : ''}
-            aria-current={currentPath === '/' ? 'page' : undefined}
-            aria-label="Navigate to Home page"
+            className="logo"
+            aria-label="MarveThabi Consulting Engineers Home"
             onClick={(e) => handleLinkClick(e, '/')}
           >
-            Home
+            <img
+              src="/assets/images/marvethabilogo.jpg"
+              alt="MarveThabi Consulting Engineers"
+              decoding="async"
+              width="168"
+              height="70"
+            />
           </a>
-          <a
-            href="/about"
-            className={currentPath === '/about' ? 'active' : ''}
-            aria-current={currentPath === '/about' ? 'page' : undefined}
-            aria-label="Navigate to About Us page"
-            onClick={(e) => handleLinkClick(e, '/about')}
-          >
-            About Us
-          </a>
-          <a
-            href="/services"
-            className={isServicesActive ? 'active' : ''}
-            aria-current={isServicesActive ? 'page' : undefined}
-            aria-label="Navigate to Engineering Services catalogue"
-            onClick={(e) => handleLinkClick(e, '/services')}
-          >
-            Our Services
-          </a>
-          <a
-            href="/leadership"
-            className={isLeadershipActive ? 'active' : ''}
-            aria-current={isLeadershipActive ? 'page' : undefined}
-            aria-label="Navigate to Leadership and Team page"
-            onClick={(e) => handleLinkClick(e, '/leadership')}
-          >
-            Our Team
-          </a>
-          <a
-            href="/process"
-            className={currentPath === '/process' ? 'active' : ''}
-            aria-current={currentPath === '/process' ? 'page' : undefined}
-            aria-label="Navigate to Engineering Process page"
-            onClick={(e) => handleLinkClick(e, '/process')}
-          >
-            Our Process
-          </a>
-          <a
-            href="/contact"
-            className={currentPath === '/contact' ? 'active' : ''}
-            aria-current={currentPath === '/contact' ? 'page' : undefined}
-            aria-label="Navigate to Contact Us page"
-            onClick={(e) => handleLinkClick(e, '/contact')}
-          >
-            Contact Us
-          </a>
+        </div>
+
+        {/* Zone 2: Navigation — flexible middle space, progressive typography, never overlaps */}
+        <nav
+          className="nav-desktop"
+          id="desktop-nav-links"
+          aria-label="Primary site navigation"
+        >
+          {NAV_LINKS.map((link) => {
+            const active = isLinkActive(link.href, currentPath);
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                className={active ? 'active' : ''}
+                aria-current={active ? 'page' : undefined}
+                aria-label={link.ariaLabel}
+                onClick={(e) => handleLinkClick(e, link.href)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* Zone 3: Right CTA button */}
-        <div className="header-cta">
+        {/* Zone 3: Actions — extreme right (LinkedIn, Download Profile button, and Hamburger toggle) */}
+        <div className="header-actions">
           <a
             href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
             target="_blank"
@@ -120,41 +112,23 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             className="header-social-btn"
             aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
             title="Follow MarveThabi on LinkedIn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '36px',
-              height: '36px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              flexShrink: 0,
-              boxSizing: 'border-box',
-              overflow: 'hidden',
-              boxShadow: '0 2px 6px rgba(10,102,194,0.18)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            }}
           >
             <img
               src="/assets/images/linkedin.png"
               alt="LinkedIn"
               width="36"
               height="36"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                display: 'block',
-              }}
             />
           </a>
+
           <a
             href="/MarveThabiProfile.pdf"
             download="MarveThabiProfile.pdf"
-            className="btn btn-brand btn-sm header-cta-btn"
+            className="header-cta-btn"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Download MarveThabi Corporate Profile PDF (Opens in new tab)"
+            title="Download MarveThabi Corporate Profile PDF"
           >
             <svg
               width="14"
@@ -167,21 +141,22 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               strokeLinejoin="round"
               aria-hidden="true"
               focusable="false"
-              style={{ marginRight: '6px', display: 'inline-block', verticalAlign: '-1px' }}
             >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            Download Profile
+            <span className="cta-btn-text">Download Profile</span>
           </a>
+
           <button
-            className="burger"
+            className={`burger ${mobileMenuOpen ? 'open' : ''}`}
             id="burger"
-            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={menuOpen ? 'true' : 'false'}
-            aria-controls="nav-links"
-            onClick={() => setMenuOpen(!menuOpen)}
+            type="button"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav-drawer"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span></span>
             <span></span>
@@ -189,6 +164,130 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           </button>
         </div>
       </div>
+
+      {/* Accessible Backdrop for Mobile Drawer */}
+      <div
+        className={`mobile-nav-backdrop ${mobileMenuOpen ? 'open' : ''}`}
+        aria-hidden="true"
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Slide-Out Navigation Drawer */}
+      <div
+        ref={drawerRef}
+        className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}
+        id="mobile-nav-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site Navigation Menu"
+      >
+        <div className="mobile-drawer-header">
+          <div className="mobile-drawer-brand">
+            <img
+              src="/assets/images/marvethabilogo.jpg"
+              alt="MarveThabi Consulting Engineers"
+              width="120"
+              height="48"
+            />
+          </div>
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className="mobile-drawer-close"
+            aria-label="Close navigation menu"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className="mobile-drawer-links" aria-label="Mobile primary navigation">
+          {NAV_LINKS.map((link) => {
+            const active = isLinkActive(link.href, currentPath);
+            return (
+              <a
+                key={`mobile-${link.id}`}
+                href={link.href}
+                className={active ? 'active' : ''}
+                aria-current={active ? 'page' : undefined}
+                aria-label={link.ariaLabel}
+                onClick={(e) => handleLinkClick(e, link.href)}
+              >
+                <span>{link.label}</span>
+                <svg
+                  className="chevron"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </a>
+            );
+          })}
+        </nav>
+
+        <div className="mobile-drawer-actions">
+          <a
+            href="/MarveThabiProfile.pdf"
+            download="MarveThabiProfile.pdf"
+            className="mobile-drawer-download"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download MarveThabi Corporate Profile PDF"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download Profile PDF
+          </a>
+
+          <a
+            href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mobile-drawer-social"
+            aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
+          >
+            <img
+              src="/assets/images/linkedin.png"
+              alt=""
+              aria-hidden="true"
+              width="20"
+              height="20"
+            />
+            <span>Connect on LinkedIn</span>
+          </a>
+        </div>
+      </div>
     </header>
   );
 };
+
+export default Header;
