@@ -1,50 +1,16 @@
 /* ============================================================
    MarveThabi Consulting Engineers  main.css  v1.0.0
    Typography system:
-     - Major Hero/Display Headings: Geist
-     - Smaller Headings: Inter Tight (700, -0.4px)
-     - Body Text: Jost (390, 17px, -0.5px)
-     - Header Menu: Jost (450, 17px)
-   Strict source of truth fonts loaded locally without fallback stacks.
+     - Headings (H1–H6, Titles, Section/Card Headings): Fira Sans (600, 700, 800)
+     - Body Text: Jost (390, 17px, -0.5px) [STRICTLY PRESERVED]
+     - Header Menu: Jost (450, 17px) [STRICTLY PRESERVED]
    Brand: #336659 on white, ink and deep slate
    Rhythm: 8px increments throughout
    ============================================================ */
 
-/* ---------- LOCAL FONT FACES (SOURCE OF TRUTH) ---------- */
-@font-face {
-  font-family: 'Geist';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('/assets/fonts/geist-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Geist';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('/assets/fonts/geist-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
 
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 500 800;
-  font-display: swap;
-  src: url('/assets/fonts/intertight-700-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 500 800;
-  font-display: swap;
-  src: url('/assets/fonts/intertight-700-latinext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
+/* ---------- LOCAL FONT FACES: JOST (STRICTLY PRESERVED) ---------- */
 @font-face {
   font-family: 'Jost';
   font-style: normal;
@@ -73,14 +39,14 @@
   --graphite:#222831;
   --grey:#F4F7F6;
   --line:#E1E8E6;
-  --font-head:'Geist';
-  --font-heading:'Inter Tight';
+  --font-head:'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading:'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body:'Jost';
 }
 
 *,*::before,*::after{box-sizing:border-box; margin:0; padding:0;}
 
-/* ---------- GLOBAL TYPOGRAPHY: BODY ---------- */
+/* ---------- GLOBAL TYPOGRAPHY: BODY (JOST STRICTLY PRESERVED) ---------- */
 html{scroll-behavior:smooth;}
 body{
   font-family:var(--font-body);
@@ -99,28 +65,28 @@ body{
 }
 p{max-width:70ch;}
 
-/* ---------- GLOBAL TYPOGRAPHY: HEADINGS ---------- */
-/* Major hero/display headings remain Geist */
+/* ---------- GLOBAL TYPOGRAPHY: HEADINGS (FIRA SANS) ---------- */
+/* Headings throughout the site: Fira Sans, 700, balanced kerning & line height */
 h1{
   font-family:var(--font-head);
   font-weight:700;
-  letter-spacing:-0.045em;
-  line-height:0.95;
+  letter-spacing:-0.02em;
+  line-height:1.12;
   font-kerning:normal;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
-  font-feature-settings:"liga" 1,"kern" 1,"calt" 1,"ss01" 1;
+  font-feature-settings:"liga" 1,"kern" 1,"calt" 1;
   font-variant-ligatures:common-ligatures contextual;
   font-synthesis:none;
 }
 
-/* Smaller headings throughout the site: Inter Tight, 700, -0.4px */
+/* Section and card headings: Fira Sans, 600 or 700 */
 h2,h3,h4,h5,h6{
   font-family:var(--font-heading);
   font-weight:700;
-  letter-spacing:-0.4px;
-  line-height:1.05;
+  letter-spacing:-0.015em;
+  line-height:1.15;
   font-kerning:normal;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
@@ -129,30 +95,42 @@ h2,h3,h4,h5,h6{
   font-synthesis:none;
 }
 
-/* Hero heading (Major hero display remains Geist) */
+h3{
+  font-weight:600;
+  letter-spacing:-0.01em;
+  line-height:1.18;
+}
+
+h4,h5,h6{
+  font-weight:600;
+  letter-spacing:-0.005em;
+  line-height:1.20;
+}
+
+/* Hero heading */
 .hero-title{
   font-family:var(--font-head);
-  font-weight:800;
-  letter-spacing:-0.05em;
-  line-height:0.98;
-  max-width:16ch;
-  font-size:clamp(38px,5.2vw,74px);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:1.12;
+  max-width:17ch;
+  font-size:clamp(36px,5vw,68px);
   color:#fff;
-  text-shadow:0 2px 24px rgba(0,0,0,0.35);
+  text-shadow:0 1px 3px rgba(0,0,0,0.45);
 }
 
 /* Section headings */
 h2{
   font-family:var(--font-heading);
   font-weight:700;
-  letter-spacing:-0.4px;
-  line-height:1.02;
-  margin-bottom:0.6em;
-  font-size:clamp(34px,4.4vw,54px);
+  letter-spacing:-0.015em;
+  line-height:1.12;
+  margin-bottom:0.55em;
+  font-size:clamp(32px,4.2vw,50px);
   color:var(--ink);
 }
 
-/* Lead paragraphs */
+/* Lead paragraphs - Jost (STRICTLY PRESERVED) */
 .lead{
   font-size:22px;
   font-weight:390;
@@ -165,16 +143,16 @@ h2{
 .label{
   font-family:var(--font-head);
   font-size:12px;
-  font-weight:700;
-  letter-spacing:0.16em;
+  font-weight:600;
+  letter-spacing:0.10em;
   text-transform:uppercase;
 }
 
 /* Statistics and numbers */
 .num{
   font-family:var(--font-head);
-  font-weight:800;
-  letter-spacing:-0.05em;
+  font-weight:700;
+  letter-spacing:-0.02em;
   font-variant-numeric:tabular-nums;
   font-kerning:normal;
   font-synthesis:none;
@@ -183,12 +161,12 @@ h2{
 /* Card titles */
 .card-title{
   font-family:var(--font-heading);
-  font-weight:700;
-  letter-spacing:-0.4px;
-  line-height:1.08;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  line-height:1.18;
 }
 
-/* Card body */
+/* Card body - Jost (STRICTLY PRESERVED) */
 .card-body{
   font-family:var(--font-body);
   font-size:17px;
@@ -204,31 +182,107 @@ img{max-width:100%; display:block;}
 ul{list-style:none;}
 :focus-visible{outline:2px solid var(--brand); outline-offset:3px;}
 
-/* ---------- BUTTONS ---------- */
+/* ---------- BUTTONS (CRISP PRECISION RENDERING) ---------- */
 button{
   font-family:var(--font-body);
 }
 .btn{
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
   font-family:var(--font-body);
-  font-weight:450;
-  letter-spacing:-0.2px;
-  line-height:1;
-  font-size:17px;
-  padding:16px 30px;
-  border:none;
+  font-weight:500;
+  letter-spacing:-0.01em;
+  line-height:1.2;
+  font-size:16px;
+  padding:14px 28px;
+  border:1px solid transparent;
   border-radius:6px;
   cursor:pointer;
-  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  text-decoration:none;
+  box-sizing:border-box;
+  transition:background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
 }
-.btn:hover{transform:translateY(-2px);}
-.btn-brand{background:var(--btn-green); color:#fff; box-shadow:0 4px 14px rgba(100,156,8,0.35);}
-.btn-brand:hover{background:var(--btn-green-dark); box-shadow:0 8px 24px rgba(100,156,8,0.4);}
-.btn-ghost{border:1px solid rgba(255,255,255,0.5); color:#fff; padding:15px 29px;}
-.btn-ghost:hover{border-color:#fff; background:rgba(100,156,8,0.35);}
-.btn-dark{background:var(--btn-green); color:#fff;}
-.btn-dark:hover{background:var(--btn-green-dark);}
-.btn-sm{padding:11px 20px; font-size:15px;}
+.btn-brand{
+  background:var(--btn-green);
+  color:#fff;
+  border-color:#578a07;
+  box-shadow:0 1px 2px rgba(15,27,24,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.btn-brand:hover{
+  background:var(--btn-green-dark);
+  border-color:#436905;
+  box-shadow:0 2px 4px rgba(15,27,24,0.18), inset 0 1px 0 rgba(255,255,255,0.1);
+  color:#fff;
+}
+.btn-brand:active{
+  background:#436905;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+}
+.btn-brand:focus-visible{
+  outline:2px solid var(--btn-green);
+  outline-offset:2px;
+}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,0.85);
+  color:#fff;
+  background:rgba(15,27,24,0.25);
+  padding:13px 27px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.15);
+}
+.btn-ghost:hover{
+  border-color:#fff;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  box-shadow:0 2px 4px rgba(0,0,0,0.25);
+}
+.btn-ghost:active{
+  background:rgba(255,255,255,0.25);
+}
+.btn-ghost:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
+.btn-dark{
+  background:var(--btn-green);
+  color:#fff;
+  border-color:#578a07;
+  box-shadow:0 1px 2px rgba(15,27,24,0.12);
+}
+.btn-dark:hover{
+  background:var(--btn-green-dark);
+  border-color:#436905;
+  box-shadow:0 2px 4px rgba(15,27,24,0.18);
+}
+.btn-outline{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:14px;
+  padding:10px 20px;
+  border:1px solid var(--line, #e2e8f0);
+  background:#fff;
+  color:var(--ink, #0f172a);
+  border-radius:6px;
+  box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  transition:all .18s ease;
+  cursor:pointer;
+  text-decoration:none;
+}
+.btn-outline:hover{
+  border-color:#cbd5e1;
+  background:#f8fafc;
+  color:var(--brand-dark, #265045);
+  box-shadow:0 2px 4px rgba(0,0,0,0.08);
+}
+.btn-sm{padding:10px 18px; font-size:14.5px;}
 .btn-full{width:100%;}
 
 /* ---------- THREE-ZONE RESPONSIVE NAV, PURE WHITE ---------- */
@@ -369,16 +423,23 @@ button{
   width:clamp(30px, 2vw + 8px, 36px);
   height:clamp(30px, 2vw + 8px, 36px);
   border-radius:6px;
+  border:1px solid rgba(10,102,194,0.22);
+  background:#f0f7fc;
   text-decoration:none;
   flex-shrink:0;
   box-sizing:border-box;
   overflow:hidden;
-  box-shadow:0 2px 6px rgba(10,102,194,0.18);
-  transition:transform .2s ease, box-shadow .2s ease;
+  box-shadow:0 1px 2px rgba(10,102,194,0.08);
+  transition:background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 .header-social-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 4px 10px rgba(10,102,194,0.3);
+  background:#e2f0fb;
+  border-color:rgba(10,102,194,0.38);
+  box-shadow:0 2px 4px rgba(10,102,194,0.15);
+}
+.header-social-btn:focus-visible{
+  outline:2px solid #0A66C2;
+  outline-offset:2px;
 }
 .header-social-btn img{
   width:100%;
@@ -395,19 +456,32 @@ button{
   font-size:clamp(12px, 0.7vw + 5px, 14.5px);
   line-height:1;
   white-space:nowrap;
-  padding:clamp(7px, 0.5vw + 3px, 10px) clamp(10px, 0.9vw + 4px, 18px);
+  padding:clamp(7px, 0.5vw + 3px, 9px) clamp(11px, 0.9vw + 4px, 18px);
   background:var(--btn-green);
   color:#fff;
+  border:1px solid #578a07;
   border-radius:6px;
   text-decoration:none;
   flex-shrink:0;
-  box-shadow:0 3px 10px rgba(100,156,8,0.28);
-  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  box-shadow:0 1px 2px rgba(15,27,24,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition:background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
 }
 .header-cta-btn:hover{
-  transform:translateY(-2px);
   background:var(--btn-green-dark);
-  box-shadow:0 6px 16px rgba(100,156,8,0.36);
+  border-color:#436905;
+  box-shadow:0 2px 4px rgba(15,27,24,0.18);
+  color:#fff;
+}
+.header-cta-btn:active{
+  background:#436905;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.2);
+}
+.header-cta-btn:focus-visible{
+  outline:2px solid var(--btn-green);
+  outline-offset:2px;
 }
 .header-cta-btn svg{
   width:clamp(12px, 0.6vw + 6px, 14px);
@@ -791,10 +865,11 @@ button{
   z-index:2;
 }
 .about-title{
-  font-size:clamp(38px, 4.4vw, 56px);
+  font-family:var(--font-heading);
+  font-size:clamp(36px, 4.2vw, 52px);
   font-weight:700;
-  letter-spacing:-0.03em;
-  line-height:1.05;
+  letter-spacing:-0.015em;
+  line-height:1.12;
   color:#FFFFFF;
   margin:0 0 24px;
 }
@@ -839,23 +914,34 @@ button{
 .about-btn-primary{
   background:#FFFFFF;
   color:#091411;
-  font-weight:700;
+  font-weight:600;
   font-size:14px;
-  letter-spacing:0.02em;
-  padding:14px 28px;
-  border-radius:4px;
+  letter-spacing:0.01em;
+  padding:13px 26px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,0.12);
   display:inline-flex;
   align-items:center;
   gap:10px;
   text-decoration:none;
-  transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow:0 10px 25px -8px rgba(0,0,0,0.5);
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
 }
 .about-btn-primary:hover{
-  background:#5E9E8B;
-  color:#FFFFFF;
-  transform:translateY(-2px);
-  box-shadow:0 16px 36px -10px rgba(94,158,139,0.5);
+  background:#F2F7F5;
+  color:#091411;
+  border-color:#5E9E8B;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+.about-btn-primary:active{
+  background:#E4ECE9;
+}
+.about-btn-primary:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:2px;
 }
 .about-btn-secondary{
   color:rgba(255,255,255,0.72);
@@ -1459,29 +1545,36 @@ button{
   font-family:var(--font-body);
   font-weight:500;
   font-size:15px;
-  letter-spacing:-0.2px;
+  letter-spacing:-0.01em;
   color:var(--brand);
-  background:rgba(51,102,89,0.08);
-  border:1px solid rgba(51,102,89,0.22);
-  padding:10px 22px;
-  border-radius:4px;
-  transition:all .2s ease;
+  background:#f0f5f3;
+  border:1px solid rgba(51,102,89,0.25);
+  padding:9px 20px;
+  border-radius:6px;
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
   cursor:pointer;
   width:fit-content;
   text-decoration:none;
+  box-shadow:0 1px 2px rgba(15,27,24,0.06);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
 }
 .sline-more-btn:hover{
   background:var(--btn-green);
   color:#fff;
-  border-color:var(--btn-green);
-  transform:translateX(3px);
-  box-shadow:0 4px 12px rgba(100,156,8,0.25);
+  border-color:#578a07;
+  box-shadow:0 2px 4px rgba(15,27,24,0.15);
 }
 .sline-more-btn svg{
-  transition:transform .2s ease;
+  transition:transform .18s ease;
 }
 .sline-more-btn:hover svg{
   transform:translateX(3px);
+}
+.sline-more-btn:focus-visible{
+  outline:2px solid var(--btn-green);
+  outline-offset:2px;
 }
 
 /* ---------- DEDICATED SERVICE & SUBPAGE STYLING ---------- */
@@ -2174,10 +2267,10 @@ button{
 }
 
 .accred-header-title {
-  font-family: var(--font-heading, 'Inter Tight');
+  font-family: var(--font-heading, 'Fira Sans', sans-serif);
   font-size: clamp(18px, 2.2vw, 22px);
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   color: #fff;
   margin: 0;
   text-transform: uppercase;
