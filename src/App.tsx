@@ -8,6 +8,7 @@ import { IndustriesPage } from './components/IndustriesPage';
 import { IndustryDetailPage } from './components/IndustryDetailPage';
 import { AboutPage } from './components/AboutPage';
 import { LeadershipPage } from './components/LeadershipPage';
+import { LeaderDetailPage } from './components/LeaderDetailPage';
 import { ProcessPage } from './components/ProcessPage';
 import { ContactPage } from './components/ContactPage';
 
@@ -128,6 +129,11 @@ export const App: React.FC = () => {
 
     if (normalized === '/leadership' || normalized === '/team') {
       return <LeadershipPage onNavigate={navigateTo} />;
+    }
+
+    if (normalized.startsWith('/leadership/')) {
+      const slug = normalized.replace('/leadership/', '');
+      return <LeaderDetailPage slug={slug} onNavigate={navigateTo} />;
     }
 
     if (normalized === '/process') {

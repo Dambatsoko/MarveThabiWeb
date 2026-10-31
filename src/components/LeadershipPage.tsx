@@ -37,270 +37,217 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
             personally directed by registered engineers and natural scientists who take direct
             responsibility for every deliverable.
           </p>
-          <div className="svc-hero-tags">
-            <span className="svc-hero-tag"><span className="tag-dot"></span>ECSA Registered Engineers</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>SACNASP Professional Natural Scientists</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>SAMTRAC Certified Safety Governance</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>ISO 55000 Asset Management</span>
-          </div>
         </div>
       </section>
 
-      {/* ============ DIRECTORS IN-DEPTH ============ */}
-      <section className="detail-body-section">
-        <div className="wrap lead-directors-list">
-          {leadershipTeamData.map((leader, idx) => (
-            <div
-              key={leader.name}
-              className={`lead-card ${idx % 2 !== 0 ? 'lead-card-reverse' : ''}`}
+      {/* ============ THREE LEADERSHIP OVERVIEW CARDS ============ */}
+      <section className="detail-body-section" style={{ paddingTop: '50px', paddingBottom: '60px' }}>
+        <div className="wrap">
+          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
+            <h2
+              style={{
+                fontSize: 'clamp(28px, 3.5vw, 36px)',
+                color: 'var(--ink, #0f172a)',
+                marginBottom: '12px',
+                fontFamily: 'var(--font-heading, inherit)',
+                fontWeight: 700,
+              }}
             >
-              {/* Leader Photo & Registration Box */}
-              <div className="lead-photo-col">
+              Our Leadership Team
+            </h2>
+            <p style={{ fontSize: '16px', color: '#47564F', lineHeight: 1.65, margin: 0 }}>
+              Meet the directors driving engineering precision, statutory governance, and environmental stewardship across Africa and beyond.
+            </p>
+          </div>
+
+          {/* Cards Grid */}
+          <div
+            className="leadership-cards-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '32px',
+              alignItems: 'stretch',
+            }}
+          >
+            {leadershipTeamData.map((leader) => (
+              <article
+                key={leader.slug}
+                className="leader-overview-card"
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid var(--line, #e2e8f0)',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 4px 20px -2px rgba(15, 27, 24, 0.06)',
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+                }}
+              >
+                {/* Portrait Header */}
                 <div
                   style={{
                     position: 'relative',
                     overflow: 'hidden',
-                    borderRadius: '4px',
-                    boxShadow: '0 16px 36px -12px rgba(15,27,24,0.3)',
-                    background: '#fff',
+                    background: '#f8faf9',
+                    padding: '20px 20px 16px',
                   }}
                 >
-                  <img
-                    src={`/assets/images/${leader.image}?v=2`}
-                    alt={`${leader.name} - ${leader.role} at MarveThabi Consulting Engineers`}
-                    loading="lazy"
-                    decoding="async"
+                  <div
                     style={{
-                      width: '100%',
-                      height: 'auto',
-                      display: 'block',
-                      objectFit: 'cover',
-                      aspectRatio: '1/1',
-                    }}
-                  />
-                </div>
-
-                {/* Profile Outcomes / Positioning */}
-                <div
-                  style={{
-                    marginTop: '20px',
-                    background: '#fff',
-                    border: '1px solid var(--line)',
-                    padding: '20px',
-                    borderRadius: '4px',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: 'var(--ink)',
-                      display: 'block',
-                      marginBottom: '10px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      boxShadow: '0 8px 24px -6px rgba(15, 27, 24, 0.15)',
+                      background: '#fff',
+                      aspectRatio: '1 / 1',
+                      position: 'relative',
                     }}
                   >
-                    Profile Outcomes &amp; Impact
-                  </span>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {leader.outcomes.map((out, i) => (
-                      <span
-                        key={i}
-                        className="side-chip"
-                        style={{
-                          fontSize: '11px',
-                          background: 'var(--grey)',
-                          color: 'var(--btn-green-dark)',
-                          fontWeight: 600,
-                        }}
-                      >
-                        &#10003; {out}
-                      </span>
-                    ))}
+                    <img
+                      src={`/assets/images/${leader.image}?v=3`}
+                      alt={`${leader.name} - ${leader.role}`}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (!target.src.includes(`/${leader.image}`)) {
+                          target.src = `/${leader.image}`;
+                        }
+                      }}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.4s ease',
+                      }}
+                    />
                   </div>
-                </div>
-              </div>
 
-              {/* Bio & Credentials Content */}
-              <div className="lead-content-col">
-                <span
-                  className="label"
-                  style={{ color: 'var(--brand)', marginBottom: '8px', display: 'block' }}
-                >
-                  DIRECTOR PROFILE &middot; NO. 0{idx + 1}
-                </span>
-                <h2
-                  style={{
-                    fontSize: 'clamp(26px, 3.2vw, 32px)',
-                    color: 'var(--ink)',
-                    marginBottom: '4px',
-                    fontFamily: 'var(--font-heading)',
-                  }}
-                >
-                  {leader.name}
-                </h2>
-                <p
-                  style={{
-                    fontSize: '17px',
-                    color: 'var(--btn-green-dark)',
-                    fontWeight: 700,
-                    marginBottom: '20px',
-                  }}
-                >
-                  {leader.role}
-                </p>
-
-                <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#3C4A45', marginBottom: '24px' }}>
-                  {leader.summary}
-                </p>
-
-                {/* Qualifications & Certifications */}
-                <div style={{ borderTop: '1px solid var(--line)', paddingTop: '20px', marginBottom: '20px' }}>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: 'var(--ink)',
-                      display: 'block',
-                      marginBottom: '10px',
-                    }}
-                  >
-                    Qualifications &amp; Certifications
-                  </span>
-                  <ul className="lead-quals-grid">
-                    {leader.qualifications.map((q, i) => (
-                      <li
-                        key={i}
+                  {/* LinkedIn Profile Link — immediately below portrait */}
+                  {leader.linkedinUrl && (
+                    <div style={{ marginTop: '14px' }}>
+                      <a
+                        href={leader.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="leader-linkedin-link"
+                        aria-label={`View ${leader.name}'s LinkedIn profile (opens in a new tab)`}
                         style={{
-                          fontSize: '13px',
-                          color: '#2B3934',
                           display: 'flex',
                           alignItems: 'center',
+                          justifyContent: 'center',
                           gap: '8px',
-                          background: '#fff',
-                          padding: '6px 12px',
-                          border: '1px solid var(--line)',
-                          borderRadius: '2px',
+                          width: '100%',
+                          padding: '9px 14px',
                         }}
                       >
-                        <span
-                          style={{
-                            width: '6px',
-                            height: '6px',
-                            background: 'var(--btn-green)',
-                            borderRadius: '50%',
-                            flexShrink: 0,
-                          }}
-                        ></span>
-                        {q}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Areas of Expertise */}
-                <div style={{ borderTop: '1px solid var(--line)', paddingTop: '20px', marginBottom: '20px' }}>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: 'var(--brand)',
-                      display: 'block',
-                      marginBottom: '10px',
-                    }}
-                  >
-                    Areas of Expertise
-                  </span>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    {leader.areasOfExpertise.map((exp, i) => (
-                      <span
-                        key={i}
-                        className="side-chip"
-                        style={{ fontSize: '12px', background: '#fff', borderLeft: '2px solid var(--btn-green)' }}
-                      >
-                        {exp}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Technical / Project Experience and Professional Focus side-by-side */}
-                <div className="lead-details-columns">
-                  {leader.projectExperience && (
-                    <div>
-                      <span
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 700,
-                          letterSpacing: '0.12em',
-                          textTransform: 'uppercase',
-                          color: 'var(--ink)',
-                          display: 'block',
-                          marginBottom: '10px',
-                        }}
-                      >
-                        Key Project / Technical Experience
-                      </span>
-                      <ul
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '6px',
-                          padding: 0,
-                          margin: 0,
-                          listStyle: 'none',
-                          fontSize: '13px',
-                          color: '#47564F',
-                        }}
-                      >
-                        {leader.projectExperience.map((exp, i) => (
-                          <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                            <span style={{ color: 'var(--brand)', fontWeight: 700 }}>&bull;</span>
-                            <span>{exp}</span>
-                          </li>
-                        ))}
-                      </ul>
+                        <img
+                          src="/assets/images/linkedin.png"
+                          alt=""
+                          aria-hidden="true"
+                          width="16"
+                          height="16"
+                          style={{ width: '16px', height: '16px', objectFit: 'contain', flexShrink: 0 }}
+                        />
+                        <span>View LinkedIn Profile</span>
+                      </a>
                     </div>
                   )}
+                </div>
 
-                  {/* Professional Focus */}
-                  <div>
-                    <span
+                {/* Card Content */}
+                <div
+                  style={{
+                    padding: '24px 24px 28px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                  }}
+                >
+                  {/* Job Description - Clean Plain Text */}
+                  <div style={{ marginBottom: '8px' }}>
+                    <p
                       style={{
-                        fontSize: '11px',
+                        fontSize: '12px',
                         fontWeight: 700,
-                        letterSpacing: '0.12em',
+                        letterSpacing: '0.06em',
                         textTransform: 'uppercase',
-                        color: 'var(--brand)',
-                        display: 'block',
-                        marginBottom: '10px',
+                        color: 'var(--brand, #0f5132)',
+                        margin: 0,
+                        lineHeight: 1.4,
                       }}
                     >
-                      Professional Focus &amp; Value Commitment
-                    </span>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '13px', color: '#3C4A45' }}>
-                      {leader.professionalFocus.map((foc, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                          <span style={{ color: 'var(--btn-green)', fontWeight: 700 }}>&#8594;</span>
-                          <span>{foc}</span>
-                        </div>
-                      ))}
-                    </div>
+                      {leader.role}
+                    </p>
+                  </div>
+
+                  {/* Director Name */}
+                  <h3
+                    style={{
+                      fontSize: '22px',
+                      fontWeight: 700,
+                      color: 'var(--ink, #0f172a)',
+                      margin: '0 0 12px',
+                      fontFamily: 'var(--font-heading, inherit)',
+                    }}
+                  >
+                    {leader.name}
+                  </h3>
+
+                  {/* Short Introduction extracted from existing biography */}
+                  <p
+                    style={{
+                      fontSize: '14px',
+                      lineHeight: 1.65,
+                      color: '#47564F',
+                      margin: '0 0 24px',
+                      flexGrow: 1,
+                    }}
+                  >
+                    {leader.shortIntro || leader.summary}
+                  </p>
+
+                  {/* View Full Profile CTA */}
+                  <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--line, #e2e8f0)' }}>
+                    <a
+                      href={`/leadership/${leader.slug}`}
+                      className="btn btn-brand"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        width: '100%',
+                        textAlign: 'center',
+                        padding: '12px 20px',
+                        fontWeight: 600,
+                        fontSize: '14px',
+                        textDecoration: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate(`/leadership/${leader.slug}`);
+                      }}
+                    >
+                      View Full Profile
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                      </svg>
+                    </a>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ============ STATUTORY GOVERNANCE ============ */}
-      <section className="detail-body-section" style={{ background: '#fff', paddingTop: 0 }}>
+      <section className="detail-body-section" style={{ background: '#fff', paddingTop: '40px' }}>
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '40px' }}>
             <h2>Statutory Code of Professional Conduct</h2>
@@ -347,7 +294,7 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
       {/* ============ AFFILIATIONS ============ */}
       <section className="affil">
         <div className="wrap">
-          <h2 className="affil-head">Statutory Councils & Institutes</h2>
+          <h2 className="affil-head">Statutory Councils &amp; Institutes</h2>
           <div className="affil-row">
             {affiliationsData.map((aff) => (
               <div key={aff.name} className="affil-card">
@@ -388,4 +335,3 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
     </main>
   );
 };
-

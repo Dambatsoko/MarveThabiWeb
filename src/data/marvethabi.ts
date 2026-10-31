@@ -48,11 +48,13 @@ export interface IndustryDetail {
 }
 
 export interface LeaderDetail {
+  slug: string;
   name: string;
   role: string;
   image: string;
   primaryRegistration: string;
   summary: string;
+  shortIntro?: string;
   qualifications: string[];
   areasOfExpertise: string[];
   projectExperience?: string[];
@@ -60,6 +62,7 @@ export interface LeaderDetail {
   professionalFocus: string[];
   outcomes: string[];
   sectors?: string[];
+  linkedinUrl?: string;
 }
 
 export interface WhyCard {
@@ -1488,10 +1491,13 @@ export function getServiceSlugForRef(ref: string): string {
 
 export const leadershipTeamData: LeaderDetail[] = [
   {
-    name: 'Marvelous Ngoatle',
+    slug: 'marvellous-ngoatle',
+    name: 'Marvellous Ngoatle',
     role: 'Founder & Director',
-    image: 'marvelous.jpg',
-    primaryRegistration: 'Professional Engineering Technologist — ECSA',
+    image: 'Marvelous.png',
+    primaryRegistration: '',
+    shortIntro:
+      'Founder and Director of MarveThabi Consulting Engineers with over 14 years of experience in Reliability Engineering, Asset Management, Condition Monitoring, and Electrical Engineering across mining, petrochemical, and industrial environments.',
     summary:
       'Marvelous Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 14 years of experience in Reliability Engineering, Asset Management, Condition Monitoring, and Electrical Engineering. He has extensive practical experience across mining, petrochemical, water treatment, and industrial environments, providing technical leadership in maintenance optimization, reliability improvement, and engineering solutions.',
     qualifications: [
@@ -1538,12 +1544,16 @@ export const leadershipTeamData: LeaderDetail[] = [
       'Sustainable Solutions',
     ],
     sectors: ['Mining & Beneficiation', 'Petrochemical & Gas', 'Water Treatment Works', 'Heavy Industrial Manufacturing'],
+    linkedinUrl: 'https://www.linkedin.com/in/marvelous-tladi-ngoatle-pr-tech-eng-msaiee-72591a116/',
   },
   {
+    slug: 'thabang-ngoatle',
     name: 'Thabang Ngoatle',
     role: 'Founder & Director',
-    image: 'thabang.jpg',
-    primaryRegistration: 'Professional Scientist — SACNASP',
+    image: 'Thabang.png',
+    primaryRegistration: '',
+    shortIntro:
+      'Founder and Director of MarveThabi Consulting Engineers with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance across various industrial sectors.',
     summary:
       'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across various industries.',
     qualifications: [
@@ -1586,8 +1596,79 @@ export const leadershipTeamData: LeaderDetail[] = [
       'Professional Excellence',
     ],
     sectors: ['Mining & Resource Extraction', 'Government Infrastructure', 'Municipal Utilities', 'Commercial Developments'],
+    linkedinUrl: 'https://www.linkedin.com/in/thabang-ngoatle-pr-sci-nat-63647521a/',
+  },
+  {
+    slug: 'jonas-lufuluabo',
+    name: 'Jonas Lufuluabo',
+    role: 'Business Development Manager (DRC) & Director',
+    image: 'Jonas.png',
+    primaryRegistration: '',
+    shortIntro:
+      'Jonas Lufuluabo is the Business Development Manager (DRC) and Director at MarveThabi Consulting Engineers, where he leads the company\'s business growth strategy and market expansion across the Democratic Republic of Congo.',
+    summary:
+      'Jonas Lufuluabo is the Business Development Manager (DRC) and Director at MarveThabi Consulting Engineers, where he leads the company\'s business growth strategy and market expansion across the Democratic Republic of Congo. He holds a Bachelor\'s Degree in Computer Science and is Cisco Certified, providing a strong foundation in technology, digital solutions, and business systems.\n\nWith extensive experience in business development, client relationship management, strategic partnerships, and market expansion, Jonas plays a key role in identifying new business opportunities, establishing long-term relationships with mining companies, government institutions, and industrial clients, and positioning MarveThabi Consulting Engineers as a trusted engineering and consulting partner in the DRC.\n\nHe is responsible for driving commercial growth, developing strategic alliances, coordinating stakeholder engagement, negotiating business agreements, and supporting the successful delivery of projects from opportunity identification through contract award. His strong understanding of the Congolese business environment, combined with his ability to build lasting client relationships, enables the company to successfully navigate complex markets and expand its regional footprint.\n\nJonas is passionate about creating sustainable business opportunities, strengthening partnerships, and delivering value-driven solutions that support the growth objectives of both MarveThabi Consulting Engineers and its clients.',
+    qualifications: [
+      'Bachelor\'s Degree in Computer Science',
+      'Cisco Certified',
+    ],
+    areasOfExpertise: [
+      'Business Development & Growth Strategy',
+      'Strategic Partnerships & Joint Ventures',
+      'Client Relationship Management',
+      'Market Expansion (DRC & Central Africa)',
+      'Stakeholder Engagement & Government Relations',
+      'Contract Negotiation & Commercial Agreements',
+      'Project Opportunity Identification & Pipeline Development',
+      'Technology & Business Systems Alignment',
+      'Cross-Border Business Operations',
+      'Value-Driven Advisory Services',
+    ],
+    projectExperience: [
+      'Driving commercial growth and regional footprint expansion across the Democratic Republic of Congo and Central Africa',
+      'Establishing long-term partnerships with mining companies, government institutions, and industrial clients',
+      'Coordinating stakeholder engagement, diplomatic liaison, and cross-border commercial agreements',
+      'Supporting the successful delivery of projects from opportunity identification through contract award',
+    ],
+    professionalFocus: [
+      'Creating sustainable business opportunities and regional market expansion',
+      'Strengthening long-term strategic alliances and client partnerships',
+      'Delivering value-driven solutions that support the growth objectives of both MarveThabi and its clients',
+      'Navigating complex Central African market environments with integrity and technical assurance',
+    ],
+    outcomes: [
+      'BUILDING TRUST',
+      'CREATING OPPORTUNITIES',
+      'DELIVERING VALUE',
+      'LEADING WITH IMPACT',
+    ],
+    sectors: ['Mining Companies (DRC & Central Africa)', 'Government Institutions & Public Authorities', 'Industrial Clients', 'Regional & Cross-Border Enterprises'],
+    linkedinUrl: 'https://za.linkedin.com/in/jonas-lufuluabo-a6a971186?trk=public_post_follow-view-profile',
   },
 ];
+
+export function getLeaderBySlug(slug: string): LeaderDetail | undefined {
+  const normalized = slug.toLowerCase().trim().replace(/^\/leadership\//, '').replace(/\/$/, '');
+  if (
+    normalized === 'marvelous-ngoatle' ||
+    normalized === 'marvellous-ngoatle' ||
+    normalized === 'marvelous' ||
+    normalized === 'marvellous'
+  ) {
+    return leadershipTeamData.find((l) => l.slug === 'marvellous-ngoatle');
+  }
+  if (normalized === 'thabang-ngoatle' || normalized === 'thabang') {
+    return leadershipTeamData.find((l) => l.slug === 'thabang-ngoatle');
+  }
+  if (
+    normalized === 'jonas-lufuluaabo' ||
+    normalized === 'jonas-lufuluabo' ||
+    normalized === 'jonas'
+  ) {
+    return leadershipTeamData.find((l) => l.slug === 'jonas-lufuluabo' || l.slug === 'jonas-lufuluaabo');
+  }
+  return leadershipTeamData.find((l) => l.slug === normalized);
+}
 
 /* =========================================================================
    INDUSTRIES WE SERVE — DEDICATED SECTOR DETAILS & SERVICE FIT

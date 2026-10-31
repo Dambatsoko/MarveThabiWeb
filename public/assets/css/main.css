@@ -2388,6 +2388,43 @@ button{
   display: block;
 }
 
+/* =========================================================================
+   LEADERSHIP LINKEDIN PROFILE LINKS
+   ========================================================================= */
+.leader-linkedin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0A66C2;
+  text-decoration: none;
+  background: #f0f7fc;
+  border: 1px solid #d0e5f5;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.leader-linkedin-link:hover {
+  background: #e2f0fb !important;
+  border-color: #a4ceef !important;
+  color: #004182 !important;
+  box-shadow: 0 2px 8px rgba(10, 102, 194, 0.15);
+  transform: translateY(-1px);
+}
+
+.leader-linkedin-link:active {
+  transform: translateY(0);
+}
+
+.leader-linkedin-link:focus-visible {
+  outline: 2px solid #0A66C2;
+  outline-offset: 2px;
+}
+
+
 
 
 
