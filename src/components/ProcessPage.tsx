@@ -89,22 +89,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
       {/* ============ PAGE HERO ============ */}
       <section className="svc-hero">
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
-
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              Home
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>Project Lifecycle</span>
-          </nav>
           <h1 className="svc-hero-title">Project Delivery Lifecycle</h1>
           <p className="lead svc-hero-sub">
             A disciplined, traceable path from initial consultation and site diagnostics to
@@ -160,7 +145,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
                   </p>
 
                   <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)', display: 'block', marginBottom: '10px' }}>
-                    Core Engineering Activities
+                    Core Engineering and Environmental Activities
                   </span>
                   <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: '#3C4A45' }}>
                     {step.tasks.map((task, i) => (

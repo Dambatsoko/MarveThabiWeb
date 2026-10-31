@@ -69,20 +69,6 @@ export const IndustriesPage: React.FC<IndustriesPageProps> = ({ onNavigate }) =>
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              Home
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>Industries We Serve</span>
-          </nav>
           <h1 className="svc-hero-title">Industries &amp; Infrastructure Sectors</h1>
           <p className="lead svc-hero-sub">
             From deep-level gold and platinum extraction to municipal bulk distribution networks,

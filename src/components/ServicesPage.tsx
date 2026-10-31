@@ -110,20 +110,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              Home
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>Engineering &amp; Environmental Consulting</span>
-          </nav>
           <h1 className="svc-hero-title">Engineering &amp; Environmental Consulting</h1>
           <p className="lead svc-hero-sub">
             Delivering specialised engineering and environmental consulting services across the

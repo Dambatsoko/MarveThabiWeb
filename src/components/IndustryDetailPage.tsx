@@ -34,42 +34,6 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          {/* Breadcrumb */}
-          <nav
-            aria-label="Breadcrumb"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '12px',
-              color: 'rgba(255,255,255,0.65)',
-              marginBottom: '20px',
-              fontFamily: 'var(--font-mono, monospace)',
-            }}
-          >
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => handleLink(e, '/')}
-              style={{ color: '#fff', textDecoration: 'none' }}
-            >
-              HOME
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <a
-              href="/industries"
-              aria-label="Browse all industries served"
-              onClick={(e) => handleLink(e, '/industries')}
-              style={{ color: '#fff', textDecoration: 'none' }}
-            >
-              INDUSTRIES
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span style={{ color: 'var(--brand-light, #5e9e8b)', fontWeight: 700 }}>
-              {industry.name.toUpperCase()}
-            </span>
-          </nav>
-
           <h1 className="svc-hero-title">{industry.name}</h1>
           <p
             style={{

@@ -45,31 +45,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              Home
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <a
-              href="/leadership"
-              aria-label="Return to Practice Leadership"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/leadership');
-              }}
-            >
-              Practice Leadership
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>{leader.name}</span>
-          </nav>
+
 
           <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <a

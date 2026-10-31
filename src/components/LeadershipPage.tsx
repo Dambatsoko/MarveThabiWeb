@@ -17,20 +17,6 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/"
-              aria-label="Return to MarveThabi homepage"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              Home
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>Practice Leadership</span>
-          </nav>
           <h1 className="svc-hero-title">Practice Leadership &amp; Governance</h1>
           <p className="lead svc-hero-sub">
             Accountable engineering requires certified, statutory professionals. Our practice is

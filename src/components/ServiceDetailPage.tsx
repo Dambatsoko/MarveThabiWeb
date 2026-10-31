@@ -26,24 +26,6 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <nav className="page-hero-nav" aria-label="Breadcrumb">
-            <a
-              href="/services"
-              aria-label="Return to Engineering Services catalogue"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/services');
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" focusable="false">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-              All Services
-            </a>
-            <span aria-hidden="true">&rsaquo;</span>
-            <span>{service.title}</span>
-          </nav>
-
           <h1 className="svc-hero-title">{service.title}</h1>
           <p className="detail-hero-tagline">{service.tagline}</p>
           <p className="lead svc-hero-sub">{service.summary}</p>
