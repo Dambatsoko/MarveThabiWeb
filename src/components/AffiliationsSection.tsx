@@ -5,9 +5,9 @@ export const AffiliationsSection: React.FC = () => {
   return (
     <section className="affil-section" id="affiliations" aria-label="Professional Affiliations">
       <div className="wrap">
-        <div className="sec-head" style={{ textAlign: 'center', margin: '0 auto 40px', maxWidth: '720px' }}>
-          <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)' }}>
-            PROFESSIONAL AFFILIATIONS
+        <div className="sec-head" style={{ textAlign: 'center', margin: '0 auto 36px', maxWidth: '720px' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading, "Fira Sans", sans-serif)', color: 'var(--ink)' }}>
+            Statutory Councils & Institutes
           </h2>
           <p style={{ color: '#55655F', fontSize: '16px', margin: '12px auto 0', lineHeight: 1.6 }}>
             Our engineers and scientists maintain active, registered standing with the statutory

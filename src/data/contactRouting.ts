@@ -30,19 +30,34 @@ export interface ServiceRoutingItem {
   active: boolean;
 }
 
+export interface ContactCategory {
+  id: string;
+  name: string;
+  assignedContact: {
+    name: string;
+    responsibility: string;
+    verifiedEmail: string;
+    designation: string;
+  };
+  defaultSubject: string;
+}
+
 export interface EnquiryRecord {
   referenceNumber: string;
   timestamp: string;
   fullName: string;
-  organisation: string;
+  organisation?: string;
   email: string;
-  phone: string;
-  provinceOrCountry: string;
-  serviceId: string;
-  serviceName: string;
-  category: string;
+  phone?: string;
+  provinceOrCountry?: string;
+  serviceId?: string;
+  serviceName?: string;
+  categoryId?: string;
+  categoryName?: string;
+  category?: string;
   assignedContactName: string;
-  assignedContactDesignation: string;
+  assignedContactDesignation?: string;
+  assignedContactResponsibility?: string;
   assignedEmail: string;
   subject: string;
   details: string;
@@ -293,11 +308,112 @@ export const SERVICE_ROUTING_TABLE: ServiceRoutingItem[] = [
 ];
 
 /* =========================================================================
+   SIMPLIFIED SERVICE CATEGORIES & CONTACT ASSIGNMENT
+   Clean, logical groupings matching the 5 verified practice areas
+   ========================================================================= */
+
+export const SERVICE_CATEGORIES: ContactCategory[] = [
+  {
+    id: 'engineering-services',
+    name: 'Engineering Services',
+    assignedContact: {
+      name: 'Marvellous Ngoatle',
+      responsibility: 'Responsible for Engineering Services.',
+      verifiedEmail: 'info@marvethabi.co.za',
+      designation: 'Founder & Director | Pr. Tech Eng (ECSA)',
+    },
+    defaultSubject: 'Engineering Services Enquiry',
+  },
+  {
+    id: 'environmental-services',
+    name: 'Environmental Services',
+    assignedContact: {
+      name: 'Thabang Ngoatle',
+      responsibility: 'Responsible for Environmental Services.',
+      verifiedEmail: 'info@marvethabi.co.za',
+      designation: 'Founder & Director | Pr. Sci. Nat. (SACNASP)',
+    },
+    defaultSubject: 'Environmental Services Enquiry',
+  },
+  {
+    id: 'mining-engineering-services',
+    name: 'Mining Engineering & Support Services',
+    assignedContact: {
+      name: 'Jonas Lufuluabo',
+      responsibility: 'Responsible for Mining Engineering & Support Services.',
+      verifiedEmail: 'info@marvethabi.co.za',
+      designation: 'Business Development Manager (DRC) & Director',
+    },
+    defaultSubject: 'Mining Engineering & Support Services Enquiry',
+  },
+  {
+    id: 'geological-surveying-services',
+    name: 'Geological & Surveying Services',
+    assignedContact: {
+      name: 'Thabang Ngoatle',
+      responsibility: 'Responsible for Geological & Surveying Services.',
+      verifiedEmail: 'info@marvethabi.co.za',
+      designation: 'Founder & Director | Pr. Sci. Nat. (SACNASP)',
+    },
+    defaultSubject: 'Geological & Surveying Services Enquiry',
+  },
+  {
+    id: 'general-enquiry',
+    name: 'General Enquiry',
+    assignedContact: {
+      name: 'MarveThabi Practice Principals',
+      responsibility: 'Responsible for General Enquiries & Client Services.',
+      verifiedEmail: 'info@marvethabi.co.za',
+      designation: 'Executive Directorate',
+    },
+    defaultSubject: 'General Consulting Enquiry',
+  },
+];
+
+export function getServiceCategories(): ContactCategory[] {
+  return SERVICE_CATEGORIES;
+}
+
+export function getServiceCategoryById(id: string): ContactCategory | undefined {
+  return SERVICE_CATEGORIES.find((cat) => cat.id === id);
+}
+
+export function getDefaultServiceCategory(): ContactCategory {
+  return SERVICE_CATEGORIES[0];
+}
+
+/* =========================================================================
    HELPER UTILITIES
    ========================================================================= */
 
 export function getRoutingItemById(id: string): ServiceRoutingItem | undefined {
-  return SERVICE_ROUTING_TABLE.find((item) => item.id === id);
+  const direct = SERVICE_ROUTING_TABLE.find((item) => item.id === id);
+  if (direct) return direct;
+
+  // Fallback for category IDs
+  const cat = SERVICE_CATEGORIES.find((c) => c.id === id);
+  if (cat) {
+    return {
+      id: cat.id,
+      ref: 'CAT',
+      serviceName: cat.name,
+      category: 'General Enquiries',
+      assignedContact: {
+        id: cat.id,
+        name: cat.assignedContact.name,
+        designation: cat.assignedContact.designation,
+        department: cat.assignedContact.responsibility,
+        verifiedEmail: cat.assignedContact.verifiedEmail,
+        directPhone: '+27 82 412 3847',
+        image: '/assets/images/logo.png',
+        responsibilities: cat.assignedContact.responsibility,
+        verifiedStatus: 'verified_central_mailbox',
+      },
+      defaultSubject: cat.defaultSubject,
+      active: true,
+    };
+  }
+  return undefined;
 }
 
 export function getDefaultRoutingItem(): ServiceRoutingItem {
@@ -363,34 +479,36 @@ export function getEnquiryRegistry(): EnquiryRecord[] {
  * Builds a mailto URI with full enquiry payload for transparent email dispatch
  */
 export function buildMailtoDispatchUrl(enquiry: EnquiryRecord): string {
-  const to = enquiry.assignedEmail;
-  const subject = `[Enquiry: ${enquiry.serviceName}] ${enquiry.subject} (Ref: ${enquiry.referenceNumber})`;
+  const to = enquiry.assignedEmail || 'info@marvethabi.co.za';
+  const cc = 'info@marvethabi.co.za';
+  const categoryLabel = enquiry.categoryName || enquiry.serviceName || enquiry.category || 'General Enquiry';
+  const subject = `[Enquiry: ${categoryLabel}] ${enquiry.subject} (Ref: ${enquiry.referenceNumber})`;
 
   const bodyLines = [
     `NEW MARVETHABI SERVICE ENQUIRY`,
     `Reference Number: ${enquiry.referenceNumber}`,
     `Date & Time: ${enquiry.timestamp}`,
     `--------------------------------------------------`,
-    `ASSIGNED DISCIPLINE & SPECIALIST:`,
-    `Service Required: ${enquiry.serviceName} (${enquiry.category})`,
-    `Assigned Specialist: ${enquiry.assignedContactName}`,
-    `Designation: ${enquiry.assignedContactDesignation}`,
+    `ASSIGNED DISCIPLINE & CONTACT:`,
+    `Service Category: ${categoryLabel}`,
+    `Assigned Contact: ${enquiry.assignedContactName}`,
+    enquiry.assignedContactResponsibility ? `Responsibility: ${enquiry.assignedContactResponsibility}` : '',
     `--------------------------------------------------`,
     `CLIENT DETAILS:`,
     `Full Name: ${enquiry.fullName}`,
-    `Organisation: ${enquiry.organisation || 'Not specified'}`,
-    `Email: ${enquiry.email}`,
-    `Phone: ${enquiry.phone || 'Not specified'}`,
-    `Province / Country: ${enquiry.provinceOrCountry || 'South Africa'}`,
-    enquiry.attachmentName ? `Attachment: ${enquiry.attachmentName}` : '',
+    `Company / Organisation: ${enquiry.organisation || 'Not specified'}`,
+    `Email Address: ${enquiry.email}`,
+    `Contact Number: ${enquiry.phone || 'Not provided'}`,
     `--------------------------------------------------`,
-    `PROJECT SCOPE & ENQUIRY DETAILS:`,
+    `ENQUIRY SUBJECT & DETAILS:`,
+    `Subject: ${enquiry.subject}`,
+    ``,
     enquiry.details,
     `--------------------------------------------------`,
-    `Submitted via MarveThabi Consulting Engineers Web Portal`,
-    `Head Office: Unit 68 Saliehout Street, Annlin, Pretoria, South Africa`,
+    `Submitted via MarveThabi Consulting Engineers Contact Portal`,
+    `Verified Mailbox: info@marvethabi.co.za`,
   ].filter(Boolean);
 
   const body = encodeURIComponent(bodyLines.join('\n'));
-  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+  return `mailto:${to}?cc=${cc}&subject=${encodeURIComponent(subject)}&body=${body}`;
 }

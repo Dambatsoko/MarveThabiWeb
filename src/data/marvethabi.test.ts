@@ -211,3 +211,138 @@ test('environmental resource management excludes Air Quality and GHG accounting 
     'Greenhouse Gas Accounting and Mandatory NAEIS Reporting must be removed from ERM capabilities'
   );
 });
+
+test('simplified service categories and automatic contact assignments', async () => {
+  const { SERVICE_CATEGORIES, getServiceCategoryById, buildMailtoDispatchUrl } = await import('./contactRouting');
+
+  assert.equal(SERVICE_CATEGORIES.length, 5, 'Must contain exactly 5 simplified service categories');
+
+  // 1. Engineering Services
+  const eng = getServiceCategoryById('engineering-services');
+  assert.ok(eng, 'Engineering Services must exist');
+  assert.equal(eng.assignedContact.name, 'Marvellous Ngoatle');
+  assert.equal(eng.assignedContact.responsibility, 'Responsible for Engineering Services.');
+
+  // 2. Environmental Services
+  const env = getServiceCategoryById('environmental-services');
+  assert.ok(env, 'Environmental Services must exist');
+  assert.equal(env.assignedContact.name, 'Thabang Ngoatle');
+  assert.equal(env.assignedContact.responsibility, 'Responsible for Environmental Services.');
+
+  // 3. Mining Engineering & Support Services
+  const mining = getServiceCategoryById('mining-engineering-services');
+  assert.ok(mining, 'Mining Engineering & Support Services must exist');
+  assert.equal(mining.assignedContact.name, 'Jonas Lufuluabo');
+  assert.equal(mining.assignedContact.responsibility, 'Responsible for Mining Engineering & Support Services.');
+
+  // 4. Geological & Surveying Services
+  const geo = getServiceCategoryById('geological-surveying-services');
+  assert.ok(geo, 'Geological & Surveying Services must exist');
+  assert.equal(geo.assignedContact.name, 'Thabang Ngoatle');
+  assert.equal(geo.assignedContact.responsibility, 'Responsible for Geological & Surveying Services.');
+
+  // 5. General Enquiry
+  const gen = getServiceCategoryById('general-enquiry');
+  assert.ok(gen, 'General Enquiry must exist');
+  assert.equal(gen.assignedContact.name, 'MarveThabi Practice Principals');
+
+  // Verify mailto generation
+  const mailto = buildMailtoDispatchUrl({
+    referenceNumber: 'MT-2026-1234',
+    timestamp: '01 Nov 2026',
+    fullName: 'Jane Doe',
+    email: 'jane@example.com',
+    subject: 'Project Inquiry',
+    details: 'Need assistance with plant reliability',
+    assignedContactName: eng.assignedContact.name,
+    assignedEmail: eng.assignedContact.verifiedEmail,
+    categoryName: eng.name,
+    status: 'submitted',
+  });
+  assert.ok(mailto.startsWith('mailto:info@marvethabi.co.za'), 'Must dispatch to verified mailbox');
+  assert.ok(mailto.includes('cc=info%40marvethabi.co.za') || mailto.includes('cc=info@marvethabi.co.za'), 'Must copy central corporate address');
+});
+
+test('affiliations data contains exactly the 5 statutory councils in the specified order', async () => {
+  const { affiliationsData } = await import('./marvethabi');
+  assert.equal(affiliationsData.length, 5, 'Must contain exactly 5 statutory councils');
+
+  const expectedOrder = [
+    { prefix: 'cidb', nameSnippet: 'cidb' },
+    { prefix: 'sacnasp', nameSnippet: 'SACNASP' },
+    { prefix: 'electrical-contractors-association', nameSnippet: 'ECA' },
+    { prefix: 'saiee', nameSnippet: 'SAIEE' },
+    { prefix: 'ecsa', nameSnippet: 'ECSA' },
+  ];
+
+  expectedOrder.forEach((expected, idx) => {
+    assert.ok(
+      affiliationsData[idx].logo.startsWith(expected.prefix),
+      `Affiliation #${idx + 1} logo must match ${expected.prefix}`
+    );
+    assert.ok(
+      affiliationsData[idx].name.includes(expected.nameSnippet),
+      `Affiliation #${idx + 1} name must contain ${expected.nameSnippet}`
+    );
+  });
+});
+
+test('footer contains exactly 3 sections and excludes Engineering Services category list', async () => {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+  const footerContent = await fs.readFile(
+    path.resolve(process.cwd(), 'src/components/Footer.tsx'),
+    'utf-8'
+  );
+
+  assert.equal(
+    footerContent.includes('Engineering Services'),
+    false,
+    'Footer must not contain Engineering Services section'
+  );
+  assert.ok(
+    footerContent.includes('<span className="foot-h">Company</span>'),
+    'Footer must contain Company section'
+  );
+  assert.ok(
+    footerContent.includes('<span className="foot-h">Contact</span>'),
+    'Footer must contain Contact section'
+  );
+  assert.ok(
+    footerContent.includes('foot-logo'),
+    'Footer must contain Brand/Logo section'
+  );
+});
+
+test('leadership page Statutory Code of Professional Conduct heading is configured to 42px without wrapping', async () => {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+  const leadContent = await fs.readFile(
+    path.resolve(process.cwd(), 'src/components/LeadershipPage.tsx'),
+    'utf-8'
+  );
+
+  assert.ok(
+    leadContent.includes('Statutory Code of Professional Conduct'),
+    'Leadership page must contain Statutory Code of Professional Conduct heading'
+  );
+  assert.ok(
+    leadContent.includes("fontSize: '42px'") || leadContent.includes('lead-gov-heading'),
+    'Leadership page heading must specify 42px font size'
+  );
+
+  const cssContent = await fs.readFile(
+    path.resolve(process.cwd(), 'assets/css/main.css'),
+    'utf-8'
+  );
+  assert.ok(
+    cssContent.includes('.lead-gov-heading'),
+    'CSS must contain .lead-gov-heading'
+  );
+  assert.ok(
+    cssContent.includes('42px') && cssContent.includes('white-space: nowrap'),
+    'CSS must configure 42px and white-space: nowrap for single-line display'
+  );
+});
+
+

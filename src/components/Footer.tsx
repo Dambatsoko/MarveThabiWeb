@@ -1,5 +1,4 @@
 import React from 'react';
-import { servicesData, getServiceSlugForRef } from '../data/marvethabi';
 import { NAV_LINKS } from '../utils/navigation';
 
 interface FooterProps {
@@ -64,22 +63,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             />
             Follow on LinkedIn
           </a>
-        </div>
-        <div>
-          <span className="foot-h">Engineering Services</span>
-          {servicesData.map((svc) => {
-            const slug = getServiceSlugForRef(svc.ref);
-            return (
-              <a
-                key={svc.ref}
-                href={`/services/${slug}`}
-                aria-label={`Explore ${svc.title} specifications`}
-                onClick={(e) => handleLink(e, `/services/${slug}`)}
-              >
-                {svc.title}
-              </a>
-            );
-          })}
         </div>
         <div>
           <span className="foot-h">Company</span>

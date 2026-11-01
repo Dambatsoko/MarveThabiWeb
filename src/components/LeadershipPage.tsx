@@ -152,23 +152,6 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
                     flexGrow: 1,
                   }}
                 >
-                  {/* Job Description - Clean Plain Text */}
-                  <div style={{ marginBottom: '8px' }}>
-                    <p
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        letterSpacing: '0.06em',
-                        textTransform: 'uppercase',
-                        color: 'var(--brand, #0f5132)',
-                        margin: 0,
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {leader.role}
-                    </p>
-                  </div>
-
                   {/* Director Name */}
                   <h3
                     style={{
@@ -235,8 +218,20 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
       {/* ============ STATUTORY GOVERNANCE ============ */}
       <section className="detail-body-section" style={{ background: '#fff', paddingTop: '40px' }}>
         <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: '40px' }}>
-            <h2>Statutory Code of Professional Conduct</h2>
+          <div className="sec-head lead-gov-sec-head" style={{ marginBottom: '40px', maxWidth: '100%' }}>
+            <h2
+              className="lead-gov-heading"
+              style={{
+                fontSize: '42px',
+                fontFamily: 'var(--font-heading, "Fira Sans", sans-serif)',
+                fontWeight: 700,
+                color: 'var(--ink, #0f172a)',
+                lineHeight: 1.25,
+                margin: '0 0 12px',
+              }}
+            >
+              Statutory Code of Professional Conduct
+            </h2>
             <p>Our commitment to engineering integrity, environmental stewardship, and public safety.</p>
           </div>
 
@@ -277,13 +272,15 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
         </div>
       </section>
 
-      {/* ============ AFFILIATIONS ============ */}
-      <section className="affil">
+      {/* ============ STATUTORY COUNCILS & INSTITUTES ============ */}
+      <section className="lead-affil-section" aria-label="Statutory Councils & Institutes">
         <div className="wrap">
-          <h2 className="affil-head">Statutory Councils &amp; Institutes</h2>
-          <div className="affil-row">
+          <div className="lead-affil-head">
+            <h2 className="lead-affil-title">Statutory Councils &amp; Institutes</h2>
+          </div>
+          <div className="lead-affil-row" role="list">
             {affiliationsData.map((aff) => (
-              <div key={aff.name} className="affil-card">
+              <div key={aff.name} className="lead-affil-card" role="listitem" title={aff.name}>
                 <img
                   src={`/assets/images/${aff.logo}`}
                   alt={aff.name}

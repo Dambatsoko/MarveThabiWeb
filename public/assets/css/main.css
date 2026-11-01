@@ -1162,7 +1162,7 @@ button{
 
 /* ---------- FOOTER ---------- */
 .foot{background:var(--ink); color:rgba(255,255,255,0.78); padding:80px 0 0;}
-.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 0.8fr 1fr; gap:48px; padding-bottom:64px;}
+.foot-grid{display:grid; grid-template-columns:1.5fr 1fr 1.3fr; gap:56px; padding-bottom:64px;}
 .foot-logo{display:inline-flex; align-items:center; background:#fff; padding:4px 8px; border-radius:4px;}
 .foot-grid .foot-logo a{display:inline-flex; align-items:center; padding:0; line-height:0;}
 .foot-logo img{height:54px; width:auto; max-width:200px; display:block; object-fit:contain;}
@@ -2443,86 +2443,114 @@ button{
   max-height: 520px;
 }
 
-/* ---------- PROFESSIONAL AFFILIATIONS SECTION ---------- */
+/* ---------- STATUTORY COUNCILS & INSTITUTES SECTION ---------- */
 .affil-section {
-  padding: 80px 0;
-  background: #fff;
+  padding: 64px 0 72px;
+  background: #ffffff;
   border-top: 1px solid var(--line, #E1E8E6);
 }
 
 .affil-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-@media (max-width: 1024px) {
+/* Desktop: Five equal-width cards in one row */
+@media (min-width: 992px) {
   .affil-grid {
-    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+  }
+  .affil-grid-card {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
+/* Tablet: Balanced 3 + 2 arrangement, 2nd row centred */
+@media (min-width: 641px) and (max-width: 991px) {
+  .affil-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    max-width: 880px;
+  }
+  .affil-grid-card {
+    flex: 0 0 calc(33.333% - 12px);
+    max-width: calc(33.333% - 12px);
+  }
+}
+
+/* Mobile: Two columns with the final card centred */
 @media (max-width: 640px) {
   .affil-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 520px;
+  }
+  .affil-grid-card {
+    flex: 0 0 calc(50% - 6px);
+    max-width: calc(50% - 6px);
   }
 }
 
-@media (max-width: 440px) {
-  .affil-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 380px) {
+  .affil-grid-card {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
 
 .affil-grid-card {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid var(--line, #E1E8E6);
-  border-radius: 8px;
-  padding: 24px 18px;
+  border-radius: 6px;
+  padding: 20px 14px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 16px;
-  min-height: 180px;
-  justify-content: space-between;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  gap: 12px;
+  min-height: 154px;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 27, 24, 0.04);
 }
 
 .affil-grid-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--brand, #336659);
-  box-shadow: 0 14px 28px -10px rgba(15, 27, 24, 0.12);
+  border-color: #B2CCC3;
+  box-shadow: 0 4px 10px -2px rgba(15, 27, 24, 0.08);
 }
 
 .affil-logo-box {
-  flex: 1;
+  width: 100%;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 8px 0;
 }
 
 .affil-logo-box img {
-  height: 58px;
+  max-height: 54px;
+  max-width: 140px;
   width: auto;
-  max-width: 155px;
+  height: auto;
   object-fit: contain;
-  filter: none;
-  opacity: 1;
-  transition: transform 0.25s ease;
-}
-
-.affil-grid-card:hover .affil-logo-box img {
-  transform: scale(1.05);
+  display: block;
+  margin: 0 auto;
 }
 
 .affil-name-label {
-  font-family: var(--font-body);
+  font-family: var(--font-body, 'Jost', sans-serif);
   font-size: 12px;
   font-weight: 600;
   color: #3C4A45;
@@ -2566,6 +2594,137 @@ button{
   outline: 2px solid #0A66C2;
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   LEADERSHIP PAGE - STATUTORY COUNCILS & INSTITUTES (SINGLE-ROW PRESENTATION)
+   ========================================================================== */
+.lead-affil-section {
+  padding: 56px 0 64px;
+  background: var(--grey, #f8faf9);
+  border-top: 1px solid var(--line, #e2e8f0);
+}
+
+.lead-affil-head {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.lead-affil-title {
+  font-family: var(--font-heading, "Fira Sans", sans-serif);
+  font-size: clamp(26px, 3.2vw, 34px);
+  font-weight: 700;
+  color: var(--ink, #0f172a);
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Desktop: exactly 5 equal-width cards in ONE SINGLE HORIZONTAL ROW without wrapping */
+.lead-affil-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.lead-affil-card {
+  background: #ffffff;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  padding: 16px 14px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(15, 27, 24, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  min-width: 0;
+}
+
+.lead-affil-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(15, 27, 24, 0.08);
+}
+
+.lead-affil-card img {
+  max-height: 50px;
+  max-width: 86%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Tablet (641px - 991px): Prioritise keeping all five cards in one row */
+@media (max-width: 991px) and (min-width: 641px) {
+  .lead-affil-row {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .lead-affil-card {
+    padding: 12px 8px;
+    height: 82px;
+  }
+  .lead-affil-card img {
+    max-height: 38px;
+    max-width: 88%;
+  }
+}
+
+/* Mobile (<= 640px): Controlled horizontal layout rather than stacking into a second row */
+@media (max-width: 640px) {
+  .lead-affil-section {
+    padding: 40px 0 44px;
+  }
+  .lead-affil-head {
+    margin-bottom: 20px;
+  }
+  .lead-affil-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .lead-affil-card {
+    flex: 0 0 150px;
+    height: 80px;
+    padding: 12px 10px;
+    scroll-snap-align: start;
+  }
+  .lead-affil-card img {
+    max-height: 36px;
+    max-width: 86%;
+  }
+}
+
+/* Statutory Code of Professional Conduct - 42px single line */
+.lead-gov-sec-head {
+  max-width: 100% !important;
+}
+
+.lead-gov-heading {
+  font-family: var(--font-heading, "Fira Sans", sans-serif);
+  font-size: 42px !important;
+  font-weight: 700;
+  color: var(--ink, #0f172a);
+  line-height: 1.25;
+  margin: 0 0 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 880px) {
+  .lead-gov-heading {
+    font-size: clamp(24px, 4.5vw, 36px) !important;
+    white-space: normal;
+  }
+}
+
 
 
 
