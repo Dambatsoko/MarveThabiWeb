@@ -111,11 +111,15 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
         <div className="wrap">
           <h1 className="svc-hero-title">Engineering &amp; Environmental Consulting</h1>
+          <p className="lead svc-hero-sub" style={{ marginBottom: '12px' }}>
+            MarveThabi Consulting Engineers assists organisations in improving asset reliability,
+            availability, and maintainability through structured, data-driven reliability
+            engineering methodologies.
+          </p>
           <p className="lead svc-hero-sub">
-            Delivering specialised engineering and environmental consulting services across the
-            mining, industrial, energy, infrastructure, and public sectors, with a focus on
-            technical excellence, regulatory compliance, operational reliability, and
-            environmental sustainability.
+            Our services are designed to reduce unplanned downtime, optimise maintenance
+            effectiveness, manage operational risk, and extend asset life across the full asset
+            lifecycle.
           </p>
           <div className="svc-hero-index" role="navigation" aria-label="Service categories quick jump">
             {serviceGroupsData.map((g) => (
