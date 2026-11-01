@@ -233,7 +233,7 @@ export const capabilitiesData: Capability[] = [
     title: 'Electrical Infrastructure',
     description:
       'Transmission, reticulation and substation engineering for utilities, municipalities and industry. From 11kV distribution networks to bulk supply upgrades, designs are delivered to SANS and utility standards with full compliance documentation.',
-    image: 'Electronic&ElectricalEngineering-2.png',
+    image: 'electronic-electrical-engineering.png',
   },
   {
     title: 'Asset Management',
@@ -263,7 +263,7 @@ export const capabilitiesData: Capability[] = [
     title: 'Power Systems',
     description:
       'Load studies, protection coordination, generator and solar integration, and network master planning for growing demand.',
-    image: 'Electronic&ElectricalEngineering.png',
+    image: 'electronic-electrical-engineering.png',
   },
 ];
 
@@ -362,7 +362,7 @@ export const serviceGroupsData: ServiceGroup[] = [
       {
         ref: 'EE-04',
         icon: 'pylon',
-        img: 'Electronic&ElectricalEngineering-2.png',
+        img: 'electronic-electrical-engineering.png',
         title: 'Electronic & Electrical Engineering',
         desc: 'Infrastructure engineering from transmission line to township reticulation.',
         items: [
@@ -707,7 +707,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     title: 'Electrical & Electronic Engineering',
     category: 'Engineering Services',
     tagline: 'Power Infrastructure Design, Reticulation & Technical Assurance',
-    image: 'Electronic&ElectricalEngineering-2.png',
+    image: 'electronic-electrical-engineering.png',
     summary:
       'Professional electrical engineering services for industrial and commercial facilities. We deliver robust power distribution designs, municipal reticulation schemes, backup power systems, and technical compliance audits.',
     docNo: 'MT-ENG-EE-04',

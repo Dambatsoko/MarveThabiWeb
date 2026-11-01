@@ -199,6 +199,17 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                           referrerPolicy="no-referrer"
                           loading="lazy"
                           decoding="async"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            const tried = parseInt(target.dataset.tried || '0', 10);
+                            if (tried === 0) {
+                              target.dataset.tried = '1';
+                              target.src = `/assets/images/${svc.img.replace(/&/g, '%26')}`;
+                            } else if (tried === 1) {
+                              target.dataset.tried = '2';
+                              target.src = `/assets/images/electronic-electrical-engineering.png`;
+                            }
+                          }}
                         />
                       </div>
                       <div className="sline-body">

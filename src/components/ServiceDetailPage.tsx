@@ -65,6 +65,17 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    const tried = parseInt(target.dataset.tried || '0', 10);
+                    if (tried === 0) {
+                      target.dataset.tried = '1';
+                      target.src = `/assets/images/${(service.image || '').replace(/&/g, '%26')}`;
+                    } else if (tried === 1) {
+                      target.dataset.tried = '2';
+                      target.src = `/assets/images/electronic-electrical-engineering.png`;
+                    }
+                  }}
                   style={{
                     width: '100%',
                     height: 'auto',
