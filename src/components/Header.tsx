@@ -113,12 +113,22 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
             title="Follow MarveThabi on LinkedIn"
           >
-            <img
-              src="/assets/images/linkedin.png"
-              alt="LinkedIn"
-              width="36"
-              height="36"
-            />
+            <svg
+              viewBox="0 0 24 24"
+              width="100%"
+              height="100%"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+              style={{ display: 'block', width: '100%', height: '100%' }}
+            >
+              <rect width="24" height="24" rx="4" fill="#0A66C2" />
+              <path
+                d="M7.07 18.5H4.22V9.33H7.07V18.5ZM5.64 8.08C4.73 8.08 4 7.34 4 6.43C4 5.52 4.73 4.79 5.64 4.79C6.55 4.79 7.28 5.52 7.28 6.43C7.28 7.34 6.55 8.08 5.64 8.08ZM19.78 18.5H16.94V14.04C16.94 12.98 16.92 11.61 15.46 11.61C13.98 11.61 13.75 12.77 13.75 13.96V18.5H10.91V9.33H13.63V10.58H13.67C14.05 9.86 14.98 9.1 16.36 9.1C19.24 9.1 19.78 11 19.78 13.46V18.5Z"
+                fill="#FFFFFF"
+              />
+            </svg>
           </a>
 
           <a
