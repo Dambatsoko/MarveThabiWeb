@@ -173,3 +173,41 @@ test('intelligent contact routing maps each service to verified contact persons'
   assert.equal(wasteRouting?.assignedContact.name, 'Thabang Ngoatle');
 });
 
+test('environmental resource management excludes Air Quality and GHG accounting items', async () => {
+  const { serviceGroupsData, getDedicatedService } = await import('./marvethabi');
+
+  const envGroup = serviceGroupsData.find((g) => g.id === 'environmental-management');
+  assert.ok(envGroup, 'Environmental management group must exist');
+
+  const ermService = envGroup.services.find((s) => s.ref === 'GE-04');
+  assert.ok(ermService, 'GE-04 service must exist');
+
+  assert.equal(
+    ermService.items.some((i) => i.includes('Air Quality Monitoring, Dust Fallout Networks and AEL Support')),
+    false,
+    'Air Quality Monitoring, Dust Fallout Networks and AEL Support must be removed from ERM'
+  );
+
+  assert.equal(
+    ermService.items.some((i) => i.includes('Greenhouse Gas Accounting and Mandatory NAEIS Reporting')),
+    false,
+    'Greenhouse Gas Accounting and Mandatory NAEIS Reporting must be removed from ERM'
+  );
+
+  const ermDetail = getDedicatedService('environmental-resource-management');
+  assert.ok(ermDetail, 'environmental-resource-management detail must exist');
+  const ermGroup = ermDetail.capabilities.find((c) => c.group === 'Environmental Resource Management');
+  assert.ok(ermGroup, 'Environmental Resource Management capability group must exist');
+
+  assert.equal(
+    ermGroup.items.some((i) => i.includes('Air Quality Monitoring, Dust Fallout Networks and AEL Support')),
+    false,
+    'Air Quality Monitoring, Dust Fallout Networks and AEL Support must be removed from ERM capabilities'
+  );
+
+  assert.equal(
+    ermGroup.items.some((i) => i.includes('Greenhouse Gas Accounting and Mandatory NAEIS Reporting')),
+    false,
+    'Greenhouse Gas Accounting and Mandatory NAEIS Reporting must be removed from ERM capabilities'
+  );
+});

@@ -436,8 +436,6 @@ export const serviceGroupsData: ServiceGroup[] = [
           'Integrated Environmental Management & Strategic Advisory',
           'Water Use Licensing, Catchment Water Balances and Monitoring',
           'Waste Classification, Licensing and Integrated Waste Plans',
-          'Air Quality Monitoring, Dust Fallout Networks and AEL Support',
-          'Greenhouse Gas Accounting and Mandatory NAEIS Reporting',
         ],
       },
       {
@@ -1069,8 +1067,6 @@ export const dedicatedServicesData: DedicatedService[] = [
         items: [
           'Water Use Licensing, Catchment Water Balances and Monitoring',
           'Waste Classification, Licensing and Integrated Waste Plans',
-          'Air Quality Monitoring, Dust Fallout Networks and AEL Support',
-          'Greenhouse Gas Accounting and Mandatory NAEIS Reporting',
         ],
       },
       {

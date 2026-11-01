@@ -132,8 +132,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           </a>
 
           <a
-            href="/MarveThabiProfile.pdf"
-            download="MarveThabiProfile.pdf"
+            href="/marvethabiprofile.pdf"
+            download="marvethabiprofile.pdf"
             className="header-cta-btn"
             target="_blank"
             rel="noopener noreferrer"
@@ -253,8 +253,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
 
         <div className="mobile-drawer-actions">
           <a
-            href="/MarveThabiProfile.pdf"
-            download="MarveThabiProfile.pdf"
+            href="/marvethabiprofile.pdf"
+            download="marvethabiprofile.pdf"
             className="mobile-drawer-download"
             target="_blank"
             rel="noopener noreferrer"
