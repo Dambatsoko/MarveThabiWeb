@@ -90,7 +90,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
   const scrollToTarget = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    const el = document.getElementById(id);
+    const el = document.getElementById(id) || (id === 'environmental-management' ? document.getElementById('environmental-services') : null);
     if (el) {
       const headerOffset = 96;
       const elementPosition = el.getBoundingClientRect().top;
@@ -99,7 +99,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         top: offsetPosition,
         behavior: 'smooth',
       });
-      setActiveSpy(id);
+      setActiveSpy(el.id);
     }
   };
 
@@ -182,7 +182,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                   <span className="num svc-group-no">{g.no}</span>
                   <div>
                     <h2>{g.title}</h2>
-                    <p className="svc-group-intro">{g.intro}</p>
+                    {g.intro ? <p className="svc-group-intro">{g.intro}</p> : null}
                   </div>
                 </div>
 

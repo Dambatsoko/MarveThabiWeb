@@ -422,29 +422,18 @@ export const serviceGroupsData: ServiceGroup[] = [
   },
   {
     no: '02',
-    id: 'environmental-management',
-    title: 'Environmental Resource Management',
-    intro: 'Licensing, monitoring and management plans that keep water, waste, air and carbon within regulation.',
+    id: 'environmental-services',
+    title: 'Environmental Services',
+    intro: '',
     services: [
-      {
-        ref: 'GE-04',
-        icon: 'drop',
-        img: 'environmental-resource-management.png',
-        title: 'Environmental Resource Management',
-        desc: 'Integrated environmental management and specialist advisory for sustainable operations.',
-        items: [
-          'Integrated Environmental Management & Strategic Advisory',
-          'Water Use Licensing, Catchment Water Balances and Monitoring',
-          'Waste Classification, Licensing and Integrated Waste Plans',
-        ],
-      },
       {
         ref: 'WS-06',
         icon: 'waste',
         img: 'waste-and-emissions-management.png',
-        title: 'Waste Management License Compliance Audit',
+        title: 'Waste Management',
         desc: 'Classification, licensing and plans that turn waste and emissions liabilities into managed streams.',
         items: [
+          'Waste Management Licence Compliance Audit',
           'Waste Licensing and Classification according to NEM:WA standards',
           'Integrated Waste Management Plans (IWMP)',
           'Sewage Plant Performance Audits and Effluent Compliance',
@@ -471,8 +460,10 @@ export const serviceGroupsData: ServiceGroup[] = [
         title: 'Air Quality Management',
         desc: 'Dust, emissions and noise kept measurable, reportable and compliant.',
         items: [
-          'Air Quality Management Plans (AQMP)',
-          'Environmental and Occupational Noise Monitoring',
+          'Dust Fallout Monitoring',
+          'Atmospheric Emission Licencing',
+          'Air Quality Management Plan',
+          'Noise Monitoring',
         ],
       },
       {
@@ -483,11 +474,10 @@ export const serviceGroupsData: ServiceGroup[] = [
         desc: 'Carbon accounting and national reporting done to the decimal.',
         items: [
           'Carbon Footprint Calculations',
-          'NAEIS Mandatory Emissions Reporting',
+          'NAEIS Reporting',
           'Greenhouse Gas Management and Mitigation Strategies',
-          'Dust Fallout Monitoring & ASTM D1739 Reporting',
+          'Dust Fallout Monitoring',
           'Atmospheric Emission Licence (AEL) Applications and Reviews',
-          'Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting',
         ],
       },
     ],
@@ -845,6 +835,7 @@ export const dedicatedServicesData: DedicatedService[] = [
       {
         group: 'Waste Licensing, Audits & Operational Plans',
         items: [
+          'Waste Management Licence Compliance Audit',
           'Waste Licensing and Classification according to NEM:WA standards',
           'Integrated Waste Management Plans (IWMP)',
           'Sewage Plant Performance Audits and effluent compliance',
@@ -864,7 +855,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     slug: 'air-quality-management',
     ref: 'AQ-07',
     title: 'Air Quality Management',
-    category: 'Environmental Resource Management',
+    category: 'Environmental Services',
     tagline: 'Dust Fallout Monitoring, Atmospheric Licensing & Noise Assessment',
     image: 'air-quality-management.png',
     summary:
@@ -876,8 +867,10 @@ export const dedicatedServicesData: DedicatedService[] = [
       {
         group: 'Monitoring Networks & Regulatory Licensing',
         items: [
-          'Air Quality Management Plans (AQMP) and Dust Management Plans',
-          'Environmental and Occupational Noise Monitoring Surveys',
+          'Dust Fallout Monitoring',
+          'Atmospheric Emission Licencing',
+          'Air Quality Management Plan',
+          'Noise Monitoring',
         ],
       },
     ],
@@ -892,7 +885,7 @@ export const dedicatedServicesData: DedicatedService[] = [
     slug: 'greenhouse-gas-management',
     ref: 'GG-08',
     title: 'Greenhouse Gas Management',
-    category: 'Environmental Resource Management',
+    category: 'Environmental Services',
     tagline: 'Carbon Footprint Accounting & Mandatory Emissions Reporting',
     image: 'greenhouse-gas-management.png',
     summary:
@@ -905,12 +898,10 @@ export const dedicatedServicesData: DedicatedService[] = [
         group: 'Carbon Accounting & National Statutory Reporting',
         items: [
           'Carbon Footprint Calculations',
-          'National Atmospheric Emission Information System (NAEIS) Reporting',
-          'Mandatory National Greenhouse Gas (GHG) Emissions Reporting',
-          'Greenhouse Gas Mitigation Strategies and Decarbonization Pathways',
-          'Dust Fallout Monitoring & ASTM D1739 Reporting',
+          'NAEIS Reporting',
+          'Greenhouse Gas Management and Mitigation Strategies',
+          'Dust Fallout Monitoring',
           'Atmospheric Emission Licence (AEL) Applications and Reviews',
-          'Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting',
         ],
       },
     ],

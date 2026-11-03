@@ -61,43 +61,45 @@ test('getLeaderBySlug preserves the leader LinkedIn profile URL', () => {
 test('environmental services restructuring satisfies exact requirements', async () => {
   const { serviceGroupsData } = await import('./marvethabi');
 
-  // 1. Air Quality Management
-  const envGroup = serviceGroupsData.find((g) => g.id === 'environmental-management');
-  assert.ok(envGroup, 'Environmental management group must exist');
+  // Find Group 02
+  const envGroup = serviceGroupsData.find((g) => g.id === 'environmental-services' || g.id === 'environmental-management');
+  assert.ok(envGroup, 'Environmental services group must exist');
+  assert.equal(envGroup.title, 'Environmental Services');
 
+  // 1. Air Quality Management: 4 exact items
   const aq = envGroup.services.find((s) => s.ref === 'AQ-07');
   assert.ok(aq, 'Air Quality Management service must exist');
-  assert.ok(
-    !aq.items.some((i) => i.includes('Point-Source and Fugitive Dust Assessments')),
-    'Must completely remove Point-Source and Fugitive Dust Assessments'
-  );
+  assert.equal(aq.title, 'Air Quality Management');
+  assert.deepEqual(aq.items, [
+    'Dust Fallout Monitoring',
+    'Atmospheric Emission Licencing',
+    'Air Quality Management Plan',
+    'Noise Monitoring',
+  ]);
 
-  // 2. Greenhouse Gas Management
+  // 2. Greenhouse Gas Management: 5 exact items
   const ghg = envGroup.services.find((s) => s.ref === 'GG-08');
   assert.ok(ghg, 'Greenhouse Gas Management service must exist');
+  assert.equal(ghg.title, 'Greenhouse Gas Management');
+  assert.equal(ghg.desc, 'Carbon accounting and national reporting done to the decimal.');
+  assert.deepEqual(ghg.items, [
+    'Carbon Footprint Calculations',
+    'NAEIS Reporting',
+    'Greenhouse Gas Management and Mitigation Strategies',
+    'Dust Fallout Monitoring',
+    'Atmospheric Emission Licence (AEL) Applications and Reviews',
+  ]);
   assert.ok(
-    !ghg.items.some((i) => i.includes('Scope 1, Scope 2, and Scope 3')),
-    'Must remove (Scope 1, Scope 2, and Scope 3)'
+    !ghg.items.some((i) => i.includes('& ASTM D1739 Reporting')),
+    'Must remove & ASTM D1739 Reporting'
   );
   assert.ok(
-    !ghg.items.some((i) => i.includes('Carbon Tax Exposure Assessments')),
-    'Must completely remove Carbon Tax Exposure Assessments'
+    !ghg.items.some((i) => i.includes('Mandatory Emissions')),
+    'Must remove Mandatory Emissions'
   );
   assert.ok(
-    !ghg.items.some((i) => i.includes('Energy Optimization')),
-    'Must completely remove Energy Optimization'
-  );
-  assert.ok(
-    ghg.items.includes('Dust Fallout Monitoring & ASTM D1739 Reporting'),
-    'Must include Dust Fallout Monitoring & ASTM D1739 Reporting in Greenhouse Gas Management'
-  );
-  assert.ok(
-    ghg.items.includes('Atmospheric Emission Licence (AEL) Applications and Reviews'),
-    'Must include Atmospheric Emission Licence (AEL) Applications and Reviews in Greenhouse Gas Management'
-  );
-  assert.ok(
-    ghg.items.includes('Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting'),
-    'Must include Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting in Greenhouse Gas Management'
+    !ghg.items.some((i) => i.includes('Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting')),
+    'Must remove Carbon Footprint Accounting & Mandatory NAEIS/GHG Reporting'
   );
 
   // Water Management
@@ -107,17 +109,18 @@ test('environmental services restructuring satisfies exact requirements', async 
     wm.items.includes('Groundwater and Surface Water Quality Monitoring'),
     'WM-05 must have Groundwater and Surface Water Quality Monitoring'
   );
-  assert.ok(
-    !wm.items.some((i) => i.includes('Groundwater and Surface Water Quality Monitoring Networks')),
-    'Old item with Networks must be replaced'
-  );
 
-  // 3. Specialist Environmental & Hydrogeological Studies removed
+  // 3. Environmental Resource Management card completely removed
   const allServices = serviceGroupsData.flatMap((g) => g.services);
   assert.equal(
-    allServices.some((s) => s.title === 'Specialist Environmental & Hydrogeological Studies'),
+    allServices.some((s) => s.title === 'Environmental Resource Management'),
     false,
-    'Specialist Environmental & Hydrogeological Studies card must be completely removed'
+    'Environmental Resource Management card must be completely removed'
+  );
+  assert.equal(
+    allServices.some((s) => s.ref === 'GE-04'),
+    false,
+    'GE-04 card must be completely removed'
   );
 
   // 4. Surveying Services relocated directly under Mining Engineering Services
@@ -132,23 +135,24 @@ test('environmental services restructuring satisfies exact requirements', async 
     'Surveying Services must be directly underneath Mining Engineering Services'
   );
 
-  // Check Specialist Studies no longer contains Surveying Services
-  const specGroup = serviceGroupsData.find((g) => g.id === 'specialist-studies');
-  assert.ok(specGroup, 'Specialist studies group must exist');
-  assert.equal(
-    specGroup.services.some((s) => s.ref === 'SS-11'),
-    false,
-    'Surveying Services must no longer exist in Specialist Studies'
-  );
-
-  // 5. Waste Management License Compliance Audit renamed
+  // 5. Waste Management: heading is Waste Management, 4 items including Waste Management Licence Compliance Audit
   const wasteService = envGroup.services.find((s) => s.ref === 'WS-06');
   assert.ok(wasteService, 'WS-06 service must exist');
   assert.equal(
     wasteService.title,
-    'Waste Management License Compliance Audit',
-    'Heading must be Waste Management License Compliance Audit'
+    'Waste Management',
+    'Heading must be Waste Management'
   );
+  assert.ok(
+    wasteService.items.includes('Waste Management Licence Compliance Audit'),
+    'Must include Waste Management Licence Compliance Audit'
+  );
+  assert.deepEqual(wasteService.items, [
+    'Waste Management Licence Compliance Audit',
+    'Waste Licensing and Classification according to NEM:WA standards',
+    'Integrated Waste Management Plans (IWMP)',
+    'Sewage Plant Performance Audits and Effluent Compliance',
+  ]);
 });
 
 test('intelligent contact routing maps each service to verified contact persons', async () => {
@@ -168,48 +172,12 @@ test('intelligent contact routing maps each service to verified contact persons'
   assert.equal(surveyingRouting?.category, 'Engineering Services');
   assert.equal(surveyingRouting?.assignedContact.name, 'Marvellous Ngoatle');
 
-  const wasteRouting = getRoutingItemById('waste-management-license-compliance-audit');
-  assert.equal(wasteRouting?.serviceName, 'Waste Management License Compliance Audit');
+  const wasteRouting = getRoutingItemById('waste-management');
+  assert.equal(wasteRouting?.serviceName, 'Waste Management');
   assert.equal(wasteRouting?.assignedContact.name, 'Thabang Ngoatle');
-});
 
-test('environmental resource management excludes Air Quality and GHG accounting items', async () => {
-  const { serviceGroupsData, getDedicatedService } = await import('./marvethabi');
-
-  const envGroup = serviceGroupsData.find((g) => g.id === 'environmental-management');
-  assert.ok(envGroup, 'Environmental management group must exist');
-
-  const ermService = envGroup.services.find((s) => s.ref === 'GE-04');
-  assert.ok(ermService, 'GE-04 service must exist');
-
-  assert.equal(
-    ermService.items.some((i) => i.includes('Air Quality Monitoring, Dust Fallout Networks and AEL Support')),
-    false,
-    'Air Quality Monitoring, Dust Fallout Networks and AEL Support must be removed from ERM'
-  );
-
-  assert.equal(
-    ermService.items.some((i) => i.includes('Greenhouse Gas Accounting and Mandatory NAEIS Reporting')),
-    false,
-    'Greenhouse Gas Accounting and Mandatory NAEIS Reporting must be removed from ERM'
-  );
-
-  const ermDetail = getDedicatedService('environmental-resource-management');
-  assert.ok(ermDetail, 'environmental-resource-management detail must exist');
-  const ermGroup = ermDetail.capabilities.find((c) => c.group === 'Environmental Resource Management');
-  assert.ok(ermGroup, 'Environmental Resource Management capability group must exist');
-
-  assert.equal(
-    ermGroup.items.some((i) => i.includes('Air Quality Monitoring, Dust Fallout Networks and AEL Support')),
-    false,
-    'Air Quality Monitoring, Dust Fallout Networks and AEL Support must be removed from ERM capabilities'
-  );
-
-  assert.equal(
-    ermGroup.items.some((i) => i.includes('Greenhouse Gas Accounting and Mandatory NAEIS Reporting')),
-    false,
-    'Greenhouse Gas Accounting and Mandatory NAEIS Reporting must be removed from ERM capabilities'
-  );
+  const wasteRoutingLegacy = getRoutingItemById('waste-management-license-compliance-audit');
+  assert.equal(wasteRoutingLegacy?.serviceName, 'Waste Management');
 });
 
 test('simplified service categories and automatic contact assignments', async () => {

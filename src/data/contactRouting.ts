@@ -212,12 +212,12 @@ export const SERVICE_ROUTING_TABLE: ServiceRoutingItem[] = [
     active: true,
   },
   {
-    id: 'waste-management-license-compliance-audit',
+    id: 'waste-management',
     ref: 'WS-06',
-    serviceName: 'Waste Management License Compliance Audit',
+    serviceName: 'Waste Management',
     category: 'Environmental Resource Management',
     assignedContact: CONTACT_PERSONS.thabang,
-    defaultSubject: 'Waste Management License Compliance Audit & Classification',
+    defaultSubject: 'Waste Management & Licence Compliance Audit',
     active: true,
   },
   {
@@ -389,6 +389,10 @@ export function getDefaultServiceCategory(): ContactCategory {
 export function getRoutingItemById(id: string): ServiceRoutingItem | undefined {
   const direct = SERVICE_ROUTING_TABLE.find((item) => item.id === id);
   if (direct) return direct;
+
+  if (id === 'waste-management-license-compliance-audit') {
+    return SERVICE_ROUTING_TABLE.find((item) => item.ref === 'WS-06');
+  }
 
   // Fallback for category IDs
   const cat = SERVICE_CATEGORIES.find((c) => c.id === id);
