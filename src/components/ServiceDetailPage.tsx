@@ -128,6 +128,24 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                   </div>
                 ))}
               </div>
+              {service.closingStatement && (
+                <div
+                  className="service-closing-callout"
+                  style={{
+                    marginTop: '20px',
+                    padding: '16px 20px',
+                    background: 'var(--grey)',
+                    borderLeft: '3px solid var(--btn-green)',
+                    borderRadius: '4px',
+                    fontStyle: 'italic',
+                    fontSize: '15px',
+                    color: 'var(--ink)',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  &ldquo;{service.closingStatement}&rdquo;
+                </div>
+              )}
             </div>
 
             <div className="detail-block">

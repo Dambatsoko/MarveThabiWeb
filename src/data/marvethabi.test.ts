@@ -313,4 +313,109 @@ test('leadership page Statutory Code of Professional Conduct heading is configur
   );
 });
 
+test('reliability engineering & monitoring contains exactly the five specified services and closing statement', async () => {
+  const { serviceGroupsData, dedicatedServicesData } = await import('./marvethabi');
+
+  const expectedServices = [
+    'Reliability-Centred Maintenance (RCM) facilitation and implementation.',
+    'Asset Criticality Analysis to prioritise assets based on risk, safety, cost, and production impact.',
+    'Failure Modes and Effects Analysis (FMEA) for proactive identification and mitigation of failure risks.',
+    'Maintenance Strategy and Asset Tactics Development aligned to operational objectives and business value.',
+    'Root Cause Failure Analysis (RCFA) to identify, analyse, and eliminate recurring and high-impact failures.',
+  ];
+
+  const expectedClosing =
+    'Our approach ensures maintenance activities are technically sound, risk-based, and aligned with operational and business performance goals.';
+
+  // 1. Service card in serviceGroupsData
+  const engGroup = serviceGroupsData.find((g) => g.id === 'engineering-services');
+  assert.ok(engGroup, 'Engineering services group must exist');
+
+  const reCard = engGroup.services.find((s) => s.ref === 'RE-01');
+  assert.ok(reCard, 'RE-01 service card must exist');
+  assert.equal(reCard.title, 'Reliability Engineering & Monitoring');
+  assert.equal(reCard.desc, 'Condition-based programmes that find failure before failure finds the plant.');
+  assert.equal(reCard.img, 'reliability-monitoring.png');
+  assert.deepEqual(reCard.items, expectedServices, 'Card items must match the five items word for word');
+  assert.equal(reCard.items.length, 5, 'Card must have exactly 5 items');
+
+  // 2. Dedicated service page in dedicatedServicesData
+  const reDedicated = dedicatedServicesData.find((s) => s.slug === 'reliability-engineering');
+  assert.ok(reDedicated, 'Dedicated reliability-engineering service must exist');
+  assert.equal(reDedicated.ref, 'RE-01');
+  assert.equal(reDedicated.image, 'reliability-monitoring.png');
+  assert.deepEqual(
+    reDedicated.capabilities[0].items,
+    expectedServices,
+    'Dedicated service items must match the five items word for word'
+  );
+  assert.equal(reDedicated.capabilities[0].items.length, 5, 'Dedicated service must have exactly 5 items');
+  assert.equal(reDedicated.closingStatement, expectedClosing, 'Closing statement must match word for word');
+  assert.equal(reDedicated.approach, expectedClosing, 'Approach must match closing statement word for word');
+});
+
+test('process page maintains complete content, exact single-column vertical sequence, and responsive layout', async () => {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+
+  const procPageSrc = await fs.readFile(
+    path.resolve(process.cwd(), 'src/components/ProcessPage.tsx'),
+    'utf-8'
+  );
+
+  // 1. All 6 phases preserved with exact phase titles
+  const expectedPhases = [
+    'Consultation & Scoping',
+    'Investigation & Baseline Diagnostics',
+    'Engineering Design & Calculations',
+    'Implementation & Construction Supervision',
+    'Quality Assurance & Statutory Commissioning',
+    'Long-Term Support & Asset Optimization',
+  ];
+  for (const title of expectedPhases) {
+    assert.ok(procPageSrc.includes(title), `Process page must include "${title}"`);
+  }
+
+  // 2. All 4 hero tags preserved
+  const expectedHeroTags = [
+    'Stage-Gate Quality Assurance',
+    'SANS &amp; ISO 55000 Alignment',
+    'Statutory Professional Oversight',
+    'Commissioning &amp; Handover',
+  ];
+  for (const tag of expectedHeroTags) {
+    assert.ok(procPageSrc.includes(tag), `Process hero must include tag "${tag}"`);
+  }
+
+  // 3. Section heading preserved
+  assert.ok(
+    procPageSrc.includes('End-to-End Delivery Architecture'),
+    'Process page must contain End-to-End Delivery Architecture heading'
+  );
+
+  // 4. Responsive classes applied (no hardcoded desktop grid inline styles)
+  assert.ok(procPageSrc.includes('proc-hero-tags'), 'Hero tags must use proc-hero-tags class');
+  assert.ok(procPageSrc.includes('proc-sec-head'), 'Section head must use proc-sec-head class');
+  assert.ok(procPageSrc.includes('proc-list'), 'List must use proc-list class');
+  assert.ok(procPageSrc.includes('proc-card'), 'Cards must use proc-card class');
+  assert.ok(procPageSrc.includes('proc-card-deliv'), 'Deliverables must use proc-card-deliv class');
+  assert.equal(
+    procPageSrc.includes("gridTemplateColumns: '100px 1.5fr 1fr'"),
+    false,
+    'Hardcoded desktop inline grid must be removed'
+  );
+
+  // 5. CSS rules in main.css include mobile breakpoints & single-column layout
+  const cssSrc = await fs.readFile(
+    path.resolve(process.cwd(), 'public/assets/css/main.css'),
+    'utf-8'
+  );
+  assert.ok(cssSrc.includes('.proc-card {'), 'main.css must define .proc-card');
+  assert.ok(cssSrc.includes('@media (max-width: 880px)'), 'main.css must define max-width: 880px breakpoint');
+  assert.ok(cssSrc.includes('@media (max-width: 640px)'), 'main.css must define max-width: 640px mobile breakpoint');
+  assert.ok(cssSrc.includes('@media (max-width: 360px)'), 'main.css must define max-width: 360px small mobile breakpoint');
+  assert.ok(cssSrc.includes('.foot-grid'), 'main.css must define .foot-grid mobile spacing');
+});
+
+
 

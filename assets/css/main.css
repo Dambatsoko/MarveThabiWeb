@@ -2596,6 +2596,529 @@ button{
   }
 }
 
+/* ============================================================
+   OUR PROCESS PAGE (/process) - RESPONSIVE STYLES & REPAIR
+   ============================================================ */
+
+/* Page hero tags on desktop */
+.proc-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 22px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proc-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: rgba(15, 27, 24, 0.65);
+  border: 1px solid rgba(94, 158, 139, 0.38);
+  border-radius: 4px;
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+}
+
+.proc-hero-tag .tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--btn-green, #649C08);
+  flex-shrink: 0;
+}
+
+/* End-to-End Delivery Architecture Section Header */
+.proc-sec-head {
+  margin-bottom: 56px;
+  max-width: 720px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proc-sec-head h2 {
+  font-family: var(--font-heading, 'Fira Sans', sans-serif);
+  font-size: clamp(26px, 4vw, 36px);
+  color: var(--ink, #0f172a);
+  margin-bottom: 12px;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.proc-sec-head p {
+  color: #55655F;
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.6;
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Process Phase Cards - Desktop Layout (3 columns) */
+.proc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proc-card {
+  display: grid;
+  grid-template-columns: 100px 1.5fr 1fr;
+  gap: 40px;
+  background: var(--grey, #f4f6f5);
+  border-left: 4px solid var(--btn-green, #649C08);
+  padding: 40px 48px;
+  border-radius: 4px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.proc-card-num {
+  min-width: 0;
+}
+
+.proc-card-num .num {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--btn-green, #649C08);
+  display: block;
+  line-height: 1;
+}
+
+.proc-card-num .label {
+  color: var(--brand, #336659);
+  margin-top: 8px;
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proc-card-content {
+  min-width: 0;
+}
+
+.proc-card-content h3 {
+  font-size: 24px;
+  color: var(--ink, #0f172a);
+  margin-bottom: 8px;
+  margin-top: 0;
+  font-family: var(--font-heading, 'Fira Sans', sans-serif);
+  line-height: 1.25;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.proc-card-content p {
+  font-size: 16px;
+  color: #47564F;
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 20px;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.proc-card-act-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink, #0f172a);
+  display: block;
+  margin-bottom: 10px;
+  overflow-wrap: break-word;
+}
+
+.proc-card-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14.5px;
+  color: #3C4A45;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.proc-card-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.45;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.proc-card-task-bullet {
+  color: var(--btn-green, #649C08);
+  font-weight: 800;
+  margin-top: -1px;
+  flex-shrink: 0;
+}
+
+/* Deliverable Artifact panel */
+.proc-card-deliv {
+  background: #fff;
+  border: 1px solid var(--line, #e2e8f0);
+  padding: 24px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.proc-card-deliv-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand, #336659);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.proc-card-deliv-text {
+  font-size: 14px;
+  color: var(--ink, #0f172a);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.proc-card-deliv-qual {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line, #e2e8f0);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #68786F;
+}
+
+.proc-card-deliv-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--btn-green, #649C08);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   RESPONSIVE BEHAVIOUR (Desktop, Tablet, Mobile)
+   ============================================================ */
+
+/* Tablet Intermediate (881px - 1080px) */
+@media (max-width: 1080px) and (min-width: 881px) {
+  .proc-card {
+    grid-template-columns: 80px 1.4fr 1.1fr;
+    gap: 28px;
+    padding: 32px 32px;
+  }
+}
+
+/* Tablet & Mobile Breakpoint (<= 880px) - Single Column Phase Cards */
+@media (max-width: 880px) {
+  .proc-page .svc-hero {
+    padding-top: 104px;
+    padding-bottom: 30px;
+    min-height: auto;
+  }
+  .proc-page .svc-hero-title {
+    font-size: clamp(26px, 5.5vw, 36px);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .proc-page .svc-hero-sub {
+    max-width: 100%;
+    font-size: 15.5px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .proc-sec-head {
+    margin-bottom: 36px;
+  }
+  .proc-sec-head h2 {
+    font-size: clamp(22px, 5vw, 28px);
+    margin-bottom: 8px;
+  }
+  .proc-sec-head p {
+    font-size: 15.5px;
+    line-height: 1.5;
+  }
+  .proc-list {
+    gap: 28px;
+  }
+  .proc-card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 32px 28px;
+  }
+  .proc-card-num {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 2px;
+  }
+  .proc-card-num .num {
+    font-size: 38px;
+    line-height: 1;
+  }
+  .proc-card-num .label {
+    margin-top: 0;
+    font-size: 12px;
+  }
+  .proc-card-content h3 {
+    font-size: 22px;
+  }
+  .proc-card-deliv {
+    width: 100%;
+    padding: 20px 22px;
+    margin-top: 4px;
+  }
+}
+
+/* Mobile Screens (<= 640px) */
+@media (max-width: 640px) {
+  .proc-page .svc-hero {
+    padding-top: 96px;
+    padding-bottom: 26px;
+  }
+  .proc-page .svc-hero-title {
+    font-size: clamp(24px, 6.5vw, 30px);
+    line-height: 1.22;
+  }
+  .proc-page .svc-hero-sub {
+    font-size: 15px;
+    line-height: 1.52;
+  }
+
+  /* Requirement 2: Stack the four feature labels vertically on mobile */
+  .proc-hero-tags {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .proc-hero-tag {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  /* Section Body */
+  .proc-page .detail-body-section {
+    padding: 36px 0 52px;
+  }
+  .proc-sec-head {
+    margin-bottom: 28px;
+  }
+  .proc-sec-head h2 {
+    font-size: clamp(22px, 6vw, 26px);
+  }
+  .proc-sec-head p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Requirement 4: Mobile Phase Cards Single-Column */
+  .proc-list {
+    gap: 22px;
+  }
+  .proc-card {
+    padding: 24px 20px;
+    gap: 18px;
+    border-left-width: 4px;
+  }
+  .proc-card-num .num {
+    font-size: 34px;
+  }
+  .proc-card-content h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+  .proc-card-content p {
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+  .proc-card-tasks {
+    font-size: 14px;
+    gap: 9px;
+  }
+  .proc-card-deliv {
+    padding: 18px 18px;
+    margin-top: 4px;
+  }
+  .proc-card-deliv-text {
+    font-size: 13.5px;
+  }
+
+  /* CTA on Mobile */
+  .proc-page .svc-cta {
+    padding: 48px 0;
+  }
+  .proc-page .svc-cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .proc-page .svc-cta h2 {
+    font-size: clamp(22px, 5.5vw, 28px);
+    line-height: 1.25;
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
+  }
+  .proc-page .svc-cta-sub {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    max-width: 100%;
+  }
+  .proc-page .svc-cta .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+/* Very Small Mobile Screens (320px - 360px) */
+@media (max-width: 360px) {
+  .wrap {
+    padding: 0 16px;
+  }
+  .proc-page .svc-hero {
+    padding-top: 92px;
+    padding-bottom: 22px;
+  }
+  .proc-page .svc-hero-title {
+    font-size: 22px;
+  }
+  .proc-page .svc-hero-sub {
+    font-size: 14px;
+  }
+  .proc-sec-head {
+    margin-bottom: 22px;
+  }
+  .proc-sec-head h2 {
+    font-size: 20px;
+  }
+  .proc-sec-head p {
+    font-size: 14px;
+  }
+  .proc-card {
+    padding: 18px 14px;
+    gap: 15px;
+  }
+  .proc-card-num .num {
+    font-size: 30px;
+  }
+  .proc-card-content h3 {
+    font-size: 19px;
+  }
+  .proc-card-content p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .proc-card-tasks {
+    font-size: 13px;
+    gap: 8px;
+  }
+  .proc-card-deliv {
+    padding: 14px 12px;
+  }
+  .proc-card-deliv-text {
+    font-size: 13px;
+  }
+}
+
+/* Requirement 5: Mobile Footer Spacing & Layout */
+@media (max-width: 768px) {
+  .foot {
+    padding: 44px 0 0;
+  }
+  .foot-grid {
+    gap: 32px;
+    padding-bottom: 36px;
+  }
+  .foot-logo {
+    padding: 4px 6px;
+  }
+  .foot-logo img {
+    height: 44px;
+    max-width: 180px;
+  }
+  .foot-tag {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+  .foot-h {
+    margin-bottom: 12px;
+    font-size: 12px;
+  }
+  .foot-addr {
+    max-width: 100%;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .foot-num {
+    font-size: 13.5px;
+    padding: 5px 0;
+  }
+  .foot-base {
+    padding-top: 18px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .foot {
+    padding: 36px 0 0;
+  }
+  .foot-grid {
+    gap: 28px;
+    padding-bottom: 28px;
+  }
+  .foot-logo img {
+    height: 40px;
+    max-width: 160px;
+  }
+  .foot-tag {
+    margin-top: 12px;
+    font-size: 13.5px;
+  }
+  .foot-base {
+    padding-top: 16px;
+    padding-bottom: 18px;
+  }
+}
+
+
 
 
 

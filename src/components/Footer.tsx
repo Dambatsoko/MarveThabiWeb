@@ -44,6 +44,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               fontSize: '13px',
               fontWeight: 500,
               textDecoration: 'none',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
             }}
           >
             <img
@@ -102,6 +104,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               color: 'var(--brand-light, #5e9e8b)',
               fontWeight: 600,
               fontSize: '13.5px',
+              maxWidth: '100%',
+              boxSizing: 'border-box',
             }}
           >
             <img

@@ -306,12 +306,11 @@ export const serviceGroupsData: ServiceGroup[] = [
         title: 'Reliability Engineering & Monitoring',
         desc: 'Condition-based programmes that find failure before failure finds the plant.',
         items: [
-          'Reliability-Centred Maintenance (RCM) implementation',
-          'Asset Criticality Analysis based on risk, safety, and production impact',
-          'Failure Modes and Effects Analysis (FMEA)',
-          'Maintenance Strategy and Asset Tactics Development',
-          'Root Cause Failure Analysis (RCFA)',
-          'Condition Monitoring Systems (Vibration, Oil, Motor Circuit, Conveyor Health)',
+          'Reliability-Centred Maintenance (RCM) facilitation and implementation.',
+          'Asset Criticality Analysis to prioritise assets based on risk, safety, cost, and production impact.',
+          'Failure Modes and Effects Analysis (FMEA) for proactive identification and mitigation of failure risks.',
+          'Maintenance Strategy and Asset Tactics Development aligned to operational objectives and business value.',
+          'Root Cause Failure Analysis (RCFA) to identify, analyse, and eliminate recurring and high-impact failures.',
         ],
       },
       {
@@ -577,6 +576,7 @@ export interface DedicatedService {
   objective: string;
   capabilities: { group: string; items: string[] }[];
   approach: string;
+  closingStatement?: string;
   outcomeStatement?: string;
   standards: string[];
   sectors: string[];
@@ -598,7 +598,7 @@ export const dedicatedServicesData: DedicatedService[] = [
   {
     slug: 'reliability-engineering',
     ref: 'RE-01',
-    title: 'Reliability Engineering',
+    title: 'Reliability Engineering & Monitoring',
     category: 'Engineering Services',
     tagline: 'Asset Reliability, Availability and Maintainability Methodologies',
     image: 'reliability-monitoring.png',
@@ -611,16 +611,18 @@ export const dedicatedServicesData: DedicatedService[] = [
       {
         group: 'Reliability Methodologies & Analysis',
         items: [
-          'Reliability-Centred Maintenance (RCM) facilitation and implementation',
-          'Asset Criticality Analysis based on risk, safety, cost and production impact',
-          'Failure Modes and Effects Analysis (FMEA)',
-          'Maintenance Strategy and Asset Tactics Development aligned to operational objectives and business value',
-          'Root Cause Failure Analysis (RCFA) and defect elimination',
+          'Reliability-Centred Maintenance (RCM) facilitation and implementation.',
+          'Asset Criticality Analysis to prioritise assets based on risk, safety, cost, and production impact.',
+          'Failure Modes and Effects Analysis (FMEA) for proactive identification and mitigation of failure risks.',
+          'Maintenance Strategy and Asset Tactics Development aligned to operational objectives and business value.',
+          'Root Cause Failure Analysis (RCFA) to identify, analyse, and eliminate recurring and high-impact failures.',
         ],
       },
     ],
+    closingStatement:
+      'Our approach ensures maintenance activities are technically sound, risk-based, and aligned with operational and business performance goals.',
     approach:
-      'The approach is technically sound, risk-based and aligned with operational and business performance goals. We work directly with plant engineering, maintenance teams, and operations to embed sustainable reliability practices that eliminate chronic failure modes.',
+      'Our approach ensures maintenance activities are technically sound, risk-based, and aligned with operational and business performance goals.',
     outcomeStatement:
       'Lower maintenance costs, eliminated chronic failures, improved asset availability, and data-driven maintenance decision making.',
     standards: ['ISO 55000 / 55001', 'ISO 14224 (Taxonomy & Reliability Data)', 'SAE JA1011 (RCM)', 'ECSA Code of Practice'],

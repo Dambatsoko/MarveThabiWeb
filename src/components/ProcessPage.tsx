@@ -95,11 +95,11 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
             A disciplined, traceable path from initial consultation and site diagnostics to
             detailed CAD engineering, construction oversight, and long-term asset optimization.
           </p>
-          <div className="svc-hero-tags">
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Stage-Gate Quality Assurance</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>SANS &amp; ISO 55000 Alignment</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Statutory Professional Oversight</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Commissioning &amp; Handover</span>
+          <div className="svc-hero-tags proc-hero-tags">
+            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Stage-Gate Quality Assurance</span>
+            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>SANS &amp; ISO 55000 Alignment</span>
+            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Statutory Professional Oversight</span>
+            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Commissioning &amp; Handover</span>
           </div>
         </div>
       </section>
@@ -107,66 +107,54 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
       {/* ============ PROCESS DEEP DIVE ============ */}
       <section className="detail-body-section">
         <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: '56px' }}>
+          <div className="sec-head proc-sec-head">
             <h2>End-to-End Delivery Architecture</h2>
             <p>Every engineering and environmental engagement follows this structured, accountable workflow.</p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '36px' }}>
+          <div className="proc-list">
             {processDeepDives.map((step) => (
-              <div
-                key={step.number}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '100px 1.5fr 1fr',
-                  gap: '40px',
-                  background: 'var(--grey)',
-                  borderLeft: '4px solid var(--btn-green)',
-                  padding: '40px 48px',
-                  borderRadius: '4px',
-                  alignItems: 'start',
-                }}
-              >
-                <div>
-                  <span className="num" style={{ fontSize: '42px', fontWeight: 800, color: 'var(--btn-green)', display: 'block', lineHeight: 1 }}>
+              <div key={step.number} className="proc-card">
+                <div className="proc-card-num">
+                  <span className="num">
                     {step.number}
                   </span>
-                  <span className="label" style={{ color: 'var(--brand)', marginTop: '8px', display: 'block' }}>
+                  <span className="label">
                     PHASE {step.number}
                   </span>
                 </div>
 
-                <div>
-                  <h3 style={{ fontSize: '24px', color: 'var(--ink)', marginBottom: '8px', fontFamily: 'var(--font-heading)' }}>
+                <div className="proc-card-content">
+                  <h3>
                     {step.title}
                   </h3>
-                  <p style={{ fontSize: '16px', color: '#47564F', lineHeight: 1.6, marginBottom: '20px' }}>
+                  <p>
                     {step.overview}
                   </p>
 
-                  <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)', display: 'block', marginBottom: '10px' }}>
+                  <span className="proc-card-act-title">
                     Core Engineering and Environmental Activities
                   </span>
-                  <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14.5px', color: '#3C4A45' }}>
+                  <ul className="proc-card-tasks">
                     {step.tasks.map((task, i) => (
-                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                        <span style={{ color: 'var(--btn-green)', fontWeight: 800, marginTop: '-1px' }}>&rsaquo;</span>
-                        {task}
+                      <li key={i} className="proc-card-task">
+                        <span className="proc-card-task-bullet">&rsaquo;</span>
+                        <span>{task}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div style={{ background: '#fff', border: '1px solid var(--line)', padding: '24px', borderRadius: '4px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--brand)', display: 'block', marginBottom: '8px' }}>
+                <div className="proc-card-deliv">
+                  <span className="proc-card-deliv-title">
                     Deliverable Artifact
                   </span>
-                  <p style={{ fontSize: '14px', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+                  <p className="proc-card-deliv-text">
                     {step.deliverables}
                   </p>
-                  <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--line)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#68786F' }}>
-                    <span style={{ width: '8px', height: '8px', background: 'var(--btn-green)', borderRadius: '50%' }}></span>
-                    Quality Verified & Sign-off Ready
+                  <div className="proc-card-deliv-qual">
+                    <span className="proc-card-deliv-dot"></span>
+                    <span>Quality Verified &amp; Sign-off Ready</span>
                   </div>
                 </div>
               </div>
