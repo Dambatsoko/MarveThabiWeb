@@ -671,7 +671,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                     Telephone
                   </span>
                   <p style={{ margin: 0, fontWeight: 600, color: 'var(--ink, #16211E)' }}>
-                    +27 82 412 3847 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>(Engineering / Marvellous Ngoatle)</span>
+                    +27 82 412 3847 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>(Engineering / Marvelous Ngoatle)</span>
                   </p>
                   <p style={{ margin: '4px 0 0', fontWeight: 600, color: 'var(--ink, #16211E)' }}>
                     +27 72 834 7953 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>(Environmental / Thabang Ngoatle)</span>

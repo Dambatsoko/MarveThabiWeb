@@ -1460,8 +1460,8 @@ export function getServiceSlugForRef(ref: string): string {
 
 export const leadershipTeamData: LeaderDetail[] = [
   {
-    slug: 'marvellous-ngoatle',
-    name: 'Marvellous Ngoatle',
+    slug: 'marvelous-ngoatle',
+    name: 'Marvelous Ngoatle',
     role: 'Founder & Director',
     image: 'Marvelous.png',
     primaryRegistration: '',
@@ -1624,7 +1624,7 @@ export function getLeaderBySlug(slug: string): LeaderDetail | undefined {
     normalized === 'marvelous' ||
     normalized === 'marvellous'
   ) {
-    return leadershipTeamData.find((l) => l.slug === 'marvellous-ngoatle');
+    return leadershipTeamData.find((l) => l.slug === 'marvelous-ngoatle' || l.slug === 'marvellous-ngoatle');
   }
   if (normalized === 'thabang-ngoatle' || normalized === 'thabang') {
     return leadershipTeamData.find((l) => l.slug === 'thabang-ngoatle');

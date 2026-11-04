@@ -67,6 +67,7 @@ test('route active state resolution handles nested routes and team alias', () =>
   assert.equal(isLinkActive('/services', '/services/reliability-engineering'), true);
   assert.equal(isLinkActive('/leadership', '/leadership'), true);
   assert.equal(isLinkActive('/leadership', '/team'), true);
+  assert.equal(isLinkActive('/leadership', '/leadership/marvelous-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/marvellous-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/thabang-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/jonas-lufuluaabo'), true);

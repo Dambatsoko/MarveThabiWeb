@@ -72,8 +72,8 @@ export interface EnquiryRecord {
 
 export const CONTACT_PERSONS: Record<string, ContactPerson> = {
   marvellous: {
-    id: 'marvellous-ngoatle',
-    name: 'Marvellous Ngoatle',
+    id: 'marvelous-ngoatle',
+    name: 'Marvelous Ngoatle',
     designation: 'Founder & Director | Pr. Tech Eng (ECSA)',
     department: 'Engineering Services & Asset Management',
     verifiedEmail: 'info@marvethabi.co.za',
@@ -81,7 +81,7 @@ export const CONTACT_PERSONS: Record<string, ContactPerson> = {
     image: '/assets/images/Marvelous.png',
     responsibilities: 'Reliability Engineering, Asset Management (ISO 55000), Condition Monitoring, Electrical Reticulation, Mining Engineering, and Surveying Services.',
     verifiedStatus: 'verified_central_mailbox',
-    verificationNotice: 'Enquiries are routed to verified corporate email info@marvethabi.co.za with direct attention to Marvellous Ngoatle (Pr. Tech Eng).',
+    verificationNotice: 'Enquiries are routed to verified corporate email info@marvethabi.co.za with direct attention to Marvelous Ngoatle (Pr. Tech Eng).',
   },
   thabang: {
     id: 'thabang-ngoatle',
@@ -120,6 +120,8 @@ export const CONTACT_PERSONS: Record<string, ContactPerson> = {
     verificationNotice: 'Enquiries are routed to verified corporate email info@marvethabi.co.za for immediate review by both practice principals.',
   },
 };
+
+CONTACT_PERSONS.marvelous = CONTACT_PERSONS.marvellous;
 
 /* =========================================================================
    CENTRALISED SERVICE-TO-CONTACT ROUTING TABLE
@@ -317,7 +319,7 @@ export const SERVICE_CATEGORIES: ContactCategory[] = [
     id: 'engineering-services',
     name: 'Engineering Services',
     assignedContact: {
-      name: 'Marvellous Ngoatle',
+      name: 'Marvelous Ngoatle',
       responsibility: 'Responsible for Engineering Services.',
       verifiedEmail: 'info@marvethabi.co.za',
       designation: 'Founder & Director | Pr. Tech Eng (ECSA)',

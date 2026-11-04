@@ -6,26 +6,27 @@ test('leadership team contains exactly 3 directors with mapped photographs', () 
   assert.equal(leadershipTeamData.length, 3);
   
   const slugs = leadershipTeamData.map((l) => l.slug);
-  assert.ok(slugs.includes('marvellous-ngoatle'));
+  assert.ok(slugs.includes('marvelous-ngoatle'));
   assert.ok(slugs.includes('thabang-ngoatle'));
   assert.ok(slugs.includes('jonas-lufuluabo'));
 
-  const marvellous = leadershipTeamData.find((l) => l.slug === 'marvellous-ngoatle');
+  const marvelous = leadershipTeamData.find((l) => l.slug === 'marvelous-ngoatle');
   const thabang = leadershipTeamData.find((l) => l.slug === 'thabang-ngoatle');
   const jonas = leadershipTeamData.find((l) => l.slug === 'jonas-lufuluabo');
 
-  assert.equal(marvellous?.image, 'Marvelous.png');
+  assert.equal(marvelous?.name, 'Marvelous Ngoatle');
+  assert.equal(marvelous?.image, 'Marvelous.png');
   assert.equal(thabang?.image, 'Thabang.png');
   assert.equal(jonas?.image, 'Jonas.png');
 });
 
 test('each leadership member has the exact requested LinkedIn profile URL', () => {
-  const marvellous = leadershipTeamData.find((l) => l.slug === 'marvellous-ngoatle');
+  const marvelous = leadershipTeamData.find((l) => l.slug === 'marvelous-ngoatle');
   const thabang = leadershipTeamData.find((l) => l.slug === 'thabang-ngoatle');
   const jonas = leadershipTeamData.find((l) => l.slug === 'jonas-lufuluabo');
 
   assert.equal(
-    marvellous?.linkedinUrl,
+    marvelous?.linkedinUrl,
     'https://www.linkedin.com/in/marvelous-tladi-ngoatle-pr-tech-eng-msaiee-72591a116/'
   );
   assert.equal(
@@ -39,11 +40,14 @@ test('each leadership member has the exact requested LinkedIn profile URL', () =
 });
 
 test('getLeaderBySlug preserves the leader LinkedIn profile URL', () => {
-  const leaderM = getLeaderBySlug('marvellous-ngoatle');
+  const leaderM = getLeaderBySlug('marvelous-ngoatle');
   assert.equal(
     leaderM?.linkedinUrl,
     'https://www.linkedin.com/in/marvelous-tladi-ngoatle-pr-tech-eng-msaiee-72591a116/'
   );
+  // Also verify alias works
+  const leaderMAlias = getLeaderBySlug('marvellous-ngoatle');
+  assert.equal(leaderMAlias?.name, 'Marvelous Ngoatle');
 
   const leaderT = getLeaderBySlug('thabang-ngoatle');
   assert.equal(
@@ -161,7 +165,7 @@ test('intelligent contact routing maps each service to verified contact persons'
   assert.ok(SERVICE_ROUTING_TABLE.length >= 18, 'Routing table must contain all services');
 
   const reRouting = getRoutingItemById('reliability-engineering');
-  assert.equal(reRouting?.assignedContact.name, 'Marvellous Ngoatle');
+  assert.equal(reRouting?.assignedContact.name, 'Marvelous Ngoatle');
   assert.equal(reRouting?.assignedContact.verifiedEmail, 'info@marvethabi.co.za');
 
   const waterRouting = getRoutingItemById('water-management');
@@ -170,7 +174,7 @@ test('intelligent contact routing maps each service to verified contact persons'
 
   const surveyingRouting = getRoutingItemById('surveying-services');
   assert.equal(surveyingRouting?.category, 'Engineering Services');
-  assert.equal(surveyingRouting?.assignedContact.name, 'Marvellous Ngoatle');
+  assert.equal(surveyingRouting?.assignedContact.name, 'Marvelous Ngoatle');
 
   const wasteRouting = getRoutingItemById('waste-management');
   assert.equal(wasteRouting?.serviceName, 'Waste Management');
@@ -188,7 +192,7 @@ test('simplified service categories and automatic contact assignments', async ()
   // 1. Engineering Services
   const eng = getServiceCategoryById('engineering-services');
   assert.ok(eng, 'Engineering Services must exist');
-  assert.equal(eng.assignedContact.name, 'Marvellous Ngoatle');
+  assert.equal(eng.assignedContact.name, 'Marvelous Ngoatle');
   assert.equal(eng.assignedContact.responsibility, 'Responsible for Engineering Services.');
 
   // 2. Environmental Services
