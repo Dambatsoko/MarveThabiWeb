@@ -166,17 +166,24 @@ export const LeadershipPage: React.FC<LeadershipPageProps> = ({ onNavigate }) =>
                   </h3>
 
                   {/* Short Introduction extracted from existing biography */}
-                  <p
+                  <div
                     style={{
                       fontSize: '14px',
                       lineHeight: 1.65,
                       color: '#47564F',
                       margin: '0 0 24px',
                       flexGrow: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px',
                     }}
                   >
-                    {leader.shortIntro || leader.summary}
-                  </p>
+                    {(leader.shortIntro || leader.summary).split('\n\n').map((paragraph, pIdx) => (
+                      <p key={pIdx} style={{ margin: 0 }}>
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
 
                   {/* View Full Profile CTA */}
                   <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--line, #e2e8f0)' }}>
