@@ -1524,7 +1524,7 @@ export const leadershipTeamData: LeaderDetail[] = [
     shortIntro:
       'Founder and Director of MarveThabi Consulting Engineers with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance across various industrial sectors.',
     summary:
-      'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across various industries.',
+      'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across mining, petrochemical, water treatment, and industrial environments.',
     qualifications: [
       'Master of Science (MSc) in Environmental Management',
       'Professional Scientist — South African Council for Natural Scientific Professions (SACNASP)',

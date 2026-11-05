@@ -421,5 +421,16 @@ test('process page maintains complete content, exact single-column vertical sequ
   assert.ok(cssSrc.includes('.foot-grid'), 'main.css must define .foot-grid mobile spacing');
 });
 
-
-
+test('Thabang Ngoatle Executive Biography matches exact wording', () => {
+  const thabang = getLeaderBySlug('thabang-ngoatle');
+  assert.ok(thabang, 'Thabang Ngoatle profile must exist');
+  assert.equal(
+    thabang.summary,
+    'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across mining, petrochemical, water treatment, and industrial environments.'
+  );
+  assert.equal(
+    thabang.summary.includes('various industries'),
+    false,
+    'Executive Biography must not contain old wording "various industries"'
+  );
+});
