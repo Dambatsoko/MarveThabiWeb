@@ -421,12 +421,18 @@ test('process page maintains complete content, exact single-column vertical sequ
   assert.ok(cssSrc.includes('.foot-grid'), 'main.css must define .foot-grid mobile spacing');
 });
 
-test('Thabang Ngoatle Executive Biography matches exact wording', () => {
+test('Thabang Ngoatle Executive Biography and Leadership Card match exact wording', () => {
   const thabang = getLeaderBySlug('thabang-ngoatle');
   assert.ok(thabang, 'Thabang Ngoatle profile must exist');
+  const expectedText =
+    'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across mining, petrochemical, water treatment, and industrial environments.';
+
+  assert.equal(thabang.shortIntro, expectedText, 'Leadership card shortIntro must match exact text');
+  assert.equal(thabang.summary, expectedText, 'Executive Biography summary must match exact text');
   assert.equal(
-    thabang.summary,
-    'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project coordination, compliance monitoring, and the implementation of sustainable environmental management practices across mining, petrochemical, water treatment, and industrial environments.'
+    thabang.shortIntro?.includes('various industrial sectors'),
+    false,
+    'Leadership card description must not contain old wording'
   );
   assert.equal(
     thabang.summary.includes('various industries'),
