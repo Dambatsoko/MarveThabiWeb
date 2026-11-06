@@ -442,3 +442,27 @@ test('Thabang Ngoatle Executive Biography and Leadership Card match exact wordin
     'Executive Biography must not contain old wording "various industries"'
   );
 });
+
+test('Marvelous Ngoatle Executive Biography matches exact 4-paragraph wording and Leadership card remains unchanged', () => {
+  const marvelous = getLeaderBySlug('marvelous-ngoatle');
+  assert.ok(marvelous, 'Marvelous Ngoatle profile must exist');
+
+  const expectedParagraphs = [
+    'Marvelous Ngoatle is the Founder and Director of MarveThabi Consulting Engineers, with over 14 years of experience in Reliability Engineering, Asset Management, Condition Monitoring, and Electrical Engineering. He has extensive practical experience across mining, petrochemical, water treatment, and industrial environments, providing technical leadership in maintenance optimization, reliability improvement, and engineering solutions.',
+    'Marvelous holds a B-Tech Degree in Electrical Engineering and is registered with the Engineering Council of South Africa as a Professional Engineering Technologist. He is also a qualified Electrician with an Electrical Trade Test and Wireman’s Licence. In addition, he is a Certified Thermographer and Motor Circuit Analyst, with strong expertise in condition monitoring and predictive maintenance technologies.',
+    'He has successfully led and managed projects involving vibration analysis, thermography analysis, transformer oil sampling and analysis, maintenance strategy development, asset management systems, electrical assessments, backup power solutions, and condition monitoring programs for various clients within the mining and industrial sectors.',
+    'Marvelous is passionate about helping organizations improve equipment reliability, reduce downtime, optimize maintenance costs, and enhance operational performance through innovative engineering solutions and best maintenance practices. He continues to drive the growth of MarveThabi Consulting Engineers by delivering professional, client-focused, and sustainable engineering solutions across South Africa and beyond.',
+  ];
+
+  const actualParagraphs = marvelous.summary.split('\n\n');
+  assert.equal(actualParagraphs.length, 4, 'Executive Biography must have exactly 4 paragraphs');
+
+  expectedParagraphs.forEach((expected, idx) => {
+    assert.equal(actualParagraphs[idx], expected, `Paragraph ${idx + 1} must match exact specified wording`);
+  });
+
+  const expectedCardIntro =
+    'Founder and Director of MarveThabi Consulting Engineers with over 14 years of experience in Reliability Engineering, Asset Management, Condition Monitoring, and Electrical Engineering across mining, petrochemical, and industrial environments.';
+  assert.equal(marvelous.shortIntro, expectedCardIntro, 'Leadership card shortIntro must remain unchanged');
+});
+
