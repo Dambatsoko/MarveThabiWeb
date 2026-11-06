@@ -424,11 +424,13 @@ test('process page maintains complete content, exact single-column vertical sequ
 test('Thabang Ngoatle Executive Biography and Leadership Card match exact wording', () => {
   const thabang = getLeaderBySlug('thabang-ngoatle');
   assert.ok(thabang, 'Thabang Ngoatle profile must exist');
-  const expectedText =
+  const expectedExecutiveBio =
     'Thabang Ngoatle is the Founder and Director of MarveThabi Consulting Engineers (Pty) Ltd, bringing over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance. She has extensive experience in environmental consulting, project management, regulatory compliance, environmental auditing, and environmental monitoring across the mining, petrochemical, construction, water, and industrial sectors.\n\nWith a strong understanding of environmental legislation, regulatory frameworks, and industry requirements, Thabang provides strategic leadership and technical oversight in delivering comprehensive environmental management solutions. She is committed to advancing environmental sustainability, ensuring regulatory compliance, and delivering technically sound, practical, and client-focused solutions.';
+  const expectedCardIntro =
+    'Founder and Director of MarveThabi Consulting Engineers with over 12 years of professional experience in Environmental Management, Occupational Health and Safety, and Environmental Compliance across mining, petrochemical, and industrial environments.';
 
-  assert.equal(thabang.shortIntro, expectedText, 'Leadership card shortIntro must match exact approved text');
-  assert.equal(thabang.summary, expectedText, 'Executive Biography summary must match exact approved text');
+  assert.equal(thabang.shortIntro, expectedCardIntro, 'Leadership card shortIntro must match exact approved text');
+  assert.equal(thabang.summary, expectedExecutiveBio, 'Executive Biography summary must match exact approved text');
   assert.equal(
     thabang.shortIntro?.includes('various industrial sectors'),
     false,
