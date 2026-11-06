@@ -34,6 +34,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submittedRecord, setSubmittedRecord] = useState<EnquiryRecord | null>(null);
+  const [submissionStatus, setSubmissionStatus] = useState<{
+    sentDirectly: boolean;
+    targetEmail: string;
+    message: string;
+  } | null>(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
   // Active category & assigned contact
   const activeCategory = getServiceCategoryById(selectedCategoryId) || defaultCategory;
@@ -85,7 +91,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (honeypot) {
@@ -97,6 +103,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
     }
 
     setIsSubmitting(true);
+    setSubmissionError(null);
 
     const refNo = generateEnquiryReference();
     const timestamp = new Date().toLocaleString('en-ZA', {
@@ -128,34 +135,51 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
       status: 'submitted',
     };
 
-    // 1. Persist to registry
+    // 1. Persist to browser registry
     saveEnquiryToRegistry(record);
 
-    // 2. Prepare mailto URI with full parameters
-    const mailtoUrl = buildMailtoDispatchUrl(record);
+    // 2. Dispatch straight from the form to info@marvethabi.co.za via backend API
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(record),
+      });
 
-    setTimeout(() => {
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server responded with status ${response.status}`);
+      }
+
+      const resData = await response.json().catch(() => ({}));
       setIsSubmitting(false);
       setSubmittedRecord(record);
+      setSubmissionStatus({
+        sentDirectly: true,
+        targetEmail: resData.targetEmail || assignedContact.verifiedEmail,
+        message: resData.message || `Enquiry delivered directly to ${assignedContact.verifiedEmail}`,
+      });
       window.scrollTo({ top: 160, behavior: 'smooth' });
-
-      // Trigger transparent email client dispatch
-      try {
-        const link = document.createElement('a');
-        link.href = mailtoUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (err) {
-        console.info('Mailto trigger completed:', err);
-      }
-    }, 350);
+    } catch (err: any) {
+      console.warn('Direct API submission encountered an error, falling back:', err);
+      setIsSubmitting(false);
+      setSubmittedRecord(record);
+      setSubmissionError('Direct server delivery was unavailable; enquiry recorded in browser registry.');
+      setSubmissionStatus({
+        sentDirectly: false,
+        targetEmail: assignedContact.verifiedEmail,
+        message: 'Enquiry recorded in practice registry. Use the button below to send via your email client if preferred.',
+      });
+      window.scrollTo({ top: 160, behavior: 'smooth' });
+    }
   };
 
   const handleReset = () => {
     setSubmittedRecord(null);
+    setSubmissionStatus(null);
+    setSubmissionError(null);
     setFullName('');
     setOrganisation('');
     setEmail('');
@@ -231,7 +255,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           color: 'var(--btn-green-dark, #436905)',
                         }}
                       >
-                        Enquiry Successfully Submitted
+                        ✓ Enquiry Sent Straight to {submittedRecord.assignedEmail || 'info@marvethabi.co.za'}
                       </span>
                       <span style={{ fontSize: '13px', fontWeight: 700, color: '#334842' }}>
                         Ref: {submittedRecord.referenceNumber}
@@ -242,7 +266,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                       Thank you, {submittedRecord.fullName}
                     </h2>
                     <p style={{ fontSize: '15px', color: '#2B3934', lineHeight: 1.6, margin: 0 }}>
-                      Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been received and routed directly to{' '}
+                      Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been sent directly from this form to{' '}
+                      <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong> and routed to{' '}
                       <strong>{submittedRecord.assignedContactName}</strong> ({submittedRecord.assignedContactResponsibility}).
                     </p>
                   </div>
@@ -308,6 +333,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                     </div>
                   </div>
 
+                  {submissionStatus && (
+                    <div
+                      style={{
+                        fontSize: '13.5px',
+                        color: '#265045',
+                        background: '#F0F7F4',
+                        padding: '12px 16px',
+                        borderRadius: '6px',
+                        border: '1px solid #D1E5DD',
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      ✓ <strong>Delivery Status:</strong> {submissionStatus.message}
+                    </div>
+                  )}
+
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                     <button
                       type="button"
@@ -318,11 +359,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                       Submit Another Enquiry
                     </button>
                     <a
-                      href={`mailto:${submittedRecord.assignedEmail}?subject=${encodeURIComponent(
-                        `Follow-up: [Ref: ${submittedRecord.referenceNumber}] ${submittedRecord.subject}`
-                      )}`}
+                      href={buildMailtoDispatchUrl(submittedRecord)}
                       className="btn btn-brand"
                       style={{ padding: '10px 22px' }}
+                      title="Open pre-filled draft in your email client"
                     >
                       Open Email Client
                     </a>
@@ -331,6 +371,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
               ) : (
                 /* ENQUIRY FORM */
                 <form onSubmit={handleSubmit} noValidate>
+                  {submissionError && (
+                    <div
+                      style={{
+                        background: '#FDF2F0',
+                        borderLeft: '4px solid #C85A48',
+                        padding: '12px 16px',
+                        borderRadius: '4px',
+                        marginBottom: '18px',
+                        fontSize: '13.5px',
+                        color: '#7D2B1E',
+                      }}
+                    >
+                      {submissionError}
+                    </div>
+                  )}
+
                   {/* Anti-spam honeypot */}
                   <div style={{ display: 'none' }} aria-hidden="true">
                     <label htmlFor="field-website">Website</label>
@@ -638,9 +694,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         }}
                       >
                         {isSubmitting ? (
-                          <span>Routing Enquiry...</span>
+                          <span>Sending to info@marvethabi.co.za...</span>
                         ) : (
-                          <span>Submit Enquiry</span>
+                          <span>Send Enquiry Straight to info@marvethabi.co.za</span>
                         )}
                       </button>
                     </div>

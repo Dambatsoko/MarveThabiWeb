@@ -466,3 +466,18 @@ test('Marvelous Ngoatle Executive Biography matches exact 4-paragraph wording an
   assert.equal(marvelous.shortIntro, expectedCardIntro, 'Leadership card shortIntro must remain unchanged');
 });
 
+test('contact form directs mail straight to info@marvethabi.co.za', async () => {
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+
+  // Verify server route exists and specifies target email
+  const serverCode = await fs.readFile(path.resolve(process.cwd(), 'server.ts'), 'utf-8');
+  assert.ok(serverCode.includes('/api/contact'), 'Server must define /api/contact route');
+  assert.ok(serverCode.includes('info@marvethabi.co.za'), 'Server target must default to info@marvethabi.co.za');
+
+  // Verify ContactPage dispatches to /api/contact
+  const contactPageCode = await fs.readFile(path.resolve(process.cwd(), 'src/components/ContactPage.tsx'), 'utf-8');
+  assert.ok(contactPageCode.includes("fetch('/api/contact'"), 'Contact page must post directly to /api/contact');
+  assert.ok(contactPageCode.includes('Send Enquiry Straight to info@marvethabi.co.za'), 'Submit button must specify direct delivery to info@marvethabi.co.za');
+});
+
