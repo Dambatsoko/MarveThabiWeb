@@ -3,6 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Suppress expected HMR WebSocket errors in sandbox container environment
+    window.addEventListener('error', function(event) {
+      if (
+        (event.message && (event.message.includes('WebSocket') || event.message.includes('createWebSocketModuleRunnerTransport') || event.message.includes('vite-hmr'))) ||
+        (event.filename && event.filename.includes('@vite/client'))
+      ) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+        return true;
+      }
+    }, true);
+    window.addEventListener('unhandledrejection', function(event) {
+      var reason = event.reason;
+      if (
+        reason &&
+        (String(reason).includes('WebSocket') ||
+         String(reason).includes('createWebSocketModuleRunnerTransport') ||
+         (reason.stack && reason.stack.includes('@vite/client')))
+      ) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      }
+    });
+  </script>
   <title>MarveThabi Consulting Engineers | Engineering &amp; Environmental Solutions</title>
   <meta name="description" content="Multidisciplinary South African engineering consultancy delivering specialist Reliability Engineering, ISO 55000 Asset Management, Electrical Engineering and Geo-Environmental solutions." />
   <link rel="canonical" href="https://www.marvethabi.co.za/" />
