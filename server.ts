@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
+import { generateSitemapXml, generateRobotsTxt, getPageSEO } from './src/utils/seoConfig';
 
 dotenv.config();
 
@@ -296,6 +298,20 @@ app.post('/api/contact', async (req: Request, res: Response) => {
   }
 });
 
+// SEO Route: GET /sitemap.xml
+app.get('/sitemap.xml', (_req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/xml');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.send(generateSitemapXml());
+});
+
+// SEO Route: GET /robots.txt
+app.get('/robots.txt', (_req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.send(generateRobotsTxt());
+});
+
 // API Route: GET /api/health
 app.get('/api/health', (_req: Request, res: Response) => {
   res.json({
@@ -307,16 +323,137 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
+/**
+ * Injects per-route dynamic SEO metadata and Schema.org structured data into index.html
+ */
+function injectSEOIntoHtml(html: string, urlPath: string): string {
+  const seo = getPageSEO(urlPath);
+  let result = html;
+
+  // Title
+  result = result.replace(/<title>[\s\S]*?<\/title>/i, `<title>${seo.title}</title>`);
+
+  // Meta Description
+  result = result.replace(
+    /<meta\s+name="description"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta name="description" content="${seo.description.replace(/"/g, '&quot;')}" />`
+  );
+
+  // Canonical
+  result = result.replace(
+    /<link\s+rel="canonical"\s+href="[\s\S]*?"\s*\/?>/i,
+    `<link rel="canonical" href="${seo.canonicalUrl}" />`
+  );
+
+  // OG Title
+  result = result.replace(
+    /<meta\s+property="og:title"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:title" content="${(seo.ogTitle || seo.title).replace(/"/g, '&quot;')}" />`
+  );
+
+  // OG Description
+  result = result.replace(
+    /<meta\s+property="og:description"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:description" content="${(seo.ogDescription || seo.description).replace(/"/g, '&quot;')}" />`
+  );
+
+  // OG URL
+  result = result.replace(
+    /<meta\s+property="og:url"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:url" content="${seo.canonicalUrl}" />`
+  );
+
+  // OG Type
+  result = result.replace(
+    /<meta\s+property="og:type"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:type" content="${seo.ogType}" />`
+  );
+
+  // OG Image
+  result = result.replace(
+    /<meta\s+property="og:image"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:image" content="${seo.ogImage}" />`
+  );
+
+  // Twitter Title
+  result = result.replace(
+    /<meta\s+name="twitter:title"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta name="twitter:title" content="${seo.title.replace(/"/g, '&quot;')}" />`
+  );
+
+  // Twitter Description
+  result = result.replace(
+    /<meta\s+name="twitter:description"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta name="twitter:description" content="${seo.description.replace(/"/g, '&quot;')}" />`
+  );
+
+  // Twitter Image
+  result = result.replace(
+    /<meta\s+name="twitter:image"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta name="twitter:image" content="${seo.ogImage}" />`
+  );
+
+  // JSON-LD Structured Data
+  if (seo.structuredData && seo.structuredData.length > 0) {
+    const jsonLdContent = JSON.stringify(
+      seo.structuredData.length === 1 ? seo.structuredData[0] : seo.structuredData,
+      null,
+      2
+    );
+    result = result.replace(
+      /<script\s+type="application\/ld\+json"\s+id="seo-jsonld-schema">[\s\S]*?<\/script>/i,
+      `<script type="application/ld+json" id="seo-jsonld-schema">\n${jsonLdContent}\n  </script>`
+    );
+  }
+
+  return result;
+}
+
 async function startServer() {
   if (!isProduction) {
     const vite = await createViteServer({
       server: { middlewareMode: true, host: '0.0.0.0', port: PORT },
       appType: 'spa',
     });
+
+    // Intercept HTML requests in dev to inject dynamic per-page SEO
+    app.use(async (req: Request, res: Response, next) => {
+      if (
+        req.method === 'GET' &&
+        req.headers.accept?.includes('text/html') &&
+        !req.path.startsWith('/api') &&
+        !req.path.startsWith('/src') &&
+        !req.path.startsWith('/@') &&
+        !req.path.includes('.')
+      ) {
+        try {
+          let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+          template = await vite.transformIndexHtml(req.originalUrl, template);
+          const customHtml = injectSEOIntoHtml(template, req.path);
+          return res.status(200).set({ 'Content-Type': 'text/html' }).end(customHtml);
+        } catch (e) {
+          vite.ssrFixStacktrace(e as Error);
+          next(e);
+          return;
+        }
+      }
+      next();
+    });
+
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
-    app.get('*', (_req: Request, res: Response) => {
+    app.use(express.static(path.resolve(__dirname, 'dist'), { index: false }));
+    app.get('*', (req: Request, res: Response) => {
+      try {
+        const indexPath = path.resolve(__dirname, 'dist/index.html');
+        if (fs.existsSync(indexPath)) {
+          const raw = fs.readFileSync(indexPath, 'utf-8');
+          const customHtml = injectSEOIntoHtml(raw, req.path);
+          return res.status(200).set({ 'Content-Type': 'text/html' }).end(customHtml);
+        }
+      } catch (err) {
+        console.error('Error serving index.html:', err);
+      }
       res.sendFile(path.resolve(__dirname, 'dist/index.html'));
     });
   }

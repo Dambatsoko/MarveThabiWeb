@@ -11,6 +11,7 @@ import { LeadershipPage } from './components/LeadershipPage';
 import { LeaderDetailPage } from './components/LeaderDetailPage';
 import { ProcessPage } from './components/ProcessPage';
 import { ContactPage } from './components/ContactPage';
+import { useSEO } from './utils/useSEO';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -83,6 +84,9 @@ export const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState<string>(() => {
     return window.location.pathname || '/';
   });
+
+  // Dynamically update document title, canonical link, OpenGraph, and JSON-LD structured data
+  useSEO(currentPath);
 
   useEffect(() => {
     const handlePopState = () => {

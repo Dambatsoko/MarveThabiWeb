@@ -1,0 +1,22 @@
+# Robots.txt for MarveThabi Consulting Engineers
+# Official Production Domain: https://www.marvethabi.co.za
+
+User-agent: *
+Allow: /
+
+# Private backend endpoints
+Disallow: /api/
+
+# Explicitly ensure static render resources remain crawlable
+Allow: /assets/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.woff2$
+
+# XML Sitemap reference
+Sitemap: https://www.marvethabi.co.za/sitemap.xml
