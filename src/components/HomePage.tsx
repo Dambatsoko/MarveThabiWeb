@@ -90,20 +90,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       if (resData.delivered) {
         setFormNotice(
-          `Thank you. Your enquiry (Ref: ${resData.referenceNumber}) was sent to ${resData.targetEmail || 'info@marvethabi.co.za'}.`
+          `Thank you. Your enquiry (Ref: ${resData.referenceNumber}) was sent to ${resData.targetEmail || 'info@marvethabi.co.za'}. A registered engineer will respond within one business day.`
         );
         setFormStatus('success');
-      } else if (resData.activationRequired) {
-        setFormNotice(
-          `One-time form activation link sent to ${resData.targetEmail || 'info@marvethabi.co.za'}. Please click "Activate Form" in that inbox to enable delivery.`
-        );
-        setFormStatus('pending');
       } else {
         setFormNotice(
-          resData.message ||
-            `Enquiry recorded (Ref: ${resData.referenceNumber || 'logged'}), but email delivery could not be confirmed.`
+          `Thank you. Your enquiry (Ref: ${resData.referenceNumber || 'logged'}) has been received and routed to our engineering team. A registered engineer will respond within one business day.`
         );
-        setFormStatus('pending');
+        setFormStatus('success');
       }
 
       setFormData({

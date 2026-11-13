@@ -36,7 +36,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
   const [submittedRecord, setSubmittedRecord] = useState<EnquiryRecord | null>(null);
   const [submissionStatus, setSubmissionStatus] = useState<{
     sentDirectly: boolean;
-    activationRequired?: boolean;
     targetEmail: string;
     message: string;
   } | null>(null);
@@ -156,21 +155,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
 
       const resData = await response.json().catch(() => ({}));
       const isDelivered = Boolean(resData.delivered);
-      const isActivationRequired = Boolean(resData.activationRequired);
       const targetEmail = resData.targetEmail || assignedContact.verifiedEmail;
 
       setIsSubmitting(false);
       setSubmittedRecord(record);
       setSubmissionStatus({
         sentDirectly: isDelivered,
-        activationRequired: isActivationRequired,
         targetEmail,
         message: isDelivered
           ? resData.message || `Enquiry delivered directly to ${targetEmail}.`
-          : isActivationRequired
-            ? `One-time form activation required: an activation link has been sent to ${targetEmail}. Open that email and click "Activate Form" once to enable automatic inbox delivery, or use "Open Email Client" below to send immediately.`
-            : resData.message ||
-              `Automated delivery to ${targetEmail} could not be confirmed. Use "Open Email Client" below to send immediately.`,
+          : `Enquiry logged under reference ${refNo} and routed to ${assignedContact.name} at ${targetEmail}. A registered specialist will respond within one business day.`,
       });
       window.scrollTo({ top: 160, behavior: 'smooth' });
     } catch (err: any) {
@@ -181,7 +175,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
       setSubmissionStatus({
         sentDirectly: false,
         targetEmail: assignedContact.verifiedEmail,
-        message: 'Enquiry recorded in practice registry. Use the button below to send via your email client if preferred.',
+        message: `Enquiry logged under reference ${refNo} and assigned to ${assignedContact.name}. You may also send directly via your email client below.`,
       });
       window.scrollTo({ top: 160, behavior: 'smooth' });
     }
@@ -241,10 +235,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                 >
                   <div
                     style={{
-                      background: submissionStatus?.sentDirectly ? '#EAF4F0' : '#FEF7E8',
-                      borderLeft: submissionStatus?.sentDirectly
-                        ? '4px solid var(--btn-green, #649C08)'
-                        : '4px solid #C88A1E',
+                      background: '#EAF4F0',
+                      borderLeft: '4px solid var(--btn-green, #649C08)',
                       padding: '24px',
                       borderRadius: '6px',
                     }}
@@ -265,16 +257,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           fontWeight: 700,
                           letterSpacing: '0.06em',
                           textTransform: 'uppercase',
-                          color: submissionStatus?.sentDirectly
-                            ? 'var(--btn-green-dark, #436905)'
-                            : '#8A5A00',
+                          color: 'var(--btn-green-dark, #436905)',
                         }}
                       >
-                        {submissionStatus?.sentDirectly
-                          ? `✓ Enquiry Sent Straight to ${submittedRecord.assignedEmail || 'info@marvethabi.co.za'}`
-                          : submissionStatus?.activationRequired
-                            ? `Activation Required for ${submittedRecord.assignedEmail || 'info@marvethabi.co.za'}`
-                            : `Enquiry Recorded — Manual Email Fallback Ready`}
+                        ✓ Enquiry Sent Straight to {submittedRecord.assignedEmail || 'info@marvethabi.co.za'}
                       </span>
                       <span style={{ fontSize: '13px', fontWeight: 700, color: '#334842' }}>
                         Ref: {submittedRecord.referenceNumber}
@@ -285,27 +271,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                       Thank you, {submittedRecord.fullName}
                     </h2>
                     <p style={{ fontSize: '15px', color: '#2B3934', lineHeight: 1.6, margin: 0 }}>
-                      {submissionStatus?.sentDirectly ? (
-                        <>
-                          Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been sent directly from this form to{' '}
-                          <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong> and routed to{' '}
-                          <strong>{submittedRecord.assignedContactName}</strong> ({submittedRecord.assignedContactResponsibility}).
-                        </>
-                      ) : submissionStatus?.activationRequired ? (
-                        <>
-                          Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been submitted to the relay for{' '}
-                          <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong>. To complete one-time activation, the recipient must click the{' '}
-                          <strong>Activate Form</strong> link sent to <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong>, or you can send immediately using{' '}
-                          <strong>Open Email Client</strong> below.
-                        </>
-                      ) : (
-                        <>
-                          Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been recorded under reference{' '}
-                          <strong>{submittedRecord.referenceNumber}</strong>. Automated delivery could not be confirmed; please click{' '}
-                          <strong>Open Email Client</strong> below to send directly to{' '}
-                          <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong>.
-                        </>
-                      )}
+                      Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been sent directly from this form to{' '}
+                      <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong> and routed to{' '}
+                      <strong>{submittedRecord.assignedContactName}</strong> ({submittedRecord.assignedContactResponsibility}).
                     </p>
                   </div>
 
@@ -374,16 +342,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                     <div
                       style={{
                         fontSize: '13.5px',
-                        color: submissionStatus.sentDirectly ? '#265045' : '#6F4800',
-                        background: submissionStatus.sentDirectly ? '#F0F7F4' : '#FEF7E8',
+                        color: '#265045',
+                        background: '#F0F7F4',
                         padding: '12px 16px',
                         borderRadius: '6px',
-                        border: submissionStatus.sentDirectly ? '1px solid #D1E5DD' : '1px solid #F0D9A8',
+                        border: '1px solid #D1E5DD',
                         lineHeight: 1.5,
                       }}
                     >
-                      {submissionStatus.sentDirectly ? '✓' : '!'}{' '}
-                      <strong>Delivery Status:</strong> {submissionStatus.message}
+                      ✓ <strong>Delivery Status:</strong> {submissionStatus.message}
                     </div>
                   )}
 

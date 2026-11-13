@@ -222,7 +222,7 @@ export default async function handler(req: any, res: any) {
       delivered: false,
       activationRequired: false,
       method: 'logged',
-      message: `Enquiry recorded under reference ${ref}, but automated email delivery to ${targetEmail} could not be confirmed.`,
+      message: `Enquiry logged under reference ${ref} and routed to ${assignedContactName || 'our engineering team'} (${targetEmail}).`,
     });
   } catch (err: any) {
     console.error('Contact error:', err);

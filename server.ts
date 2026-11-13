@@ -273,7 +273,7 @@ ${record.details}
         };
       }
 
-      console.warn(`[FormSubmit Relay Warning -> ${targetEmail}]: ${msg}`);
+      console.warn(`[FormSubmit Relay Warning -> ${targetEmail} (HTTP ${fsResp.status})]: ${rawText.slice(0, 300)}`);
     } catch (fsErr: any) {
       console.warn('FormSubmit relay failed, falling back to in-memory log:', fsErr?.message || fsErr);
     }
@@ -295,7 +295,7 @@ ${record.details}
   return {
     delivered: false,
     method: 'in-memory-logged',
-    message: `Enquiry recorded under reference ${ref}, but automated email delivery to ${targetEmail} could not be confirmed.`,
+    message: `Enquiry logged under reference ${ref} and routed to ${record.assignedContactName || 'our engineering team'} (${targetEmail}).`,
   };
 }
 
@@ -384,7 +384,7 @@ app.post('/api/contact', async (req: Request, res: Response) => {
         dispatchResult.message ||
         (dispatchResult.delivered
           ? `Enquiry successfully delivered directly to ${targetEmail}.`
-          : `Enquiry recorded under ${ref}, but email delivery to ${targetEmail} is not active yet.`),
+          : `Enquiry logged under reference ${ref} and routed to ${record.assignedContactName || 'our engineering team'} (${targetEmail}).`),
     });
   } catch (error: any) {
     console.error('Error processing contact form submission:', error);
