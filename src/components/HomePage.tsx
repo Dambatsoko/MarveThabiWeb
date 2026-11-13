@@ -21,7 +21,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     service: '',
     details: '',
   });
-  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'pending' | 'error'>('idle');
+  const [formNotice, setFormNotice] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [clientView, setClientView] = useState<'carousel' | 'grid'>('carousel');
 
   // Setup scroll reveals
@@ -48,22 +50,76 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     }
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
+      setFormNotice('Your enquiry could not be sent. Please check the required fields and try again.');
       setFormStatus('error');
       return;
     }
-    // Simulate instantaneous enquiry logging
-    setFormStatus('success');
-    setFormData({
-      name: '',
-      org: '',
-      email: '',
-      phone: '',
-      service: '',
-      details: '',
-    });
+
+    setIsSubmitting(true);
+    setFormStatus('idle');
+    setFormNotice('');
+
+    const serviceLabel = formData.service || 'General Enquiry';
+    const payload = {
+      fullName: formData.name.trim(),
+      organisation: formData.org.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      categoryId: formData.service ? 'engineering-services' : 'general-enquiry',
+      categoryName: serviceLabel,
+      subject: `${serviceLabel} — Homepage Project Enquiry`,
+      details:
+        formData.details.trim() ||
+        `Consultation request submitted via homepage for ${serviceLabel}.`,
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const resData = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(resData.error || 'Unable to send enquiry right now.');
+      }
+
+      if (resData.delivered) {
+        setFormNotice(
+          `Thank you. Your enquiry (Ref: ${resData.referenceNumber}) was sent to ${resData.targetEmail || 'info@marvethabi.co.za'}.`
+        );
+        setFormStatus('success');
+      } else if (resData.activationRequired) {
+        setFormNotice(
+          `One-time form activation link sent to ${resData.targetEmail || 'info@marvethabi.co.za'}. Please click "Activate Form" in that inbox to enable delivery.`
+        );
+        setFormStatus('pending');
+      } else {
+        setFormNotice(
+          resData.message ||
+            `Enquiry recorded (Ref: ${resData.referenceNumber || 'logged'}), but email delivery could not be confirmed.`
+        );
+        setFormStatus('pending');
+      }
+
+      setFormData({
+        name: '',
+        org: '',
+        email: '',
+        phone: '',
+        service: '',
+        details: '',
+      });
+    } catch (err: any) {
+      setFormNotice(err?.message || 'Your enquiry could not be sent. Please try again.');
+      setFormStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -370,12 +426,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <form className="form-card" onSubmit={handleFormSubmit}>
               {formStatus === 'success' && (
                 <p className="form-notice form-notice-ok">
-                  Thank you. A registered engineer will respond within one business day.
+                  {formNotice || 'Thank you. A registered engineer will respond within one business day.'}
+                </p>
+              )}
+              {formStatus === 'pending' && (
+                <p className="form-notice form-notice-ok">
+                  {formNotice}
                 </p>
               )}
               {formStatus === 'error' && (
                 <p className="form-notice form-notice-err">
-                  Your enquiry could not be sent. Please check the required fields and try again.
+                  {formNotice || 'Your enquiry could not be sent. Please check the required fields and try again.'}
                 </p>
               )}
               <div className="form-row">
@@ -451,8 +512,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                 ></textarea>
               </label>
-              <button type="submit" className="btn btn-brand btn-full" aria-label="Send project enquiry to registered engineers">
-                Send Enquiry
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-brand btn-full"
+                aria-label="Send project enquiry to registered engineers"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Enquiry'}
               </button>
             </form>
           </div>

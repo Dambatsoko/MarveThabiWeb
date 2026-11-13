@@ -138,6 +138,81 @@ export default async function handler(req: any, res: any) {
       });
     }
 
+    // 3. Zero-secret HTTPS Relay via FormSubmit.co
+    if (process.env.DISABLE_FORMSUBMIT !== 'true') {
+      try {
+        const originHeader =
+          typeof req.headers?.origin === 'string' && req.headers.origin.startsWith('https://')
+            ? req.headers.origin
+            : 'https://www.marvethabi.co.za';
+
+        const fsResp = await fetch(
+          `https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Origin: originHeader,
+              Referer: `${originHeader}/contact`,
+              'User-Agent': 'MarveThabi-Contact-Portal/1.0',
+            },
+            body: JSON.stringify({
+              name: fullName,
+              email,
+              _replyto: email,
+              _subject: emailSubject,
+              _template: 'table',
+              _captcha: 'false',
+              Reference: ref,
+              'Service Category': categoryLabel,
+              'Assigned Contact': `${assignedContactName || 'Practice Principals'} (${assignedContactResponsibility || 'Client Services'})`,
+              Organisation: organisation || 'Not specified',
+              Phone: phone || 'Not provided',
+              Subject: subject,
+              Message: details,
+            }),
+          }
+        );
+
+        const rawText = await fsResp.text();
+        let fsData: { success?: boolean | string; message?: string } = {};
+        try {
+          fsData = JSON.parse(rawText);
+        } catch {
+          fsData = { success: false, message: rawText.slice(0, 200) };
+        }
+
+        const isSuccess = fsData.success === true || fsData.success === 'true';
+        if (fsResp.ok && isSuccess) {
+          return res.status(200).json({
+            success: true,
+            referenceNumber: ref,
+            targetEmail,
+            delivered: true,
+            activationRequired: false,
+            method: 'formsubmit',
+            message: `Enquiry successfully delivered to ${targetEmail}.`,
+          });
+        }
+
+        const msg = fsData.message || `FormSubmit returned status ${fsResp.status}`;
+        if (/activat/i.test(msg)) {
+          return res.status(200).json({
+            success: true,
+            referenceNumber: ref,
+            targetEmail,
+            delivered: false,
+            activationRequired: true,
+            method: 'formsubmit-activation-pending',
+            message: msg,
+          });
+        }
+      } catch (fsErr) {
+        console.warn('FormSubmit relay failed:', fsErr);
+      }
+    }
+
     // Fallback in-memory
     console.log(`[Vercel Serverless Contact Form] Enquiry ${ref} for ${targetEmail} recorded.`);
     return res.status(200).json({
@@ -145,7 +220,9 @@ export default async function handler(req: any, res: any) {
       referenceNumber: ref,
       targetEmail,
       delivered: false,
+      activationRequired: false,
       method: 'logged',
+      message: `Enquiry recorded under reference ${ref}, but automated email delivery to ${targetEmail} could not be confirmed.`,
     });
   } catch (err: any) {
     console.error('Contact error:', err);

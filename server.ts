@@ -50,7 +50,16 @@ function generateRef(): string {
 /**
  * Dispatches email to info@marvethabi.co.za via configured transport
  */
-async function sendContactMail(record: ContactPayload, ref: string) {
+async function sendContactMail(
+  record: ContactPayload,
+  ref: string,
+  requestOrigin?: string
+): Promise<{
+  delivered: boolean;
+  method: string;
+  activationRequired?: boolean;
+  message?: string;
+}> {
   const targetEmail = process.env.CONTACT_DESTINATION_EMAIL || 'info@marvethabi.co.za';
   const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER || 'info@marvethabi.co.za';
   const categoryLabel = record.categoryName || record.categoryId || 'General Enquiry';
@@ -198,7 +207,79 @@ ${record.details}
     return { delivered: true, method: 'resend' };
   }
 
-  // 3. Fallback / development: Log clearly and store in-memory registry
+  // 3. Zero-secret HTTPS Relay via FormSubmit.co (enabled unless explicitly disabled)
+  if (process.env.DISABLE_FORMSUBMIT !== 'true') {
+    const safeOrigin =
+      requestOrigin && requestOrigin.startsWith('https://')
+        ? requestOrigin
+        : 'https://www.marvethabi.co.za';
+
+    try {
+      const fsResp = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Origin: safeOrigin,
+            Referer: `${safeOrigin}/contact`,
+            'User-Agent': 'MarveThabi-Contact-Portal/1.0',
+          },
+          body: JSON.stringify({
+            name: record.fullName,
+            email: record.email,
+            _replyto: record.email,
+            _subject: emailSubject,
+            _template: 'table',
+            _captcha: 'false',
+            Reference: ref,
+            'Service Category': categoryLabel,
+            'Assigned Contact': `${record.assignedContactName || 'Practice Principals'} (${record.assignedContactResponsibility || 'Client Services'})`,
+            Organisation: record.organisation || 'Not specified',
+            Phone: record.phone || 'Not provided',
+            Subject: record.subject,
+            Message: record.details,
+          }),
+        }
+      );
+
+      const rawText = await fsResp.text();
+      let fsData: { success?: boolean | string; message?: string } = {};
+      try {
+        fsData = JSON.parse(rawText);
+      } catch {
+        fsData = { success: false, message: rawText.slice(0, 200) };
+      }
+
+      const isSuccess = fsData.success === true || fsData.success === 'true';
+      if (fsResp.ok && isSuccess) {
+        return {
+          delivered: true,
+          method: 'formsubmit',
+          message: `Enquiry successfully delivered to ${targetEmail}.`,
+        };
+      }
+
+      const msg = fsData.message || `FormSubmit returned status ${fsResp.status}`;
+      const needsActivation = /activat/i.test(msg);
+      if (needsActivation) {
+        console.warn(`[FormSubmit Activation Required -> ${targetEmail}]: ${msg}`);
+        return {
+          delivered: false,
+          activationRequired: true,
+          method: 'formsubmit-activation-pending',
+          message: msg,
+        };
+      }
+
+      console.warn(`[FormSubmit Relay Warning -> ${targetEmail}]: ${msg}`);
+    } catch (fsErr: any) {
+      console.warn('FormSubmit relay failed, falling back to in-memory log:', fsErr?.message || fsErr);
+    }
+  }
+
+  // 4. Fallback / development: Log clearly and store in-memory registry
   console.log(`\n==================================================`);
   console.log(`[CONTACT FORM DISPATCH -> ${targetEmail}]`);
   console.log(`Reference: ${ref}`);
@@ -208,10 +289,14 @@ ${record.details}
   console.log(`Subject: ${record.subject}`);
   console.log(`Details:\n${record.details}`);
   console.log(`--------------------------------------------------`);
-  console.log(`Note: To route live emails via SMTP or email API, set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS or RESEND_API_KEY in .env.`);
+  console.log(`Note: No live mail transport succeeded. Configure SMTP_*, RESEND_API_KEY, or verify FormSubmit activation for ${targetEmail}.`);
   console.log(`==================================================\n`);
 
-  return { delivered: false, method: 'in-memory-logged' };
+  return {
+    delivered: false,
+    method: 'in-memory-logged',
+    message: `Enquiry recorded under reference ${ref}, but automated email delivery to ${targetEmail} could not be confirmed.`,
+  };
 }
 
 // API Route: POST /api/contact
@@ -279,15 +364,27 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     if (recentEnquiries.length > 50) recentEnquiries.pop();
 
     // Send mail via configured delivery transport
-    const dispatchResult = await sendContactMail(record, ref);
+    const reqOrigin =
+      typeof req.headers.origin === 'string'
+        ? req.headers.origin
+        : req.headers.host
+          ? `${req.protocol}://${req.headers.host}`
+          : undefined;
+    const dispatchResult = await sendContactMail(record, ref, reqOrigin);
+    const targetEmail = process.env.CONTACT_DESTINATION_EMAIL || 'info@marvethabi.co.za';
 
     return res.status(200).json({
       success: true,
       referenceNumber: ref,
-      targetEmail: process.env.CONTACT_DESTINATION_EMAIL || 'info@marvethabi.co.za',
+      targetEmail,
       delivered: dispatchResult.delivered,
+      activationRequired: Boolean(dispatchResult.activationRequired),
       method: dispatchResult.method,
-      message: `Enquiry successfully sent directly to ${process.env.CONTACT_DESTINATION_EMAIL || 'info@marvethabi.co.za'}.`,
+      message:
+        dispatchResult.message ||
+        (dispatchResult.delivered
+          ? `Enquiry successfully delivered directly to ${targetEmail}.`
+          : `Enquiry recorded under ${ref}, but email delivery to ${targetEmail} is not active yet.`),
     });
   } catch (error: any) {
     console.error('Error processing contact form submission:', error);
@@ -320,6 +417,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
     targetEmail: process.env.CONTACT_DESTINATION_EMAIL || 'info@marvethabi.co.za',
     hasSmtpConfigured: Boolean(process.env.SMTP_HOST && process.env.SMTP_USER),
     hasResendConfigured: Boolean(process.env.RESEND_API_KEY),
+    hasFormSubmitFallback: process.env.DISABLE_FORMSUBMIT !== 'true',
   });
 });
 
