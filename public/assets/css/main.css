@@ -1518,11 +1518,22 @@ button{
   .hero{padding-top:124px; padding-bottom:56px;}
   .hero-title{font-size:clamp(38px,11.5vw,54px);}
   .hero-sub{font-size:18px;}
-  /* image becomes a quiet band at the very top, text sits on solid slate */
+  /* restore existing hero photo across upper mobile hero with vertical fade into slate */
   .hero-photo{display:none;}
-  .hero-photo-grey{width:100%; opacity:0.45;
-    -webkit-mask-image:linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 32%, transparent 58%);
-    mask-image:linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 32%, transparent 58%);}
+  .hero-photo-grey{
+    inset:0 0 auto 0;
+    width:100%;
+    height:clamp(480px, 64%, 680px);
+    opacity:0.9;
+    filter:grayscale(1) contrast(1.08) brightness(0.75);
+    background-size:cover;
+    background-position:62% 28%;
+    -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+    mask-image:linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+  }
+  .hero-fade{
+    background:linear-gradient(180deg, rgba(15,27,24,0.58) 0%, rgba(15,27,24,0.44) 36%, rgba(15,27,24,0.78) 60%, var(--slate) 80%);
+  }
   /* blueprint above, stats as a tidy 2-column grid below */
   .hero-right{min-height:0; margin-top:24px; display:flex; flex-direction:column; gap:16px;}
   .bp-wrap{position:relative; inset:auto; height:280px;}
