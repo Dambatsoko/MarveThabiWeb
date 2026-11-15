@@ -5,7 +5,7 @@ import {
   getLeaderBySlug,
   getIndustryDetail,
   leadershipTeamData,
-} from '../data/marvethabi';
+} from '../data/marvethabi.ts';
 
 export const PRODUCTION_DOMAIN = 'https://www.marvethabi.co.za';
 export const SITE_NAME = 'MarveThabi Consulting Engineers';

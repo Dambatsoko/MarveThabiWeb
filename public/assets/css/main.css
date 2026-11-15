@@ -710,9 +710,9 @@ button{
 /* ---------- HERO ---------- */
 .hero{position:relative; background:var(--slate); color:#fff; padding:192px 0 80px; overflow:hidden;}
 .hero-photo,
-.hero-photo-grey{position:absolute; inset:0 auto 0 0; width:64%;
-  background-image:url('../images/hero.jpg');
-  background-size:cover; background-position:center 30%;}
+.hero-photo-grey{position:absolute; inset:0 auto 0 0; width:64%;}
+.hero-slide{position:absolute; inset:0; background-size:cover; background-repeat:no-repeat;
+  background-position:center 48%; will-change:opacity;}
 .hero-photo{
   -webkit-mask-image:linear-gradient(90deg, #000 0%, #000 14%, transparent 44%);
   mask-image:linear-gradient(90deg, #000 0%, #000 14%, transparent 44%);}

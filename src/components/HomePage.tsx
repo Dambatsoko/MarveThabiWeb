@@ -6,6 +6,14 @@ import {
 } from '../data/marvethabi';
 import { AccreditationSection } from './AccreditationSection';
 import { AffiliationsSection } from './AffiliationsSection';
+import {
+  HERO_SLIDES,
+  HERO_SLIDE_INTERVAL_MS,
+  INITIAL_SLIDE_STATE,
+  getNextSlideState,
+  getSlideLayerStyle,
+  type HeroSlideState,
+} from '../utils/heroSlideshow';
 
 interface HomePageProps {
   onNavigate?: (path: string) => void;
@@ -25,6 +33,41 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [formNotice, setFormNotice] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [clientView, setClientView] = useState<'carousel' | 'grid'>('carousel');
+  const [slideState, setSlideState] = useState<HeroSlideState>(INITIAL_SLIDE_STATE);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  // Preload all three hero background images and manage continuous crossfade timer
+  useEffect(() => {
+    HERO_SLIDES.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.src;
+      if (typeof img.decode === 'function') {
+        img.decode().catch(() => {});
+      }
+    });
+
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches);
+    };
+    setPrefersReducedMotion(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleMotionChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const timer = window.setInterval(() => {
+      setSlideState((prev) => getNextSlideState(prev, HERO_SLIDES.length));
+    }, HERO_SLIDE_INTERVAL_MS);
+    return () => window.clearInterval(timer);
+  }, [prefersReducedMotion]);
 
   // Setup scroll reveals
   useEffect(() => {
@@ -121,7 +164,31 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ============ HERO ============ */}
       <section className="hero">
         <div className="hero-photo" aria-hidden="true"></div>
-        <div className="hero-photo-grey" aria-hidden="true"></div>
+        <div
+          className="hero-photo-grey"
+          aria-hidden="true"
+          data-testid="hero-slideshow"
+          data-active-slide={HERO_SLIDES[slideState.activeIndex]?.id}
+        >
+          {HERO_SLIDES.map((slide, index) => {
+            const layerStyle = getSlideLayerStyle(index, slideState, prefersReducedMotion);
+            return (
+              <div
+                key={slide.id}
+                className="hero-slide"
+                data-slide-id={slide.id}
+                data-active={index === slideState.activeIndex ? 'true' : 'false'}
+                style={{
+                  backgroundImage: `url('${slide.src}')`,
+                  backgroundPosition: slide.position,
+                  zIndex: layerStyle.zIndex,
+                  opacity: layerStyle.opacity,
+                  transition: layerStyle.transition,
+                }}
+              />
+            );
+          })}
+        </div>
         <div className="hero-fade" aria-hidden="true"></div>
         <div className="wrap hero-grid">
           <div className="hero-copy">

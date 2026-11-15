@@ -1,11 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { type Request, type Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import { createServer as createViteServer } from 'vite';
-import { generateSitemapXml, generateRobotsTxt, getPageSEO } from './src/utils/seoConfig';
+import { generateSitemapXml, generateRobotsTxt, getPageSEO } from './src/utils/seoConfig.ts';
 
 dotenv.config();
 
@@ -509,8 +508,9 @@ function injectSEOIntoHtml(html: string, urlPath: string): string {
 
 async function startServer() {
   if (!isProduction) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
-      server: { middlewareMode: true, host: '0.0.0.0', port: PORT, hmr: false },
+      server: { middlewareMode: true, host: '0.0.0.0', port: PORT, hmr: false, ws: false },
       appType: 'spa',
     });
 
