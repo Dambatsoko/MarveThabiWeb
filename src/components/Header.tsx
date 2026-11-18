@@ -181,14 +181,18 @@ export const Header: React.FC<HeaderProps> = ({
                 focusable="false"
               >
                 <defs>
-                  <clipPath id="flag-fr-clip">
+                  <clipPath id="flag-cd-clip">
                     <rect width="30" height="20" rx="2" />
                   </clipPath>
                 </defs>
-                <g clipPath="url(#flag-fr-clip)">
-                  <rect x="0" y="0" width="10" height="20" fill="#002395" />
-                  <rect x="10" y="0" width="10" height="20" fill="#FFFFFF" />
-                  <rect x="20" y="0" width="10" height="20" fill="#ED2939" />
+                <g clipPath="url(#flag-cd-clip)">
+                  <rect width="30" height="20" fill="#007FFF" />
+                  <polygon points="0,17 25.5,0 30,0 30,3 4.5,20 0,20" fill="#F7D618" />
+                  <polygon points="0,18.1 27.15,0 30,0 30,1.9 2.85,20 0,20" fill="#CE1021" />
+                  <polygon
+                    points="5.6,2.2 6.33,4.39 8.64,4.41 6.79,5.79 7.48,7.99 5.6,6.65 3.72,7.99 4.41,5.79 2.56,4.41 4.87,4.39"
+                    fill="#F7D618"
+                  />
                 </g>
               </svg>
             </button>
