@@ -1,11 +1,16 @@
 import React from 'react';
-import { NAV_LINKS } from '../utils/navigation';
+import { getNavLinks } from '../utils/navigation';
+import { useLanguage } from '../i18n/LanguageContext';
+import { localizePath } from '../i18n/routing';
 
 interface FooterProps {
   onNavigate: (path: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const navLinks = getNavLinks(lang);
+  const homeHref = localizePath('/', lang);
   const currentYear = new Date().getFullYear();
 
   const handleLink = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -19,18 +24,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       <div className="wrap foot-grid">
         <div>
           <div className="foot-logo">
-            <a href="/" aria-label="MarveThabi Consulting Engineers - Return to homepage" onClick={(e) => handleLink(e, '/')}>
-              <img src="/assets/images/marvethabilogo.jpg" alt="MarveThabi Consulting Engineers logo - Registered consulting engineers in Pretoria" loading="lazy" />
+            <a href={homeHref} aria-label={t.footer.logoAriaLabel} onClick={(e) => handleLink(e, homeHref)}>
+              <img src="/assets/images/marvethabilogo.jpg" alt={t.footer.logoAlt} loading="lazy" />
             </a>
           </div>
           <p className="foot-tag">
-            National infrastructure. Technical excellence. Government confidence.
+            {t.footer.tagline}
           </p>
           <a
             href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
+            aria-label={t.nav.linkedInAriaLabel}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -63,12 +68,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 display: 'block',
               }}
             />
-            Follow on LinkedIn
+            {t.common.followOnLinkedIn}
           </a>
         </div>
         <div>
-          <span className="foot-h">Company</span>
-          {NAV_LINKS.map((link) => (
+          {lang === 'en' ? <span className="foot-h">Company</span> : <span className="foot-h">{t.footer.companyHeading}</span>}
+          {navLinks.map((link) => (
             <a
               key={link.id}
               href={link.href}
@@ -80,22 +85,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           ))}
         </div>
         <div>
-          <span className="foot-h">Contact</span>
-          <span className="foot-addr">Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182</span>
-          <a href="mailto:info@marvethabi.co.za" className="num foot-num" aria-label="Email MarveThabi at info@marvethabi.co.za" style={{ textDecoration: 'none', color: 'inherit' }}>
+          {lang === 'en' ? <span className="foot-h">Contact</span> : <span className="foot-h">{t.footer.contactHeading}</span>}
+          <span className="foot-addr">{t.common.officeAddress}</span>
+          <a href="mailto:info@marvethabi.co.za" className="num foot-num" aria-label={t.footer.emailAria} style={{ textDecoration: 'none', color: 'inherit' }}>
             info@marvethabi.co.za
           </a>
-          <a href="tel:+27824123847" className="num foot-num" aria-label="Call MarveThabi at +27 82 412 3847" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="tel:+27824123847" className="num foot-num" aria-label={t.footer.phone1Aria} style={{ textDecoration: 'none', color: 'inherit' }}>
             +27 82 412 3847
           </a>
-          <a href="tel:+27728347953" className="num foot-num" aria-label="Call MarveThabi at +27 72 834 7953" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="tel:+27728347953" className="num foot-num" aria-label={t.footer.phone2Aria} style={{ textDecoration: 'none', color: 'inherit' }}>
             +27 72 834 7953
           </a>
           <a
             href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Visit MarveThabi LinkedIn profile (opens in a new tab)"
+            aria-label={t.footer.linkedInAria}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -123,15 +128,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 display: 'block',
               }}
             />
-            LinkedIn Profile &rarr;
+            {t.common.linkedInProfileArrow}
           </a>
         </div>
       </div>
       <div className="wrap foot-base">
-        <span className="num">&copy; {currentYear} MarveThabi Consulting Engineers (Pty) Ltd</span>
-        <span className="num">Reg No. 2013/000000/07</span>
+        <span className="num">&copy; {currentYear} {t.common.legalName}</span>
+        <span className="num">{t.common.regNo}</span>
       </div>
     </footer>
   );
 };
-

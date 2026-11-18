@@ -12,9 +12,18 @@ import { LeaderDetailPage } from './components/LeaderDetailPage';
 import { ProcessPage } from './components/ProcessPage';
 import { ContactPage } from './components/ContactPage';
 import { useSEO } from './utils/useSEO';
+import { Language, LANGUAGE_STORAGE_KEY } from './i18n/types';
+import {
+  getLanguageFromPath,
+  stripLanguagePrefix,
+  localizePath,
+  switchLanguagePath,
+} from './i18n/routing';
+import { LanguageProvider, getUITranslations } from './i18n/LanguageContext';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
+  lang: Language;
   onReset?: () => void;
 }
 
@@ -39,6 +48,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
+      const ui = getUITranslations(this.props.lang);
       return (
         <div
           style={{
@@ -54,10 +64,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           }}
         >
           <h2 style={{ fontSize: '24px', color: 'var(--ink, #0e1e1a)', margin: 0 }}>
-            Unable to Display Specification
+            {ui.errorBoundary.title}
           </h2>
           <p style={{ maxWidth: '480px', color: '#55655F', margin: 0, fontSize: '15px' }}>
-            We encountered an unexpected interface state while rendering this page.
+            {ui.errorBoundary.message}
           </p>
           <button
             className="btn btn-brand"
@@ -67,11 +77,11 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               if (this.props.onReset) {
                 this.props.onReset();
               } else {
-                window.location.href = '/';
+                window.location.href = localizePath('/', this.props.lang);
               }
             }}
           >
-            Return to Home
+            {ui.errorBoundary.button}
           </button>
         </div>
       );
@@ -85,7 +95,9 @@ export const App: React.FC = () => {
     return window.location.pathname || '/';
   });
 
-  // Dynamically update document title, canonical link, OpenGraph, and JSON-LD structured data
+  const lang = getLanguageFromPath(currentPath);
+
+  // Dynamically update html[lang], document title, canonical, hreflang alternates, OpenGraph, and JSON-LD
   useSEO(currentPath);
 
   useEffect(() => {
@@ -97,17 +109,31 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigateTo = (path: string) => {
-    if (path !== currentPath) {
-      window.history.pushState({}, '', path);
-      setCurrentPath(path);
+  const pushPath = (targetPath: string) => {
+    if (targetPath !== currentPath) {
+      window.history.pushState({}, '', targetPath);
+      setCurrentPath(targetPath);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  // Route resolution
+  const navigateTo = (path: string) => {
+    pushPath(localizePath(path, lang));
+  };
+
+  const switchLanguage = (targetLang: Language) => {
+    try {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, targetLang);
+    } catch {
+      // Ignore storage quota / privacy mode errors
+    }
+    const targetPath = switchLanguagePath(currentPath, targetLang);
+    pushPath(targetPath);
+  };
+
+  // Route resolution agnostic of '/fr/' prefix and aliases (/about-us -> /about, /team -> /leadership)
   const renderCurrentPage = () => {
-    const normalized = currentPath.replace(/\/+$/, '') || '/';
+    const normalized = stripLanguagePrefix(currentPath);
 
     if (normalized === '/services') {
       return <ServicesPage onNavigate={navigateTo} />;
@@ -131,7 +157,7 @@ export const App: React.FC = () => {
       return <AboutPage onNavigate={navigateTo} />;
     }
 
-    if (normalized === '/leadership' || normalized === '/team') {
+    if (normalized === '/leadership') {
       return <LeadershipPage onNavigate={navigateTo} />;
     }
 
@@ -153,11 +179,17 @@ export const App: React.FC = () => {
   };
 
   return (
-    <ErrorBoundary onReset={() => navigateTo('/')}>
-      <Header currentPath={currentPath} onNavigate={navigateTo} />
-      {renderCurrentPage()}
-      <Footer onNavigate={navigateTo} />
-    </ErrorBoundary>
+    <LanguageProvider lang={lang}>
+      <ErrorBoundary lang={lang} onReset={() => pushPath(localizePath('/', lang))}>
+        <Header
+          currentPath={currentPath}
+          onNavigate={navigateTo}
+          onSwitchLanguage={switchLanguage}
+        />
+        {renderCurrentPage()}
+        <Footer onNavigate={navigateTo} />
+      </ErrorBoundary>
+    </LanguageProvider>
   );
 };
 

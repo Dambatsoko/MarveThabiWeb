@@ -1,88 +1,95 @@
 import React, { useEffect } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { processPhasesFr } from '../i18n/translations/domainData.fr';
+import { localizePath } from '../i18n/routing';
 
 interface ProcessPageProps {
   onNavigate: (path: string) => void;
 }
 
+const processDeepDivesEn = [
+  {
+    number: '01',
+    title: 'Consultation & Scoping',
+    overview: 'Defining the technical requirement with the client, asset owners, and statutory stakeholders.',
+    tasks: [
+      'Stakeholder alignment & statutory matrix mapping',
+      'Initial site inspection & hazard identification',
+      'Terms of Reference (ToR) and project charter definition',
+      'Statutory permitting pathway identification (NEMA / ECSA / DWS)',
+    ],
+    deliverables: 'Project Scoping Dossier, Risk Log, Preliminary Feasibility Memo',
+  },
+  {
+    number: '02',
+    title: 'Investigation & Baseline Diagnostics',
+    overview: 'Conducting empirical field investigations, non-destructive testing, and technical baseline studies.',
+    tasks: [
+      'Geophysical resistivity, GPR, and geological sampling',
+      'Load flow studies, power quality recordings & harmonic analysis to NRS 048',
+      'Vibration spectral baseline capture and oil tribology sampling',
+      'Physical asset condition grading and barcode/RFID logging',
+    ],
+    deliverables: 'Empirical Baseline Report, Laboratory Test Certificates, Diagnostic Datasets',
+  },
+  {
+    number: '03',
+    title: 'Engineering Design & Calculations',
+    overview: 'Detailed CAD drafting, numerical simulations, and standards-compliant engineering blueprints.',
+    tasks: [
+      'AutoCAD / BIM single-line diagrams, reticulation layouts, and civil interfaces',
+      'Fault-level calculations, voltage drop modeling, and relay protection curves',
+      'Strategic Asset Management Plan (SAMP) and FMECA failure modeling',
+      'Environmental Management Programmes (EMPr) and water balance models',
+    ],
+    deliverables: 'Certified CAD Blueprints, Bill of Quantities (BOQ), Technical Specifications',
+  },
+  {
+    number: '04',
+    title: 'Implementation & Construction Supervision',
+    overview: 'On-site engineering oversight, contractor management, and rigorous build quality control.',
+    tasks: [
+      'Resident engineering supervision and daily site diaries',
+      'Contractor quality assurance and factory acceptance testing (FAT)',
+      'Environmental Control Officer (ECO) audits and biomonitoring during build',
+      'Cable laying, substation assembly, and telemetry sensor deployment',
+    ],
+    deliverables: 'Site Inspection Logs, Non-Conformance Reports (NCRs), Monthly Progress Dossiers',
+  },
+  {
+    number: '05',
+    title: 'Quality Assurance & Statutory Commissioning',
+    overview: 'Comprehensive pre-commissioning testing, energization, and statutory certification.',
+    tasks: [
+      'Relay tripping test validation and insulation resistance pressure testing',
+      'Pumping tests, groundwater yield certification, and water quality sign-off',
+      'Statutory Electrical Certificate of Compliance (COC) issuance',
+      'Regulatory final filings to DWS, DFFE, and municipal authorities',
+    ],
+    deliverables: 'As-Built CAD Blueprints, Commissioning Certificates, Statutory COCs',
+  },
+  {
+    number: '06',
+    title: 'Long-Term Support & Asset Optimization',
+    overview: 'Condition-based monitoring, predictive maintenance tactics, and digital twin stewardship.',
+    tasks: [
+      'Continuous vibration telemetry and oil analysis review cycles',
+      'Asset digital twin maintenance and annual GRAP 17 register updates',
+      'Annual environmental compliance audits and NAEIS air quality reporting',
+      'Strategic lifecycle reviews and Capex replacement forecasting',
+    ],
+    deliverables: 'Annual Asset Health Scorecards, Predictive Maintenance Schedules, Audit Clearance',
+  },
+];
+
 export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const processDeepDives = lang === 'fr' ? processPhasesFr : processDeepDivesEn;
+  const contactHref = localizePath('/contact', lang);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
-
-  const processDeepDives = [
-    {
-      number: '01',
-      title: 'Consultation & Scoping',
-      overview: 'Defining the technical requirement with the client, asset owners, and statutory stakeholders.',
-      tasks: [
-        'Stakeholder alignment & statutory matrix mapping',
-        'Initial site inspection & hazard identification',
-        'Terms of Reference (ToR) and project charter definition',
-        'Statutory permitting pathway identification (NEMA / ECSA / DWS)',
-      ],
-      deliverables: 'Project Scoping Dossier, Risk Log, Preliminary Feasibility Memo',
-    },
-    {
-      number: '02',
-      title: 'Investigation & Baseline Diagnostics',
-      overview: 'Conducting empirical field investigations, non-destructive testing, and technical baseline studies.',
-      tasks: [
-        'Geophysical resistivity, GPR, and geological sampling',
-        'Load flow studies, power quality recordings & harmonic analysis to NRS 048',
-        'Vibration spectral baseline capture and oil tribology sampling',
-        'Physical asset condition grading and barcode/RFID logging',
-      ],
-      deliverables: 'Empirical Baseline Report, Laboratory Test Certificates, Diagnostic Datasets',
-    },
-    {
-      number: '03',
-      title: 'Engineering Design & Calculations',
-      overview: 'Detailed CAD drafting, numerical simulations, and standards-compliant engineering blueprints.',
-      tasks: [
-        'AutoCAD / BIM single-line diagrams, reticulation layouts, and civil interfaces',
-        'Fault-level calculations, voltage drop modeling, and relay protection curves',
-        'Strategic Asset Management Plan (SAMP) and FMECA failure modeling',
-        'Environmental Management Programmes (EMPr) and water balance models',
-      ],
-      deliverables: 'Certified CAD Blueprints, Bill of Quantities (BOQ), Technical Specifications',
-    },
-    {
-      number: '04',
-      title: 'Implementation & Construction Supervision',
-      overview: 'On-site engineering oversight, contractor management, and rigorous build quality control.',
-      tasks: [
-        'Resident engineering supervision and daily site diaries',
-        'Contractor quality assurance and factory acceptance testing (FAT)',
-        'Environmental Control Officer (ECO) audits and biomonitoring during build',
-        'Cable laying, substation assembly, and telemetry sensor deployment',
-      ],
-      deliverables: 'Site Inspection Logs, Non-Conformance Reports (NCRs), Monthly Progress Dossiers',
-    },
-    {
-      number: '05',
-      title: 'Quality Assurance & Statutory Commissioning',
-      overview: 'Comprehensive pre-commissioning testing, energization, and statutory certification.',
-      tasks: [
-        'Relay tripping test validation and insulation resistance pressure testing',
-        'Pumping tests, groundwater yield certification, and water quality sign-off',
-        'Statutory Electrical Certificate of Compliance (COC) issuance',
-        'Regulatory final filings to DWS, DFFE, and municipal authorities',
-      ],
-      deliverables: 'As-Built CAD Blueprints, Commissioning Certificates, Statutory COCs',
-    },
-    {
-      number: '06',
-      title: 'Long-Term Support & Asset Optimization',
-      overview: 'Condition-based monitoring, predictive maintenance tactics, and digital twin stewardship.',
-      tasks: [
-        'Continuous vibration telemetry and oil analysis review cycles',
-        'Asset digital twin maintenance and annual GRAP 17 register updates',
-        'Annual environmental compliance audits and NAEIS air quality reporting',
-        'Strategic lifecycle reviews and Capex replacement forecasting',
-      ],
-      deliverables: 'Annual Asset Health Scorecards, Predictive Maintenance Schedules, Audit Clearance',
-    },
-  ];
 
   return (
     <main className="proc-page detail-page">
@@ -90,16 +97,26 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
       <section className="svc-hero">
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
         <div className="wrap">
-          <h1 className="svc-hero-title">Project Delivery Lifecycle</h1>
+          <h1 className="svc-hero-title">{t.processPage.heroTitle}</h1>
           <p className="lead svc-hero-sub">
-            A disciplined, traceable path from initial consultation and site diagnostics to
-            detailed CAD engineering, construction oversight, and long-term asset optimization.
+            {t.processPage.heroSubtitle}
           </p>
           <div className="svc-hero-tags proc-hero-tags">
-            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Stage-Gate Quality Assurance</span>
-            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>SANS &amp; ISO 55000 Alignment</span>
-            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Statutory Professional Oversight</span>
-            <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Commissioning &amp; Handover</span>
+            {lang === 'en' ? (
+              <>
+                <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Stage-Gate Quality Assurance</span>
+                <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>SANS &amp; ISO 55000 Alignment</span>
+                <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Statutory Professional Oversight</span>
+                <span className="svc-hero-tag proc-hero-tag"><span className="tag-dot"></span>Commissioning &amp; Handover</span>
+              </>
+            ) : (
+              t.processPage.heroTags.map((tag) => (
+                <span key={tag} className="svc-hero-tag proc-hero-tag">
+                  <span className="tag-dot"></span>
+                  {tag}
+                </span>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -108,8 +125,8 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
       <section className="detail-body-section">
         <div className="wrap">
           <div className="sec-head proc-sec-head">
-            <h2>End-to-End Delivery Architecture</h2>
-            <p>Every engineering and environmental engagement follows this structured, accountable workflow.</p>
+            <h2>{lang === 'en' ? 'End-to-End Delivery Architecture' : t.processPage.sectionHeading}</h2>
+            <p>{t.processPage.sectionSubtitle}</p>
           </div>
 
           <div className="proc-list">
@@ -120,7 +137,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
                     {step.number}
                   </span>
                   <span className="label">
-                    PHASE {step.number}
+                    {t.processPage.phasePrefix} {step.number}
                   </span>
                 </div>
 
@@ -133,7 +150,7 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
                   </p>
 
                   <span className="proc-card-act-title">
-                    Core Engineering and Environmental Activities
+                    {t.processPage.activitiesHeading}
                   </span>
                   <ul className="proc-card-tasks">
                     {step.tasks.map((task, i) => (
@@ -147,14 +164,14 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
 
                 <div className="proc-card-deliv">
                   <span className="proc-card-deliv-title">
-                    Deliverable Artifact
+                    {t.processPage.deliverableHeading}
                   </span>
                   <p className="proc-card-deliv-text">
                     {step.deliverables}
                   </p>
                   <div className="proc-card-deliv-qual">
                     <span className="proc-card-deliv-dot"></span>
-                    <span>Quality Verified &amp; Sign-off Ready</span>
+                    <span>{t.processPage.qualityBadge}</span>
                   </div>
                 </div>
               </div>
@@ -167,21 +184,21 @@ export const ProcessPage: React.FC<ProcessPageProps> = ({ onNavigate }) => {
       <section className="svc-cta">
         <div className="wrap svc-cta-inner">
           <div>
-            <h2>Initiate Phase 01 for Your Project</h2>
+            <h2>{t.processPage.ctaHeading}</h2>
             <p className="svc-cta-sub">
-              Reach out to our principal engineers to schedule an exploratory technical consultation.
+              {t.processPage.ctaSubtitle}
             </p>
           </div>
           <a
-            href="/contact"
+            href={contactHref}
             className="btn btn-brand"
-            aria-label="Request a consultation to initiate Phase 01 for your project"
+            aria-label={t.processPage.ctaHeading}
             onClick={(e) => {
               e.preventDefault();
-              onNavigate('/contact');
+              onNavigate(contactHref);
             }}
           >
-            Request Consultation
+            {t.common.requestConsultation}
           </a>
         </div>
       </section>

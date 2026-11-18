@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   servicesData,
   clientsData,
-  industriesData,
 } from '../data/marvethabi';
 import { AccreditationSection } from './AccreditationSection';
 import { AffiliationsSection } from './AffiliationsSection';
@@ -14,12 +13,19 @@ import {
   getSlideLayerStyle,
   type HeroSlideState,
 } from '../utils/heroSlideshow';
+import { useLanguage } from '../i18n/LanguageContext';
+import { getLocalizedServices, getLocalizedIndustries } from '../i18n/data';
+import { localizePath } from '../i18n/routing';
 
 interface HomePageProps {
   onNavigate?: (path: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const localizedServices = getLocalizedServices(lang);
+  const localizedIndustries = getLocalizedIndustries(lang);
+
   // Contact form state
   const [formData, setFormData] = useState({
     name: '',
@@ -96,7 +102,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) {
-      setFormNotice('Your enquiry could not be sent. Please check the required fields and try again.');
+      setFormNotice(t.home.formRequiredError);
       setFormStatus('error');
       return;
     }
@@ -105,6 +111,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     setFormStatus('idle');
     setFormNotice('');
 
+    // Preserve canonical English service category name for backend routing while keeping user inputs untranslated
     const serviceLabel = formData.service || 'General Enquiry';
     const payload = {
       fullName: formData.name.trim(),
@@ -113,10 +120,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       phone: formData.phone.trim(),
       categoryId: formData.service ? 'engineering-services' : 'general-enquiry',
       categoryName: serviceLabel,
-      subject: `${serviceLabel} — Homepage Project Enquiry`,
+      subject: `${serviceLabel} — ${t.home.formDefaultSubjectSuffix}`,
       details:
         formData.details.trim() ||
-        `Consultation request submitted via homepage for ${serviceLabel}.`,
+        `${t.home.formDefaultDetailsPrefix} ${serviceLabel}.`,
     };
 
     try {
@@ -128,17 +135,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       const resData = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(resData.error || 'Unable to send enquiry right now.');
+        throw new Error(resData.error || t.home.formFallbackError);
       }
 
       if (resData.delivered) {
         setFormNotice(
-          `Thank you. Your enquiry (Ref: ${resData.referenceNumber}) was sent to ${resData.targetEmail || 'info@marvethabi.co.za'}. A registered engineer will respond within one business day.`
+          t.home.formSuccessDelivered
+            .replace('{ref}', resData.referenceNumber || '')
+            .replace('{email}', resData.targetEmail || 'info@marvethabi.co.za')
         );
         setFormStatus('success');
       } else {
         setFormNotice(
-          `Thank you. Your enquiry (Ref: ${resData.referenceNumber || 'logged'}) has been received and routed to our engineering team. A registered engineer will respond within one business day.`
+          t.home.formSuccessLogged.replace('{ref}', resData.referenceNumber || 'logged')
         );
         setFormStatus('success');
       }
@@ -152,12 +161,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         details: '',
       });
     } catch (err: any) {
-      setFormNotice(err?.message || 'Your enquiry could not be sent. Please try again.');
+      setFormNotice(err?.message || t.home.formFallbackError);
       setFormStatus('error');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const servicesHref = localizePath('/services', lang);
+  const contactHref = localizePath('/contact', lang);
 
   return (
     <main id="top">
@@ -193,48 +205,46 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="wrap hero-grid">
           <div className="hero-copy">
             <div className="hero-reg label">
-              <span>ECSA Registered</span>
+              <span>{t.home.heroRegEcsa}</span>
               <span className="dot" aria-hidden="true"></span>
-              <span>SACNASP Registered</span>
+              <span>{t.home.heroRegSacnasp}</span>
               <span className="dot" aria-hidden="true"></span>
-              <span>CSD: Active</span>
+              <span>{t.home.heroRegCsd}</span>
             </div>
-            <h1 className="hero-title">Integrated Engineering &amp; Environmental Solutions That Build Africa &amp; Beyond</h1>
+            <h1 className="hero-title">{t.home.heroTitle}</h1>
             <p className="hero-sub lead">
-              Delivering specialist Reliability Engineering, Asset Management, Electrical
-              Engineering and Geo-Environmental solutions for government, municipalities,
-              mining, energy and industrial sectors.
+              {t.home.heroSubtitle}
             </p>
             <div className="hero-cta">
               <a
-                href="/services"
+                href={servicesHref}
                 className="btn btn-brand"
-                aria-label="Explore our engineering and environmental services catalogue"
+                aria-label={t.home.heroExploreAria}
                 onClick={(e) => {
                   e.preventDefault();
                   if (onNavigate) {
-                    onNavigate('/services');
+                    onNavigate(servicesHref);
                   } else {
                     document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
               >
-                Explore Services
+                {t.common.exploreServices}
               </a>
               <a
-                href="/contact"
+                href={contactHref}
                 className="btn btn-ghost"
-                aria-label="Request a technical consultation with our registered engineering team"
+                aria-label={t.home.heroConsultAria}
                 onClick={(e) => {
                   e.preventDefault();
                   if (onNavigate) {
-                    onNavigate('/contact');
+                    onNavigate(contactHref);
                   } else {
                     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
               >
-                Request Consultation
+                {t.common.requestConsultation}
               </a>
             </div>
           </div>
@@ -244,28 +254,28 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ============ CLIENTS SECTION ============ */}
       <section className="cred" aria-labelledby="cred-title">
         <div className="wrap cred-wrap">
-          <p className="cred-head" id="cred-title">Our Clients</p>
-          <div className="client-view-toggle" role="group" aria-label="Client logos display mode">
+          <p className="cred-head" id="cred-title">{t.home.clientsHeading}</p>
+          <div className="client-view-toggle" role="group" aria-label={t.home.clientToggleGroupAria}>
             <button
               type="button"
               className={`client-toggle-btn ${clientView === 'carousel' ? 'active' : ''}`}
               onClick={() => setClientView('carousel')}
               aria-pressed={clientView === 'carousel'}
-              aria-label="Switch client logos to continuous scrolling marquee view"
-              title="Continuous marquee animation"
+              aria-label={t.home.scrollViewAria}
+              title={t.home.scrollViewTitle}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
-              Scroll View
+              {t.home.scrollView}
             </button>
             <button
               type="button"
               className={`client-toggle-btn ${clientView === 'grid' ? 'active' : ''}`}
               onClick={() => setClientView('grid')}
               aria-pressed={clientView === 'grid'}
-              aria-label="Switch client logos to 14-client grid view"
-              title="View all 14 clients in a grid"
+              aria-label={t.home.gridViewAria}
+              title={t.home.gridViewTitle}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
                 <rect x="3" y="3" width="7" height="7" />
@@ -273,13 +283,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 <rect x="14" y="14" width="7" height="7" />
                 <rect x="3" y="14" width="7" height="7" />
               </svg>
-              Grid View (14)
+              {t.home.gridView}
             </button>
           </div>
         </div>
 
         {clientView === 'carousel' ? (
-          <div className="marquee" aria-label="Scrolling client logos">
+          <div className="marquee" aria-label={t.home.scrollingClientsAria}>
             <div className="marquee-track">
               {[0, 1].map((pass) => (
                 <React.Fragment key={pass}>
@@ -292,7 +302,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     >
                       <img
                         src={`/assets/images/${client.logo}`}
-                        alt={pass === 0 ? `${client.name} logo - MarveThabi client` : ''}
+                        alt={pass === 0 ? `${client.name} ${t.home.clientLogoAltSuffix}` : ''}
                         loading="lazy"
                         decoding="async"
                       />
@@ -303,12 +313,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
           </div>
         ) : (
-          <div className="client-grid" role="list" aria-label="All 14 client logos">
+          <div className="client-grid" role="list" aria-label={t.home.gridClientsAria}>
             {clientsData.map((client) => (
               <div key={client.name} className="client-grid-card" role="listitem" title={client.name}>
                 <img
                   src={`/assets/images/${client.logo}`}
-                  alt={`${client.name} logo - MarveThabi client`}
+                  alt={`${client.name} ${t.home.clientLogoAltSuffix}`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -323,55 +333,58 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="ind-bg" aria-hidden="true"></div>
         <div className="wrap ind-content">
           <div className="sec-head sec-head-light reveal">
-            <h2>Industries We Serve</h2>
-            <p>Specialist support for the sectors that keep the country running. Click any sector to see where our services fit.</p>
+            <h2>{t.home.industriesHeading}</h2>
+            <p>{t.home.industriesSubtitle}</p>
           </div>
           <div className="ind-grid">
-            {industriesData.map((ind, i) => (
-              <a
-                key={ind.name}
-                href={`/industries/${ind.slug}`}
-                className={`ind-card ind-card-link reveal r-delay-${i % 4}`}
-                aria-label={`Explore how MarveThabi engineering services serve the ${ind.name} sector`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onNavigate) {
-                    onNavigate(`/industries/${ind.slug}`);
-                  }
-                }}
-                style={{
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  borderRadius: '6px',
-                  transition: 'transform 0.25s ease, background 0.25s ease, border-color 0.25s ease',
-                }}
-                title={`Explore how MarveThabi serves the ${ind.name} sector`}
-              >
-                <svg viewBox="0 0 48 48" className="ind-icon" aria-hidden="true">
-                  <path d={ind.path} fill="none" />
-                </svg>
-                <span className="card-title" style={{ marginTop: '12px' }}>{ind.name}</span>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    color: 'var(--brand-light, #5e9e8b)',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    marginTop: '8px',
-                    textTransform: 'uppercase',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
+            {localizedIndustries.map((ind, i) => {
+              const indHref = localizePath(`/industries/${ind.slug}`, lang);
+              return (
+                <a
+                  key={ind.slug}
+                  href={indHref}
+                  className={`ind-card ind-card-link reveal r-delay-${i % 4}`}
+                  aria-label={`${t.home.industryAriaPrefix} ${ind.name}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigate) {
+                      onNavigate(indHref);
+                    }
                   }}
+                  style={{
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    borderRadius: '6px',
+                    transition: 'transform 0.25s ease, background 0.25s ease, border-color 0.25s ease',
+                  }}
+                  title={`${t.home.industryTitlePrefix} ${ind.name}`}
                 >
-                  Where We Fit &rarr;
-                </span>
-              </a>
-            ))}
+                  <svg viewBox="0 0 48 48" className="ind-icon" aria-hidden="true">
+                    <path d={ind.path} fill="none" />
+                  </svg>
+                  <span className="card-title" style={{ marginTop: '12px' }}>{ind.name}</span>
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      color: 'var(--brand-light, #5e9e8b)',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                      marginTop: '8px',
+                      textTransform: 'uppercase',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    {t.common.whereWeFit}
+                  </span>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -386,31 +399,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="contact" id="contact">
         <div className="wrap contact-grid">
           <div className="reveal">
-            <h2>Start a Project</h2>
+            <h2>{t.home.contactHeading}</h2>
             <p className="contact-lead lead">
-              From municipal electrification to mine-wide asset strategies, the first step is a
-              conversation with a registered engineer.
+              {t.home.contactLead}
             </p>
             <div className="contact-block">
-              <span className="c-label label">Office</span>
-              <p>Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182</p>
+              <span className="c-label label">{t.home.officeLabel}</span>
+              <p>{t.common.officeAddress}</p>
             </div>
             <div className="contact-block">
-              <span className="c-label label">Enquiries</span>
+              <span className="c-label label">{t.home.enquiriesLabel}</span>
               <p className="num">info@marvethabi.co.za</p>
               <p className="num">+27 82 412 3847</p>
               <p className="num">+27 72 834 7953</p>
             </div>
             <div className="contact-block">
-              <span className="c-label label">Professional Registrations</span>
-              <p className="num regs-line">ECSA &middot; SACNASP &middot; CIDB &middot; CSD</p>
+              <span className="c-label label">{t.home.registrationsLabel}</span>
+              <p className="num regs-line">{t.home.registrationsLine}</p>
             </div>
           </div>
           <div className="reveal r-delay-1">
-            <form className="form-card" onSubmit={handleFormSubmit}>
+            <form className="form-card" onSubmit={handleFormSubmit} noValidate>
               {formStatus === 'success' && (
                 <p className="form-notice form-notice-ok">
-                  {formNotice || 'Thank you. A registered engineer will respond within one business day.'}
+                  {formNotice || t.home.formGenericSuccess}
                 </p>
               )}
               {formStatus === 'pending' && (
@@ -420,27 +432,27 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               )}
               {formStatus === 'error' && (
                 <p className="form-notice form-notice-err">
-                  {formNotice || 'Your enquiry could not be sent. Please check the required fields and try again.'}
+                  {formNotice || t.home.formRequiredError}
                 </p>
               )}
               <div className="form-row">
                 <label>
-                  Full Name
+                  {t.home.formFullName}
                   <input
                     type="text"
                     name="mt_name"
-                    placeholder="Your name"
+                    placeholder={t.home.formFullNamePlaceholder}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
                   />
                 </label>
                 <label>
-                  Organisation
+                  {t.home.formOrganisation}
                   <input
                     type="text"
                     name="mt_org"
-                    placeholder="Department, municipality or company"
+                    placeholder={t.home.formOrganisationPlaceholder}
                     value={formData.org}
                     onChange={(e) => setFormData({ ...formData, org: e.target.value })}
                   />
@@ -448,50 +460,53 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
               <div className="form-row">
                 <label>
-                  Email
+                  {t.home.formEmail}
                   <input
                     type="email"
                     name="mt_email"
-                    placeholder="you@organisation.gov.za"
+                    placeholder={t.home.formEmailPlaceholder}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
                   />
                 </label>
                 <label>
-                  Phone
+                  {t.home.formPhone}
                   <input
                     type="tel"
                     name="mt_phone"
-                    placeholder="+27"
+                    placeholder={t.home.formPhonePlaceholder}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
                 </label>
               </div>
               <label>
-                Service Required
+                {t.home.formService}
                 <select
                   name="mt_service"
                   value={formData.service}
                   onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                 >
                   <option value="" disabled>
-                    Select a discipline
+                    {t.home.formServicePlaceholder}
                   </option>
-                  {servicesData.map((svc) => (
-                    <option key={svc.ref} value={svc.title}>
-                      {svc.title}
-                    </option>
-                  ))}
+                  {localizedServices.map((svc, idx) => {
+                    const canonicalTitle = servicesData[idx]?.title || svc.title;
+                    return (
+                      <option key={svc.ref} value={canonicalTitle}>
+                        {svc.title}
+                      </option>
+                    );
+                  })}
                 </select>
               </label>
               <label>
-                Project Details
+                {t.home.formDetails}
                 <textarea
                   name="mt_details"
                   rows={4}
-                  placeholder="Scope, location and timeline"
+                  placeholder={t.home.formDetailsPlaceholder}
                   value={formData.details}
                   onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                 ></textarea>
@@ -500,9 +515,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 type="submit"
                 disabled={isSubmitting}
                 className="btn btn-brand btn-full"
-                aria-label="Send project enquiry to registered engineers"
+                aria-label={t.home.formSubmitAria}
               >
-                {isSubmitting ? 'Sending...' : 'Send Enquiry'}
+                {isSubmitting ? t.home.formSubmitting : t.home.formSubmit}
               </button>
             </form>
           </div>

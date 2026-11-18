@@ -4,6 +4,7 @@ import {
   computeNavFontSize,
   isHamburgerActive,
   isLinkActive,
+  getNavLinks,
   NAV_LINKS,
   MIN_DESKTOP_NAV_FONT_PX,
   MAX_DESKTOP_NAV_FONT_PX,
@@ -20,6 +21,18 @@ test('navigation links list includes all required destinations', () => {
     'Our Process',
     'Contact Us',
   ]);
+});
+
+test('French navigation links preserve order and /fr/ routes', () => {
+  const frLinks = getNavLinks('fr');
+  assert.deepEqual(
+    frLinks.map((l) => l.href),
+    ['/fr/', '/fr/about', '/fr/services', '/fr/leadership', '/fr/process', '/fr/contact']
+  );
+  assert.deepEqual(
+    frLinks.map((l) => l.label),
+    ['Accueil', 'À propos', 'Nos Services', 'Notre Équipe', 'Notre Processus', 'Contact']
+  );
 });
 
 test('desktop navigation font size smoothly scales and never drops below 12px', () => {
@@ -60,18 +73,28 @@ test('hamburger breakpoint triggers at or below HAMBURGER_BREAKPOINT_PX (880px)'
   assert.equal(isHamburgerActive(320), true);
 });
 
-test('route active state resolution handles nested routes and team alias', () => {
+test('route active state resolution handles nested routes, team/about-us aliases, and /fr/ prefixes', () => {
   assert.equal(isLinkActive('/', '/'), true);
+  assert.equal(isLinkActive('/fr/', '/fr/'), true);
+  assert.equal(isLinkActive('/fr/', '/fr'), true);
+  assert.equal(isLinkActive('/fr/', '/fr/about'), false);
   assert.equal(isLinkActive('/', '/about'), false);
+  assert.equal(isLinkActive('/about', '/fr/about-us'), true);
+  assert.equal(isLinkActive('/fr/about', '/fr/about-us'), true);
   assert.equal(isLinkActive('/services', '/services'), true);
   assert.equal(isLinkActive('/services', '/services/reliability-engineering'), true);
+  assert.equal(isLinkActive('/fr/services', '/fr/services/reliability-engineering'), true);
   assert.equal(isLinkActive('/leadership', '/leadership'), true);
   assert.equal(isLinkActive('/leadership', '/team'), true);
+  assert.equal(isLinkActive('/fr/leadership', '/fr/team'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/marvelous-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/marvellous-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/thabang-ngoatle'), true);
   assert.equal(isLinkActive('/leadership', '/leadership/jonas-lufuluaabo'), true);
+  assert.equal(isLinkActive('/fr/leadership', '/fr/leadership/jonas-lufuluabo'), true);
   assert.equal(isLinkActive('/process', '/process'), true);
+  assert.equal(isLinkActive('/fr/process', '/fr/process'), true);
   assert.equal(isLinkActive('/contact', '/contact'), true);
+  assert.equal(isLinkActive('/fr/contact', '/fr/contact'), true);
 });
 

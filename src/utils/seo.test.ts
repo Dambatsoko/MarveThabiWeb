@@ -139,27 +139,78 @@ test('all 7 industry pages have unique metadata and BreadcrumbList structured da
   }
 });
 
-test('sitemap.xml generates a valid XML string containing exactly 36 canonical URLs', () => {
+test('sitemap.xml generates a valid bilingual XML string containing 36 EN + 36 FR = 72 canonical URLs with hreflang alternates', () => {
   const xml = generateSitemapXml('2026-11-07');
   assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
-  assert.ok(xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
+  assert.ok(
+    xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">')
+  );
   assert.ok(xml.endsWith('</urlset>'));
 
+  const enPages = getAllIndexablePages('en');
+  const frPages = getAllIndexablePages('fr');
   const allPages = getAllIndexablePages();
-  assert.equal(allPages.length, 36, 'Must contain exactly 36 canonical indexable pages');
+  assert.equal(enPages.length, 36, 'Must contain exactly 36 English canonical indexable pages');
+  assert.equal(frPages.length, 36, 'Must contain exactly 36 French canonical indexable pages');
+  assert.equal(allPages.length, 72, 'Must contain exactly 72 bilingual canonical indexable pages');
 
   for (const p of allPages) {
     assert.ok(
       xml.includes(`<loc>${p.canonicalUrl}</loc>`),
       `Sitemap must contain canonical URL: ${p.canonicalUrl}`
     );
+    assert.ok(
+      xml.includes(`<xhtml:link rel="alternate" hreflang="en" href="${p.alternateUrls.en}" />`),
+      `Sitemap must include hreflang="en" for ${p.canonicalUrl}`
+    );
+    assert.ok(
+      xml.includes(`<xhtml:link rel="alternate" hreflang="fr" href="${p.alternateUrls.fr}" />`),
+      `Sitemap must include hreflang="fr" for ${p.canonicalUrl}`
+    );
+    assert.ok(
+      xml.includes(`<xhtml:link rel="alternate" hreflang="x-default" href="${p.alternateUrls.xDefault}" />`),
+      `Sitemap must include hreflang="x-default" for ${p.canonicalUrl}`
+    );
   }
 
   // Ensure no duplicate <loc> tags
   const locMatches = xml.match(/<loc>[\s\S]*?<\/loc>/g) || [];
-  assert.equal(locMatches.length, 36, 'Must have exactly 36 unique <loc> entries');
+  assert.equal(locMatches.length, 72, 'Must have exactly 72 unique <loc> entries');
   const uniqueLocs = new Set(locMatches);
-  assert.equal(uniqueLocs.size, 36, 'All loc entries must be unique');
+  assert.equal(uniqueLocs.size, 72, 'All loc entries must be unique');
+});
+
+test('French (/fr/...) routes resolve unique French titles, descriptions, canonicals, hreflang, and inLanguage', () => {
+  const routes = [
+    '/fr/',
+    '/fr/about',
+    '/fr/services',
+    '/fr/leadership',
+    '/fr/process',
+    '/fr/industries',
+    '/fr/contact',
+    '/fr/services/reliability-engineering',
+    '/fr/industries/mining',
+    '/fr/leadership/jonas-lufuluabo',
+  ];
+
+  const titles = new Set<string>();
+  const canonicals = new Set<string>();
+
+  for (const route of routes) {
+    const seo = getPageSEO(route);
+    assert.equal(seo.lang, 'fr', `Route ${route} must resolve lang='fr'`);
+    assert.equal(seo.inLanguage, 'fr', `Route ${route} must resolve inLanguage='fr'`);
+    assert.ok(seo.canonicalUrl.startsWith(`${PRODUCTION_DOMAIN}/fr/`), `Canonical for ${route} must have /fr/ prefix`);
+    assert.ok(seo.alternateUrls.en.startsWith(PRODUCTION_DOMAIN));
+    assert.ok(!seo.alternateUrls.en.includes('/fr/'));
+    assert.ok(seo.alternateUrls.fr.startsWith(`${PRODUCTION_DOMAIN}/fr/`));
+    assert.equal(seo.alternateUrls.xDefault, seo.alternateUrls.en);
+    assert.equal(titles.has(seo.title), false, `French title must be unique for ${route}`);
+    assert.equal(canonicals.has(seo.canonicalUrl), false, `French canonical must be unique for ${route}`);
+    titles.add(seo.title);
+    canonicals.add(seo.canonicalUrl);
+  }
 });
 
 test('robots.txt allows search engine crawlers and points to production sitemap', () => {

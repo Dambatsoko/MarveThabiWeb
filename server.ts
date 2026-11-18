@@ -427,6 +427,9 @@ function injectSEOIntoHtml(html: string, urlPath: string): string {
   const seo = getPageSEO(urlPath);
   let result = html;
 
+  // HTML lang attribute
+  result = result.replace(/<html\s+lang="[^"]*"/i, `<html lang="${seo.lang}"`);
+
   // Title
   result = result.replace(/<title>[\s\S]*?<\/title>/i, `<title>${seo.title}</title>`);
 
@@ -440,6 +443,26 @@ function injectSEOIntoHtml(html: string, urlPath: string): string {
   result = result.replace(
     /<link\s+rel="canonical"\s+href="[\s\S]*?"\s*\/?>/i,
     `<link rel="canonical" href="${seo.canonicalUrl}" />`
+  );
+
+  // Hreflang alternates
+  result = result.replace(
+    /<link\s+rel="alternate"\s+hreflang="en"\s+href="[\s\S]*?"\s*\/?>/i,
+    `<link rel="alternate" hreflang="en" href="${seo.alternateUrls.en}" />`
+  );
+  result = result.replace(
+    /<link\s+rel="alternate"\s+hreflang="fr"\s+href="[\s\S]*?"\s*\/?>/i,
+    `<link rel="alternate" hreflang="fr" href="${seo.alternateUrls.fr}" />`
+  );
+  result = result.replace(
+    /<link\s+rel="alternate"\s+hreflang="x-default"\s+href="[\s\S]*?"\s*\/?>/i,
+    `<link rel="alternate" hreflang="x-default" href="${seo.alternateUrls.xDefault}" />`
+  );
+
+  // OG Locale
+  result = result.replace(
+    /<meta\s+property="og:locale"\s+content="[\s\S]*?"\s*\/?>/i,
+    `<meta property="og:locale" content="${seo.lang === 'fr' ? 'fr_FR' : 'en_ZA'}" />`
   );
 
   // OG Title
@@ -514,14 +537,18 @@ async function startServer() {
       appType: 'spa',
     });
 
-    // Intercept HTML requests in dev to inject dynamic per-page SEO
+    // Intercept HTML/page requests in dev to inject dynamic per-page SEO (including /fr/... routes)
     app.use(async (req: Request, res: Response, next) => {
+      const accept = req.headers.accept || '';
+      const acceptsHtml = !accept || accept.includes('text/html') || accept.includes('*/*');
       if (
         req.method === 'GET' &&
-        req.headers.accept?.includes('text/html') &&
+        acceptsHtml &&
         !req.path.startsWith('/api') &&
         !req.path.startsWith('/src') &&
         !req.path.startsWith('/@') &&
+        !req.path.startsWith('/assets') &&
+        !req.path.startsWith('/node_modules') &&
         !req.path.includes('.')
       ) {
         try {

@@ -3,6 +3,10 @@
  * Decoupled from React DOM for deterministic testing and validation.
  */
 
+import { Language } from '../i18n/types';
+import { localizePath, stripLanguagePrefix } from '../i18n/routing';
+import { UI_TRANSLATIONS } from '../i18n/translations/ui';
+
 export interface NavLinkItem {
   id: string;
   label: string;
@@ -18,6 +22,23 @@ export const NAV_LINKS: NavLinkItem[] = [
   { id: 'process', label: 'Our Process', href: '/process', ariaLabel: 'Navigate to Engineering Process page' },
   { id: 'contact', label: 'Contact Us', href: '/contact', ariaLabel: 'Navigate to Contact Us page' },
 ];
+
+/**
+ * Returns navigation links localized for the active language, preserving English URLs
+ * and prefixing French URLs with '/fr/'.
+ */
+export function getNavLinks(lang: Language): NavLinkItem[] {
+  if (lang === 'en') return NAV_LINKS;
+  const nav = UI_TRANSLATIONS[lang].nav;
+  return [
+    { id: 'home', label: nav.home, href: localizePath('/', lang), ariaLabel: nav.ariaHome },
+    { id: 'about', label: nav.about, href: localizePath('/about', lang), ariaLabel: nav.ariaAbout },
+    { id: 'services', label: nav.services, href: localizePath('/services', lang), ariaLabel: nav.ariaServices },
+    { id: 'team', label: nav.team, href: localizePath('/leadership', lang), ariaLabel: nav.ariaTeam },
+    { id: 'process', label: nav.process, href: localizePath('/process', lang), ariaLabel: nav.ariaProcess },
+    { id: 'contact', label: nav.contact, href: localizePath('/contact', lang), ariaLabel: nav.ariaContact },
+  ];
+}
 
 export const HAMBURGER_BREAKPOINT_PX = 880;
 export const MIN_DESKTOP_NAV_FONT_PX = 12;
@@ -51,11 +72,12 @@ export function isHamburgerActive(viewportWidth: number): boolean {
 }
 
 /**
- * Determines whether a given navigation link is active based on current path.
+ * Determines whether a given navigation link is active based on current path,
+ * agnostic of '/fr/' language prefixes and route aliases.
  */
 export function isLinkActive(linkHref: string, currentPath: string): boolean {
-  const normCurrent = (currentPath || '/').replace(/\/+$/, '') || '/';
-  const normLink = linkHref.replace(/\/+$/, '') || '/';
+  const normCurrent = stripLanguagePrefix(currentPath || '/');
+  const normLink = stripLanguagePrefix(linkHref || '/');
 
   if (normLink === '/') {
     return normCurrent === '/';

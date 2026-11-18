@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { getDedicatedService, dedicatedServicesData } from '../data/marvethabi';
+import { useLanguage } from '../i18n/LanguageContext';
+import {
+  getLocalizedDedicatedService,
+  getLocalizedDedicatedServices,
+} from '../i18n/data';
+import { localizePath } from '../i18n/routing';
 
 interface ServiceDetailPageProps {
   slug: string;
@@ -7,17 +12,22 @@ interface ServiceDetailPageProps {
 }
 
 export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNavigate }) => {
-  const service = getDedicatedService(slug) || dedicatedServicesData[0];
+  const { lang, t } = useLanguage();
+  const allServices = getLocalizedDedicatedServices(lang);
+  const service = getLocalizedDedicatedService(slug, lang) || allServices[0];
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
 
   // Related services in the same category or adjacent
-  const categoryServices = dedicatedServicesData.filter(
+  const categoryServices = allServices.filter(
     (s) => s.category === service.category
   );
-  const relatedServices = categoryServices.length > 1 ? categoryServices : dedicatedServicesData.slice(0, 5);
+  const relatedServices = categoryServices.length > 1 ? categoryServices : allServices.slice(0, 5);
+
+  const servicesListHref = localizePath('/services', lang);
+  const contactHref = localizePath('/contact', lang);
 
   return (
     <main className="detail-page">
@@ -30,8 +40,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           <p className="detail-hero-tagline">{service.tagline}</p>
           <p className="lead svc-hero-sub">{service.summary}</p>
           <div className="svc-hero-tags">
-            <span className="svc-hero-tag"><span className="tag-dot"></span>{service.category} Discipline</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Statutory Standards Compliant</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>{service.category} {t.serviceDetail.disciplineSuffix}</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>{t.serviceDetail.standardsTag}</span>
           </div>
         </div>
       </section>
@@ -60,8 +70,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               >
                 <img
                   src={`/assets/images/${service.image}`}
-                  alt={`${service.title} (${service.ref}) - MarveThabi technical engineering deliverable in ${service.category}`}
-                  aria-label={`${service.title} (${service.ref}) service photograph`}
+                  alt={`${service.title} (${service.ref}) - ${t.serviceDetail.altMiddleText} ${service.category}`}
+                  aria-label={`${service.title} (${service.ref}) ${t.serviceDetail.photoAriaSuffix}`}
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   decoding="async"
@@ -90,11 +100,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               </div>
             )}
 
-            <h2>Engineering Objective & Scope</h2>
+            <h2>{t.serviceDetail.objectiveHeading}</h2>
             <p>{service.objective}</p>
 
             <div className="detail-block">
-              <h3>Core Capabilities</h3>
+              <h3>{t.serviceDetail.capabilitiesHeading}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
                 {service.capabilities.map((capGroup, idx) => (
                   <div
@@ -149,13 +159,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
             </div>
 
             <div className="detail-block">
-              <h3>Technical Approach & Delivery</h3>
+              <h3>{t.serviceDetail.approachHeading}</h3>
               <p>{service.approach}</p>
             </div>
 
             {service.outcomeStatement && (
               <div className="detail-block">
-                <h3>Outcome & Operational Value</h3>
+                <h3>{t.serviceDetail.outcomeHeading}</h3>
                 <div
                   style={{
                     background: 'var(--grey)',
@@ -173,9 +183,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           </div>
 
           {/* Technical Sidebar */}
-          <aside className="detail-sidebar" aria-label="Technical Specifications">
+          <aside className="detail-sidebar" aria-label={t.serviceDetail.specsSidebarAria}>
             <div className="side-card">
-              <h4>Governing Standards</h4>
+              <h4>{t.serviceDetail.governingStandardsHeading}</h4>
               <div className="side-chips">
                 {service.standards.map((std, i) => (
                   <span key={i} className="side-chip num" style={{ fontSize: '13px', background: '#fff' }}>
@@ -186,7 +196,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
             </div>
 
             <div className="side-card">
-              <h4>Applicable Sectors</h4>
+              <h4>{t.serviceDetail.applicableSectorsHeading}</h4>
               <div className="side-chips">
                 {service.sectors.map((sec, i) => (
                   <span key={i} className="side-chip" style={{ fontSize: '13px' }}>
@@ -197,33 +207,36 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
             </div>
 
             <div className="side-card">
-              <h4>Related Service Lines</h4>
-              <div className="side-nav-list" role="navigation" aria-label="Related services">
-                {relatedServices.map((s) => (
-                  <a
-                    key={s.slug}
-                    href={`/services/${s.slug}`}
-                    className="side-nav-item"
-                    aria-label={`View specifications for ${s.title} (${s.ref})`}
-                    aria-current={s.slug === service.slug ? 'page' : undefined}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onNavigate(`/services/${s.slug}`);
-                    }}
-                    style={{
-                      borderColor: s.slug === service.slug ? 'var(--btn-green)' : undefined,
-                      fontWeight: s.slug === service.slug ? 700 : undefined,
-                      background: s.slug === service.slug ? 'rgba(100,156,8,0.06)' : undefined,
-                    }}
-                  >
-                    <span>{s.title}</span>
-                    <span className="num" aria-hidden="true">{s.ref}</span>
-                  </a>
-                ))}
+              <h4>{t.serviceDetail.relatedServicesHeading}</h4>
+              <div className="side-nav-list" role="navigation" aria-label={t.serviceDetail.relatedServicesAria}>
+                {relatedServices.map((s) => {
+                  const sHref = localizePath(`/services/${s.slug}`, lang);
+                  return (
+                    <a
+                      key={s.slug}
+                      href={sHref}
+                      className="side-nav-item"
+                      aria-label={`${s.title} (${s.ref})`}
+                      aria-current={s.slug === service.slug ? 'page' : undefined}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate(sHref);
+                      }}
+                      style={{
+                        borderColor: s.slug === service.slug ? 'var(--btn-green)' : undefined,
+                        fontWeight: s.slug === service.slug ? 700 : undefined,
+                        background: s.slug === service.slug ? 'rgba(100,156,8,0.06)' : undefined,
+                      }}
+                    >
+                      <span>{s.title}</span>
+                      <span className="num" aria-hidden="true">{s.ref}</span>
+                    </a>
+                  );
+                })}
               </div>
               <a
-                href="/services"
-                aria-label="Return to full Engineering Services catalogue"
+                href={servicesListHref}
+                aria-label={t.common.viewAllServicesCatalogue}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -236,28 +249,28 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                 }}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('/services');
+                  onNavigate(servicesListHref);
                 }}
               >
-                ← View All Services Catalogue
+                {t.common.viewAllServicesCatalogue}
               </a>
             </div>
 
             <div className="side-card" style={{ background: 'var(--slate)', color: '#fff', border: 'none' }}>
-              <h4 style={{ color: 'var(--brand-light)' }}>Technical Enquiry</h4>
+              <h4 style={{ color: 'var(--brand-light)' }}>{t.serviceDetail.technicalEnquiryHeading}</h4>
               <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, marginBottom: '20px' }}>
-                Discuss your technical scope or statutory compliance requirements directly with our registered professionals.
+                {t.serviceDetail.technicalEnquiryText}
               </p>
               <a
-                href="/contact"
+                href={contactHref}
                 className="btn btn-brand btn-full"
-                aria-label={`Request consultation for ${service.title}`}
+                aria-label={`${t.common.requestConsultation} — ${service.title}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  onNavigate('/contact');
+                  onNavigate(contactHref);
                 }}
               >
-                Request Consultation
+                {t.common.requestConsultation}
               </a>
             </div>
           </aside>
@@ -268,25 +281,24 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
       <section className="svc-cta">
         <div className="wrap svc-cta-inner">
           <div>
-            <h2>Scope It With an Engineer</h2>
+            <h2>{t.serviceDetail.ctaTitle}</h2>
             <p className="svc-cta-sub">
-              Send your technical requirement and receive a structured scope from our registered engineering and scientific professionals.
+              {t.serviceDetail.ctaSubtitle}
             </p>
           </div>
           <a
-            href="/contact"
+            href={contactHref}
             className="btn btn-brand"
-            aria-label="Request a technical consultation with our registered engineering team"
+            aria-label={t.common.requestConsultation}
             onClick={(e) => {
               e.preventDefault();
-              onNavigate('/contact');
+              onNavigate(contactHref);
             }}
           >
-            Request Consultation
+            {t.common.requestConsultation}
           </a>
         </div>
       </section>
     </main>
   );
 };
-

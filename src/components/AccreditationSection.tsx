@@ -1,8 +1,11 @@
 import React from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export const AccreditationSection: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
-    <section className="accred-section" id="accreditations" aria-label="Our Accreditation">
+    <section className="accred-section" id="accreditations" aria-label={t.accreditation.sectionAria}>
       <div className="wrap">
         <div className="accred-card">
           {/* Header Bar */}
@@ -22,7 +25,7 @@ export const AccreditationSection: React.FC = () => {
               <circle cx="12" cy="8" r="6" />
               <path d="m8.2 13.5-2.2 7.5 6-3 6 3-2.2-7.5" />
             </svg>
-            <h2 className="accred-header-title">OUR ACCREDITATION</h2>
+            <h2 className="accred-header-title">{t.accreditation.title}</h2>
           </div>
 
           {/* 2-Column Content Grid */}
@@ -30,12 +33,8 @@ export const AccreditationSection: React.FC = () => {
             {/* Left Column: Heading, description, 3 standards, footer note */}
             <div className="accred-content">
               <div className="accred-lead-paras">
-                <p>
-                  We are committed to meeting the highest standards of quality, safety, and environmental management.
-                </p>
-                <p>
-                  Our accreditations demonstrate our compliance with industry regulations and best practices.
-                </p>
+                <p>{t.accreditation.lead1}</p>
+                <p>{t.accreditation.lead2}</p>
               </div>
 
               {/* Three Standards Badges */}
@@ -58,8 +57,8 @@ export const AccreditationSection: React.FC = () => {
                     </svg>
                   </div>
                   <div className="accred-standard-info">
-                    <strong>ISO 9001</strong>
-                    <span>Quality Management</span>
+                    <strong>{t.accreditation.iso9001Title}</strong>
+                    <span>{t.accreditation.iso9001Desc}</span>
                   </div>
                 </div>
 
@@ -82,8 +81,8 @@ export const AccreditationSection: React.FC = () => {
                     </svg>
                   </div>
                   <div className="accred-standard-info">
-                    <strong>ISO 45001</strong>
-                    <span>Occupational Health and Safety</span>
+                    <strong>{t.accreditation.iso45001Title}</strong>
+                    <span>{t.accreditation.iso45001Desc}</span>
                   </div>
                 </div>
 
@@ -105,16 +104,14 @@ export const AccreditationSection: React.FC = () => {
                     </svg>
                   </div>
                   <div className="accred-standard-info">
-                    <strong>ISO 14001</strong>
-                    <span>Environmental Management</span>
+                    <strong>{t.accreditation.iso14001Title}</strong>
+                    <span>{t.accreditation.iso14001Desc}</span>
                   </div>
                 </div>
               </div>
 
               <div className="accred-footer-note">
-                <p>
-                  These accreditations reflect our ongoing commitment to excellence, sustainability, and stakeholder satisfaction.
-                </p>
+                <p>{t.accreditation.footerNote}</p>
               </div>
             </div>
 
@@ -122,7 +119,7 @@ export const AccreditationSection: React.FC = () => {
             <div className="accred-photo-wrap">
               <img
                 src="/assets/images/accreditation-certificates-hardhat.png"
-                alt="MarveThabi ISO 9001, ISO 45001, and ISO 14001 framed certificates of registration with safety hard hat"
+                alt={t.accreditation.photoAlt}
                 className="accred-photo"
                 loading="lazy"
                 decoding="async"

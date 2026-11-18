@@ -1,218 +1,650 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.marvethabi.co.za/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/about</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/about" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/about" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/leadership</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/process</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/process" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/process" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/process" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/contact</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/contact" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/contact" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/reliability-engineering</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/reliability-engineering" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/reliability-engineering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/reliability-engineering" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/asset-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/asset-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/asset-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/asset-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/electrical-construction</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/electrical-construction" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/electrical-construction" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/electrical-construction" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/electrical-and-electronic-engineering</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/electrical-and-electronic-engineering" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/electrical-and-electronic-engineering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/electrical-and-electronic-engineering" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/condition-monitoring</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/condition-monitoring" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/condition-monitoring" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/condition-monitoring" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/water-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/water-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/water-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/water-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/waste-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/waste-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/waste-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/waste-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/air-quality-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/air-quality-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/air-quality-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/air-quality-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/greenhouse-gas-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/greenhouse-gas-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/greenhouse-gas-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/greenhouse-gas-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/hydrogeological-studies</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/hydrogeological-studies" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/hydrogeological-studies" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/hydrogeological-studies" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/authorisation-permits-and-licences</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/authorisation-permits-and-licences" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/authorisation-permits-and-licences" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/authorisation-permits-and-licences" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/compliance-audits-and-monitoring</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/compliance-audits-and-monitoring" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/compliance-audits-and-monitoring" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/compliance-audits-and-monitoring" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/environmental-rehabilitation</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/environmental-rehabilitation" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/environmental-rehabilitation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/environmental-rehabilitation" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/geo-environmental</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/geo-environmental" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/geo-environmental" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/geo-environmental" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/mining-engineering-services</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/mining-engineering-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/mining-engineering-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/mining-engineering-services" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/project-development-project-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/project-development-project-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/project-development-project-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/project-development-project-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/geological-services</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/geological-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/geological-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/geological-services" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/surveying-services</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/surveying-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/surveying-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/surveying-services" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/services/waste-and-emissions-management</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/waste-and-emissions-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/waste-and-emissions-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/waste-and-emissions-management" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/leadership/marvelous-ngoatle</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/marvelous-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/marvelous-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/marvelous-ngoatle" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/leadership/thabang-ngoatle</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/thabang-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/thabang-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/thabang-ngoatle" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/leadership/jonas-lufuluabo</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/jonas-lufuluabo" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/jonas-lufuluabo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/jonas-lufuluabo" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/government</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/government" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/government" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/government" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/mining</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/mining" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/mining" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/mining" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/energy</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/energy" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/energy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/energy" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/municipalities</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/municipalities" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/municipalities" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/municipalities" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/industrial</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/industrial" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/industrial" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/industrial" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/commercial</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/commercial" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/commercial" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/commercial" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.marvethabi.co.za/industries/infrastructure-development</loc>
-    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/infrastructure-development" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/infrastructure-development" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/infrastructure-development" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/about" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/about" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/leadership</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/process</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/process" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/process" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/process" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/contact" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/contact" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/reliability-engineering</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/reliability-engineering" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/reliability-engineering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/reliability-engineering" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/asset-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/asset-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/asset-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/asset-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/electrical-construction</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/electrical-construction" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/electrical-construction" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/electrical-construction" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/electrical-and-electronic-engineering</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/electrical-and-electronic-engineering" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/electrical-and-electronic-engineering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/electrical-and-electronic-engineering" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/condition-monitoring</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/condition-monitoring" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/condition-monitoring" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/condition-monitoring" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/water-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/water-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/water-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/water-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/waste-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/waste-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/waste-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/waste-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/air-quality-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/air-quality-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/air-quality-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/air-quality-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/greenhouse-gas-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/greenhouse-gas-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/greenhouse-gas-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/greenhouse-gas-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/hydrogeological-studies</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/hydrogeological-studies" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/hydrogeological-studies" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/hydrogeological-studies" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/authorisation-permits-and-licences</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/authorisation-permits-and-licences" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/authorisation-permits-and-licences" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/authorisation-permits-and-licences" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/compliance-audits-and-monitoring</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/compliance-audits-and-monitoring" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/compliance-audits-and-monitoring" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/compliance-audits-and-monitoring" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/environmental-rehabilitation</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/environmental-rehabilitation" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/environmental-rehabilitation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/environmental-rehabilitation" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/geo-environmental</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/geo-environmental" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/geo-environmental" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/geo-environmental" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/mining-engineering-services</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/mining-engineering-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/mining-engineering-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/mining-engineering-services" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/project-development-project-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/project-development-project-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/project-development-project-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/project-development-project-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/geological-services</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/geological-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/geological-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/geological-services" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/surveying-services</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/surveying-services" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/surveying-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/surveying-services" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/services/waste-and-emissions-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/services/waste-and-emissions-management" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/services/waste-and-emissions-management" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/services/waste-and-emissions-management" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/leadership/marvelous-ngoatle</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/marvelous-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/marvelous-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/marvelous-ngoatle" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/leadership/thabang-ngoatle</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/thabang-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/thabang-ngoatle" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/thabang-ngoatle" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/leadership/jonas-lufuluabo</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/leadership/jonas-lufuluabo" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/leadership/jonas-lufuluabo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/leadership/jonas-lufuluabo" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/government</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/government" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/government" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/government" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/mining</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/mining" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/mining" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/mining" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/energy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/energy" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/energy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/energy" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/municipalities</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/municipalities" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/municipalities" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/municipalities" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/industrial</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/industrial" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/industrial" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/industrial" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/commercial</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/commercial" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/commercial" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/commercial" />
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.marvethabi.co.za/fr/industries/infrastructure-development</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.marvethabi.co.za/industries/infrastructure-development" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.marvethabi.co.za/fr/industries/infrastructure-development" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.marvethabi.co.za/industries/infrastructure-development" />
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

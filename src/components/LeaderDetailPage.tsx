@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { getLeaderBySlug, affiliationsData } from '../data/marvethabi';
+import { useLanguage } from '../i18n/LanguageContext';
+import { getLocalizedLeaderBySlug, getLocalizedAffiliations } from '../i18n/data';
+import { localizePath } from '../i18n/routing';
 
 interface LeaderDetailPageProps {
   slug: string;
@@ -7,7 +9,11 @@ interface LeaderDetailPageProps {
 }
 
 export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavigate }) => {
-  const leader = getLeaderBySlug(slug);
+  const { lang, t } = useLanguage();
+  const leader = getLocalizedLeaderBySlug(slug, lang);
+  const affiliations = getLocalizedAffiliations(lang);
+  const leadershipHref = localizePath('/leadership', lang);
+  const contactHref = localizePath('/contact', lang);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -18,19 +24,19 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
       <main className="lead-page detail-page">
         <section className="svc-hero">
           <div className="wrap" style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <h1 className="svc-hero-title">Director Profile Not Found</h1>
+            <h1 className="svc-hero-title">{t.leaderDetail.notFoundTitle}</h1>
             <p className="lead svc-hero-sub" style={{ margin: '16px auto 32px' }}>
-              The requested leadership profile does not exist or may have been relocated.
+              {t.leaderDetail.notFoundText}
             </p>
             <a
-              href="/leadership"
+              href={leadershipHref}
               className="btn btn-brand"
               onClick={(e) => {
                 e.preventDefault();
-                onNavigate('/leadership');
+                onNavigate(leadershipHref);
               }}
             >
-              &larr; Back to Leadership
+              &larr; {t.common.backToLeadership}
             </a>
           </div>
         </section>
@@ -45,11 +51,9 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-
-
           <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <a
-              href="/leadership"
+              href={leadershipHref}
               className="btn-back-link"
               style={{
                 display: 'inline-flex',
@@ -67,13 +71,13 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
               }}
               onClick={(e) => {
                 e.preventDefault();
-                onNavigate('/leadership');
+                onNavigate(leadershipHref);
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                 <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
               </svg>
-              Back to Leadership
+              {t.common.backToLeadership}
             </a>
           </div>
 
@@ -89,7 +93,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
               marginBottom: '20px',
             }}
           >
-            {leader.role} &middot; MarveThabi Consulting Engineers
+            {leader.role} &middot; {t.leaderDetail.companySuffix}
           </p>
         </div>
       </section>
@@ -112,9 +116,8 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
               >
                 <img
                   src={`/assets/images/${leader.image}?v=3`}
-                  alt={`${leader.name} - ${leader.role} at MarveThabi Consulting Engineers`}
+                  alt={`${leader.name} - ${leader.role} ${t.leaderDetail.photoAltMiddle}`}
                   onError={(e) => {
-                    // fallback to root public path if needed
                     const target = e.currentTarget;
                     if (!target.src.includes(`/${leader.image}`)) {
                       target.src = `/${leader.image}`;
@@ -138,7 +141,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                     target="_blank"
                     rel="noopener noreferrer"
                     className="leader-linkedin-link"
-                    aria-label={`View ${leader.name}'s LinkedIn profile (opens in a new tab)`}
+                    aria-label={`${t.common.viewLinkedInProfile} — ${leader.name}`}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -160,7 +163,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                       height="18"
                       style={{ width: '18px', height: '18px', objectFit: 'contain', flexShrink: 0 }}
                     />
-                    <span>View LinkedIn Profile</span>
+                    <span>{t.common.viewLinkedInProfile}</span>
                   </a>
                 </div>
               )}
@@ -188,7 +191,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                       marginBottom: '10px',
                     }}
                   >
-                    Profile Highlights
+                    {t.leaderDetail.highlightsLabel}
                   </span>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {leader.outcomes.map((out, i) => (
@@ -234,7 +237,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                       marginBottom: '10px',
                     }}
                   >
-                    Key Industry Sectors
+                    {t.leaderDetail.sectorsLabel}
                   </span>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {leader.sectors.map((sec, i) => (
@@ -283,7 +286,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                 {leader.role}
               </p>
 
-              {/* Complete Verbatim Biography */}
+              {/* Complete Biography */}
               <div
                 style={{
                   background: '#f8faf9',
@@ -303,7 +306,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                     marginBottom: '10px',
                   }}
                 >
-                  Executive Biography
+                  {t.leaderDetail.executiveBioHeading}
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   {leader.summary.split('\n\n').map((paragraph, pIdx) => (
@@ -336,7 +339,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                       marginBottom: '14px',
                     }}
                   >
-                    Qualifications &amp; Professional Certifications
+                    {t.leaderDetail.qualificationsHeading}
                   </h3>
                   <ul className="lead-quals-grid">
                     {leader.qualifications.map((q, i) => (
@@ -385,7 +388,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                       marginBottom: '14px',
                     }}
                   >
-                    Areas of Expertise
+                    {t.leaderDetail.expertiseHeading}
                   </h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                     {leader.areasOfExpertise.map((exp, i) => (
@@ -425,7 +428,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                         marginBottom: '14px',
                       }}
                     >
-                      Key Project &amp; Technical Experience
+                      {t.leaderDetail.projectExpHeading}
                     </h3>
                     <ul
                       style={{
@@ -462,7 +465,7 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                         marginBottom: '14px',
                       }}
                     >
-                      Professional Focus &amp; Value Commitment
+                      {t.leaderDetail.focusHeading}
                     </h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '14px', color: '#334155' }}>
                       {leader.professionalFocus.map((foc, i) => (
@@ -490,25 +493,25 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
                 }}
               >
                 <a
-                  href="/leadership"
+                  href={leadershipHref}
                   className="btn btn-outline"
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigate('/leadership');
+                    onNavigate(leadershipHref);
                   }}
                 >
-                  &larr; Back to All Directors
+                  {t.common.backToAllDirectors}
                 </a>
 
                 <a
-                  href="/contact"
+                  href={contactHref}
                   className="btn btn-brand"
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigate('/contact');
+                    onNavigate(contactHref);
                   }}
                 >
-                  Consult With {leader.name.split(' ')[0]}
+                  {t.leaderDetail.consultWithPrefix} {leader.name.split(' ')[0]}
                 </a>
               </div>
             </div>
@@ -520,43 +523,21 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
       <section className="detail-body-section" style={{ background: '#fff', paddingTop: '20px' }}>
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '36px' }}>
-            <h2>Statutory Code of Professional Conduct</h2>
-            <p>Our commitment to engineering integrity, environmental stewardship, and public safety.</p>
+            <h2>{t.leadershipPage.governanceHeading}</h2>
+            <p>{t.leadershipPage.governanceSubtitle}</p>
           </div>
 
           <div className="lead-gov-grid">
-            <div className="lead-gov-card">
-              <h3 style={{ fontSize: '20px', color: 'var(--ink)', marginBottom: '12px', fontFamily: 'var(--font-heading)' }}>
-                ECSA Code of Practice
-              </h3>
-              <p style={{ fontSize: '15px', color: '#47564F', lineHeight: 1.65 }}>
-                All engineering drawings, single-line diagrams, and substation specifications are
-                delivered strictly in compliance with ECSA professional rules, SANS standards, and
-                statutory occupational health and safety guidelines.
-              </p>
-            </div>
-
-            <div className="lead-gov-card">
-              <h3 style={{ fontSize: '20px', color: 'var(--ink)', marginBottom: '12px', fontFamily: 'var(--font-heading)' }}>
-                SACNASP Scientific Integrity
-              </h3>
-              <p style={{ fontSize: '15px', color: '#47564F', lineHeight: 1.65 }}>
-                Environmental assessments, hydrogeological models, and waste classifications are
-                conducted with uncompromising scientific rigour, adhering to peer-reviewed
-                protocols and National Water Act standards.
-              </p>
-            </div>
-
-            <div className="lead-gov-card">
-              <h3 style={{ fontSize: '20px', color: 'var(--ink)', marginBottom: '12px', fontFamily: 'var(--font-heading)' }}>
-                ISO 55000 &amp; Safety Governance
-              </h3>
-              <p style={{ fontSize: '15px', color: '#47564F', lineHeight: 1.65 }}>
-                Our asset management frameworks, maintenance tactics, and field engineering supervision
-                are governed under ISO 55000 asset management standards and SAMTRAC-certified occupational
-                health and safety management protocols.
-              </p>
-            </div>
+            {t.leadershipPage.govCards.map((card, idx) => (
+              <div key={idx} className="lead-gov-card">
+                <h3 style={{ fontSize: '20px', color: 'var(--ink)', marginBottom: '12px', fontFamily: 'var(--font-heading)' }}>
+                  {card.title}
+                </h3>
+                <p style={{ fontSize: '15px', color: '#47564F', lineHeight: 1.65 }}>
+                  {card.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -564,10 +545,10 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
       {/* ============ AFFILIATIONS ============ */}
       <section className="affil">
         <div className="wrap">
-          <h2 className="affil-head">Statutory Councils &amp; Institutes</h2>
+          <h2 className="affil-head">{t.leadershipPage.councilsHeading}</h2>
           <div className="affil-row">
-            {affiliationsData.map((aff) => (
-              <div key={aff.name} className="affil-card">
+            {affiliations.map((aff) => (
+              <div key={aff.logo} className="affil-card">
                 <img
                   src={`/assets/images/${aff.logo}`}
                   alt={aff.name}
@@ -584,21 +565,21 @@ export const LeaderDetailPage: React.FC<LeaderDetailPageProps> = ({ slug, onNavi
       <section className="svc-cta">
         <div className="wrap svc-cta-inner">
           <div>
-            <h2>Direct Consultation With Our Directors</h2>
+            <h2>{t.leadershipPage.ctaHeading}</h2>
             <p className="svc-cta-sub">
-              Schedule an executive engineering consultation to review your technical requirements with our directors.
+              {t.leadershipPage.ctaSubtitle}
             </p>
           </div>
           <a
-            href="/contact"
+            href={contactHref}
             className="btn btn-brand"
-            aria-label="Request a consultation with our practice directors"
+            aria-label={t.leadershipPage.ctaHeading}
             onClick={(e) => {
               e.preventDefault();
-              onNavigate('/contact');
+              onNavigate(contactHref);
             }}
           >
-            Request Consultation
+            {t.common.requestConsultation}
           </a>
         </div>
       </section>

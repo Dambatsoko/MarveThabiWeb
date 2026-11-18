@@ -6,6 +6,23 @@ import {
   getIndustryDetail,
   leadershipTeamData,
 } from '../data/marvethabi.ts';
+import { Language } from '../i18n/types.ts';
+import {
+  getLanguageFromPath,
+  stripLanguagePrefix,
+  getAlternatePaths,
+  localizePath,
+} from '../i18n/routing.ts';
+import {
+  CORE_PAGES_FR,
+  FR_ORGANIZATION_DESCRIPTION,
+  FR_SITELINKS_DESCRIPTIONS,
+} from '../i18n/translations/seo.fr.ts';
+import {
+  getLocalizedDedicatedService,
+  getLocalizedLeaderBySlug,
+  getLocalizedIndustryDetail,
+} from '../i18n/data.ts';
 
 export const PRODUCTION_DOMAIN = 'https://www.marvethabi.co.za';
 export const SITE_NAME = 'MarveThabi Consulting Engineers';
@@ -14,9 +31,16 @@ export const LOGO_URL = `${PRODUCTION_DOMAIN}/assets/images/logo.png`;
 
 export interface PageSEO {
   path: string;
+  lang: Language;
+  inLanguage: string;
   title: string;
   description: string;
   canonicalUrl: string;
+  alternateUrls: {
+    en: string;
+    fr: string;
+    xDefault: string;
+  };
   ogType: 'website' | 'article' | 'profile';
   ogImage: string;
   ogTitle?: string;
@@ -28,8 +52,24 @@ export interface PageSEO {
   priority?: number;
 }
 
+function toAbsoluteUrl(path: string): string {
+  if (!path || path === '/') return `${PRODUCTION_DOMAIN}/`;
+  return `${PRODUCTION_DOMAIN}${path}`;
+}
+
+export function buildAlternateUrls(rawPath: string): { en: string; fr: string; xDefault: string } {
+  const alts = getAlternatePaths(rawPath);
+  const enUrl = toAbsoluteUrl(alts.en);
+  const frUrl = toAbsoluteUrl(alts.fr);
+  return {
+    en: enUrl,
+    fr: frUrl,
+    xDefault: enUrl,
+  };
+}
+
 /**
- * Verified statutory organization structured data
+ * Verified statutory organization structured data (English)
  */
 export const ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
@@ -84,6 +124,24 @@ export const ORGANIZATION_SCHEMA = {
   ],
 };
 
+export function getOrganizationSchema(lang: Language): Record<string, any> {
+  if (lang === 'en') return ORGANIZATION_SCHEMA;
+  return {
+    ...ORGANIZATION_SCHEMA,
+    description: FR_ORGANIZATION_DESCRIPTION,
+    knowsAbout: [
+      'Ingénierie de la fiabilité',
+      'Gestion des actifs ISO 55000',
+      'Surveillance conditionnelle',
+      'Infrastructures électriques',
+      'Conformité et autorisations environnementales',
+      'Gestion des ressources en eau (WULA)',
+      'Surveillance de la qualité de l’air',
+      'Réhabilitation minière',
+    ],
+  };
+}
+
 /**
  * WebSite schema with search action & site navigation element to support Google Sitelinks
  */
@@ -99,8 +157,23 @@ export const WEBSITE_SCHEMA = {
   inLanguage: 'en-ZA',
 };
 
+export function getWebsiteSchema(lang: Language): Record<string, any> {
+  if (lang === 'en') return WEBSITE_SCHEMA;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${PRODUCTION_DOMAIN}/fr/#website`,
+    name: SITE_NAME,
+    url: `${PRODUCTION_DOMAIN}/fr/`,
+    publisher: {
+      '@id': `${PRODUCTION_DOMAIN}/#organization`,
+    },
+    inLanguage: 'fr',
+  };
+}
+
 /**
- * Site navigation schema explicitly highlighting the 5 primary internal sections for Sitelinks
+ * Site navigation schema explicitly highlighting the primary internal sections for Sitelinks
  */
 export const SITELINKS_NAVIGATION_SCHEMA = {
   '@context': 'https://schema.org',
@@ -151,6 +224,21 @@ export const SITELINKS_NAVIGATION_SCHEMA = {
   ],
 };
 
+export function getSitelinksSchema(lang: Language): Record<string, any> {
+  if (lang === 'en') return SITELINKS_NAVIGATION_SCHEMA;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: FR_SITELINKS_DESCRIPTIONS.map((item, idx) => ({
+      '@type': 'SiteNavigationElement',
+      position: idx + 1,
+      name: item.name,
+      description: item.description,
+      url: `${PRODUCTION_DOMAIN}${item.path}`,
+    })),
+  };
+}
+
 /**
  * Helper to build breadcrumb structured data
  */
@@ -162,7 +250,7 @@ export function buildBreadcrumbSchema(breadcrumbs: { name: string; path: string 
       '@type': 'ListItem',
       position: idx + 1,
       name: b.name,
-      item: `${PRODUCTION_DOMAIN}${b.path === '/' ? '' : b.path}`,
+      item: toAbsoluteUrl(b.path),
     })),
   };
 }
@@ -179,9 +267,9 @@ export function buildWebPageSchema(page: PageSEO): Record<string, any> {
     name: page.title,
     description: page.description,
     isPartOf: {
-      '@id': `${PRODUCTION_DOMAIN}/#website`,
+      '@id': page.lang === 'fr' ? `${PRODUCTION_DOMAIN}/fr/#website` : `${PRODUCTION_DOMAIN}/#website`,
     },
-    inLanguage: 'en-ZA',
+    inLanguage: page.inLanguage,
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: page.ogImage,
@@ -189,39 +277,34 @@ export function buildWebPageSchema(page: PageSEO): Record<string, any> {
   };
 }
 
-/**
- * Core top-level pages
- */
-const CORE_PAGES: Record<string, PageSEO> = {
+interface CorePageBase {
+  path: string;
+  title: string;
+  description: string;
+  ogImage: string;
+  breadcrumbName: string;
+  priority: number;
+  changefreq: 'weekly' | 'monthly';
+}
+
+const CORE_PAGES_BASE: Record<string, CorePageBase> = {
   '/': {
     path: '/',
     title: 'MarveThabi Consulting Engineers | Engineering & Environmental Solutions',
     description:
       'Multidisciplinary South African engineering consultancy delivering specialist Reliability Engineering, Asset Management, and Geo-Environmental solutions.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/hero.jpg`,
-    breadcrumbs: [{ name: 'Home', path: '/' }],
+    breadcrumbName: 'Home',
     priority: 1.0,
     changefreq: 'weekly',
-    structuredData: [
-      ORGANIZATION_SCHEMA,
-      WEBSITE_SCHEMA,
-      SITELINKS_NAVIGATION_SCHEMA,
-    ],
   },
   '/about': {
     path: '/about',
     title: 'About Us | MarveThabi Consulting Engineers',
     description:
       'Learn about MarveThabi Consulting Engineers: our multidisciplinary team, statutory ECSA & SACNASP registrations, Level 1 B-BBEE status, and company heritage.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/about`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/about.jpg`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'About Us', path: '/about' },
-    ],
+    breadcrumbName: 'About Us',
     priority: 0.85,
     changefreq: 'monthly',
   },
@@ -230,13 +313,8 @@ const CORE_PAGES: Record<string, PageSEO> = {
     title: 'Engineering & Environmental Services Catalogue | MarveThabi',
     description:
       'Explore our multidisciplinary engineering services: Reliability Engineering, Asset Management, Electrical Reticulation, Water & Environmental Permitting.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/services`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/reliability-monitoring.png`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Our Services', path: '/services' },
-    ],
+    breadcrumbName: 'Our Services',
     priority: 0.95,
     changefreq: 'weekly',
   },
@@ -245,13 +323,8 @@ const CORE_PAGES: Record<string, PageSEO> = {
     title: 'Practice Leadership & Governance | MarveThabi Consulting Engineers',
     description:
       'Meet our executive directorate: registered professional engineers (ECSA) and professional natural scientists (SACNASP) leading MarveThabi Consulting Engineers.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/leadership`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/Marvelous.png`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Our Team', path: '/leadership' },
-    ],
+    breadcrumbName: 'Our Team',
     priority: 0.85,
     changefreq: 'monthly',
   },
@@ -260,13 +333,8 @@ const CORE_PAGES: Record<string, PageSEO> = {
     title: 'Our Engineering Process & Delivery Lifecycle | MarveThabi',
     description:
       'Discover our 6-phase stage-gate project delivery architecture from consultation and baseline diagnostics through engineering design to statutory commissioning.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/process`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/hero.jpg`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Our Process', path: '/process' },
-    ],
+    breadcrumbName: 'Our Process',
     priority: 0.8,
     changefreq: 'monthly',
   },
@@ -275,13 +343,8 @@ const CORE_PAGES: Record<string, PageSEO> = {
     title: 'Industries & Infrastructure Sectors | MarveThabi Consulting Engineers',
     description:
       'Tailored engineering and environmental solutions across key South African industries: Mining, Energy, Municipalities, Government, and Heavy Industry.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/industries`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/industries.jpg`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Industries', path: '/industries' },
-    ],
+    breadcrumbName: 'Industries',
     priority: 0.85,
     changefreq: 'monthly',
   },
@@ -290,29 +353,75 @@ const CORE_PAGES: Record<string, PageSEO> = {
     title: 'Contact Us | MarveThabi Consulting Engineers',
     description:
       'Direct your technical requirement to the registered engineer or scientist responsible for that discipline. Pretoria head office consulting & evaluations.',
-    canonicalUrl: `${PRODUCTION_DOMAIN}/contact`,
-    ogType: 'website',
     ogImage: `${PRODUCTION_DOMAIN}/assets/images/logo.png`,
-    breadcrumbs: [
-      { name: 'Home', path: '/' },
-      { name: 'Contact Us', path: '/contact' },
-    ],
+    breadcrumbName: 'Contact Us',
     priority: 0.9,
     changefreq: 'monthly',
   },
 };
 
+function buildCorePageSEO(basePath: string, lang: Language): PageSEO {
+  const base = CORE_PAGES_BASE[basePath] || CORE_PAGES_BASE['/'];
+  const frData = CORE_PAGES_FR[base.path];
+  const localizedPath = localizePath(base.path, lang);
+  const canonicalUrl = toAbsoluteUrl(localizedPath);
+  const alternateUrls = buildAlternateUrls(base.path);
+
+  const title = lang === 'fr' && frData ? frData.title : base.title;
+  const description = lang === 'fr' && frData ? frData.description : base.description;
+  const homeLabel = lang === 'fr' ? CORE_PAGES_FR['/'].breadcrumbName : CORE_PAGES_BASE['/'].breadcrumbName;
+  const pageLabel = lang === 'fr' && frData ? frData.breadcrumbName : base.breadcrumbName;
+
+  const breadcrumbs =
+    base.path === '/'
+      ? [{ name: homeLabel, path: localizePath('/', lang) }]
+      : [
+          { name: homeLabel, path: localizePath('/', lang) },
+          { name: pageLabel, path: localizedPath },
+        ];
+
+  const structuredData =
+    base.path === '/'
+      ? [
+          getOrganizationSchema(lang),
+          getWebsiteSchema(lang),
+          getSitelinksSchema(lang),
+        ]
+      : [
+          getOrganizationSchema(lang),
+          buildBreadcrumbSchema(breadcrumbs),
+        ];
+
+  return {
+    path: localizedPath,
+    lang,
+    inLanguage: lang === 'fr' ? 'fr' : 'en-ZA',
+    title,
+    description,
+    canonicalUrl,
+    alternateUrls,
+    ogType: 'website',
+    ogImage: base.ogImage,
+    breadcrumbs,
+    priority: base.priority,
+    changefreq: base.changefreq,
+    structuredData,
+  };
+}
+
 /**
  * Returns SEO data for individual service detail page
  */
-export function getServicePageSEO(slug: string): PageSEO | undefined {
-  const service = getDedicatedService(slug);
+export function getServicePageSEO(slug: string, lang: Language = 'en'): PageSEO | undefined {
+  const service = lang === 'fr' ? getLocalizedDedicatedService(slug, 'fr') : getDedicatedService(slug);
   if (!service) return undefined;
 
-  const canonicalUrl = `${PRODUCTION_DOMAIN}/services/${service.slug}`;
+  const localizedPath = localizePath(`/services/${service.slug}`, lang);
+  const canonicalUrl = toAbsoluteUrl(localizedPath);
+  const alternateUrls = buildAlternateUrls(`/services/${service.slug}`);
   const title = `${service.title} | MarveThabi Consulting Engineers`;
-  
-  // Format description under 160 characters
+
+  // Format description within search-snippet budget
   let description = `${service.tagline} ${service.summary}`;
   if (description.length > 155) {
     description = description.slice(0, 152) + '...';
@@ -322,11 +431,18 @@ export function getServicePageSEO(slug: string): PageSEO | undefined {
     ? `${PRODUCTION_DOMAIN}/assets/images/${service.image}`
     : DEFAULT_OG_IMAGE;
 
-  const breadcrumbs = [
-    { name: 'Home', path: '/' },
-    { name: 'Our Services', path: '/services' },
-    { name: service.title, path: `/services/${service.slug}` },
-  ];
+  const breadcrumbs =
+    lang === 'fr'
+      ? [
+          { name: 'Accueil', path: '/fr/' },
+          { name: 'Nos Services', path: '/fr/services' },
+          { name: service.title, path: localizedPath },
+        ]
+      : [
+          { name: 'Home', path: '/' },
+          { name: 'Our Services', path: '/services' },
+          { name: service.title, path: localizedPath },
+        ];
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -335,36 +451,47 @@ export function getServicePageSEO(slug: string): PageSEO | undefined {
     name: service.title,
     serviceType: service.title,
     description: service.summary,
+    inLanguage: lang === 'fr' ? 'fr' : 'en-ZA',
     provider: {
       '@id': `${PRODUCTION_DOMAIN}/#organization`,
     },
     areaServed: [
       {
         '@type': 'Country',
-        name: 'South Africa',
+        name: lang === 'fr' ? 'Afrique du Sud' : 'South Africa',
+      },
+      {
+        '@type': 'Country',
+        name: lang === 'fr' ? 'République Démocratique du Congo' : 'Democratic Republic of the Congo',
       },
       {
         '@type': 'AdministrativeArea',
-        name: 'SADC Region',
+        name: lang === 'fr' ? 'Région SADC' : 'SADC Region',
       },
     ],
     category: service.category,
     url: canonicalUrl,
-    termsOfService: 'Delivered in accordance with ECSA and statutory engineering codes of professional conduct.',
+    termsOfService:
+      lang === 'fr'
+        ? 'Prestations réalisées conformément aux codes de déontologie professionnelle ECSA, SACNASP et normes applicables.'
+        : 'Delivered in accordance with ECSA and statutory engineering codes of professional conduct.',
   };
 
   return {
-    path: `/services/${service.slug}`,
+    path: localizedPath,
+    lang,
+    inLanguage: lang === 'fr' ? 'fr' : 'en-ZA',
     title,
     description,
     canonicalUrl,
+    alternateUrls,
     ogType: 'article',
     ogImage: image,
     breadcrumbs,
     priority: 0.8,
     changefreq: 'monthly',
     structuredData: [
-      ORGANIZATION_SCHEMA,
+      getOrganizationSchema(lang),
       serviceSchema,
       buildBreadcrumbSchema(breadcrumbs),
     ],
@@ -374,14 +501,19 @@ export function getServicePageSEO(slug: string): PageSEO | undefined {
 /**
  * Returns SEO data for individual leadership profile
  */
-export function getLeaderPageSEO(slug: string): PageSEO | undefined {
-  const leader = getLeaderBySlug(slug);
+export function getLeaderPageSEO(slug: string, lang: Language = 'en'): PageSEO | undefined {
+  const leader = lang === 'fr' ? getLocalizedLeaderBySlug(slug, 'fr') : getLeaderBySlug(slug);
   if (!leader) return undefined;
 
-  const canonicalUrl = `${PRODUCTION_DOMAIN}/leadership/${leader.slug}`;
-  const title = `${leader.name} | Practice Leadership | MarveThabi Consulting Engineers`;
+  const localizedPath = localizePath(`/leadership/${leader.slug}`, lang);
+  const canonicalUrl = toAbsoluteUrl(localizedPath);
+  const alternateUrls = buildAlternateUrls(`/leadership/${leader.slug}`);
+  const title =
+    lang === 'fr'
+      ? `${leader.name} | Direction du cabinet | MarveThabi Consulting Engineers`
+      : `${leader.name} | Practice Leadership | MarveThabi Consulting Engineers`;
 
-  const roleTitle = leader.role || 'Director';
+  const roleTitle = leader.role || (lang === 'fr' ? 'Directeur' : 'Director');
   let description = leader.shortIntro || roleTitle;
   if (description.length > 155) {
     description = description.slice(0, 152) + '...';
@@ -391,11 +523,18 @@ export function getLeaderPageSEO(slug: string): PageSEO | undefined {
     ? `${PRODUCTION_DOMAIN}${leader.image.startsWith('/') ? leader.image : `/${leader.image}`}`
     : DEFAULT_OG_IMAGE;
 
-  const breadcrumbs = [
-    { name: 'Home', path: '/' },
-    { name: 'Our Team', path: '/leadership' },
-    { name: leader.name, path: `/leadership/${leader.slug}` },
-  ];
+  const breadcrumbs =
+    lang === 'fr'
+      ? [
+          { name: 'Accueil', path: '/fr/' },
+          { name: 'Notre Équipe', path: '/fr/leadership' },
+          { name: leader.name, path: localizedPath },
+        ]
+      : [
+          { name: 'Home', path: '/' },
+          { name: 'Our Team', path: '/leadership' },
+          { name: leader.name, path: localizedPath },
+        ];
 
   const personSchema: Record<string, any> = {
     '@context': 'https://schema.org',
@@ -416,17 +555,20 @@ export function getLeaderPageSEO(slug: string): PageSEO | undefined {
   }
 
   return {
-    path: `/leadership/${leader.slug}`,
+    path: localizedPath,
+    lang,
+    inLanguage: lang === 'fr' ? 'fr' : 'en-ZA',
     title,
     description,
     canonicalUrl,
+    alternateUrls,
     ogType: 'profile',
     ogImage: image,
     breadcrumbs,
     priority: 0.75,
     changefreq: 'monthly',
     structuredData: [
-      ORGANIZATION_SCHEMA,
+      getOrganizationSchema(lang),
       personSchema,
       buildBreadcrumbSchema(breadcrumbs),
     ],
@@ -436,122 +578,120 @@ export function getLeaderPageSEO(slug: string): PageSEO | undefined {
 /**
  * Returns SEO data for individual industry detail page
  */
-export function getIndustryPageSEO(slug: string): PageSEO | undefined {
-  const industry = getIndustryDetail(slug);
+export function getIndustryPageSEO(slug: string, lang: Language = 'en'): PageSEO | undefined {
+  const industry = lang === 'fr' ? getLocalizedIndustryDetail(slug, 'fr') : getIndustryDetail(slug);
   if (!industry) return undefined;
 
-  const canonicalUrl = `${PRODUCTION_DOMAIN}/industries/${industry.slug}`;
-  const title = `${industry.name} Engineering Solutions | MarveThabi Consulting Engineers`;
+  const localizedPath = localizePath(`/industries/${industry.slug}`, lang);
+  const canonicalUrl = toAbsoluteUrl(localizedPath);
+  const alternateUrls = buildAlternateUrls(`/industries/${industry.slug}`);
+  const title =
+    lang === 'fr'
+      ? `Solutions d’ingénierie — ${industry.name} | MarveThabi Consulting Engineers`
+      : `${industry.name} Engineering Solutions | MarveThabi Consulting Engineers`;
 
   let description = `${industry.tagline} ${industry.summary}`;
   if (description.length > 155) {
     description = description.slice(0, 152) + '...';
   }
 
-  const breadcrumbs = [
-    { name: 'Home', path: '/' },
-    { name: 'Industries', path: '/industries' },
-    { name: industry.name, path: `/industries/${industry.slug}` },
-  ];
+  const breadcrumbs =
+    lang === 'fr'
+      ? [
+          { name: 'Accueil', path: '/fr/' },
+          { name: 'Secteurs', path: '/fr/industries' },
+          { name: industry.name, path: localizedPath },
+        ]
+      : [
+          { name: 'Home', path: '/' },
+          { name: 'Industries', path: '/industries' },
+          { name: industry.name, path: localizedPath },
+        ];
 
   return {
-    path: `/industries/${industry.slug}`,
+    path: localizedPath,
+    lang,
+    inLanguage: lang === 'fr' ? 'fr' : 'en-ZA',
     title,
     description,
     canonicalUrl,
+    alternateUrls,
     ogType: 'article',
     ogImage: DEFAULT_OG_IMAGE,
     breadcrumbs,
     priority: 0.75,
     changefreq: 'monthly',
     structuredData: [
-      ORGANIZATION_SCHEMA,
+      getOrganizationSchema(lang),
       buildBreadcrumbSchema(breadcrumbs),
     ],
   };
 }
 
 /**
- * Master function to resolve SEO configuration for any requested route
+ * Master function to resolve SEO configuration for any English or French (/fr/...) route
  */
 export function getPageSEO(rawPath: string): PageSEO {
-  const normalized = (rawPath || '/').replace(/\/+$/, '') || '/';
+  const lang = getLanguageFromPath(rawPath);
+  const basePath = stripLanguagePrefix(rawPath);
 
-  // 1. Alias /team -> /leadership
-  if (normalized === '/team') {
-    return CORE_PAGES['/leadership'];
+  // 1. Direct core pages (includes /team -> /leadership and /about-us -> /about via stripLanguagePrefix)
+  if (CORE_PAGES_BASE[basePath]) {
+    return buildCorePageSEO(basePath, lang);
   }
 
-  // 2. Direct core pages
-  if (CORE_PAGES[normalized]) {
-    const page = CORE_PAGES[normalized];
-    return {
-      ...page,
-      structuredData: page.structuredData || [
-        ORGANIZATION_SCHEMA,
-        buildBreadcrumbSchema(page.breadcrumbs || []),
-      ],
-    };
-  }
-
-  // 3. Service detail pages
-  if (normalized.startsWith('/services/')) {
-    const slug = normalized.replace('/services/', '');
-    const svcSEO = getServicePageSEO(slug);
+  // 2. Service detail pages
+  if (basePath.startsWith('/services/')) {
+    const slug = basePath.replace('/services/', '');
+    const svcSEO = getServicePageSEO(slug, lang);
     if (svcSEO) return svcSEO;
   }
 
-  // 4. Leadership detail pages
-  if (normalized.startsWith('/leadership/')) {
-    const slug = normalized.replace('/leadership/', '');
-    const leadSEO = getLeaderPageSEO(slug);
+  // 3. Leadership detail pages
+  if (basePath.startsWith('/leadership/')) {
+    const slug = basePath.replace('/leadership/', '');
+    const leadSEO = getLeaderPageSEO(slug, lang);
     if (leadSEO) return leadSEO;
   }
 
-  // 5. Industry detail pages
-  if (normalized.startsWith('/industries/')) {
-    const slug = normalized.replace('/industries/', '');
-    const indSEO = getIndustryPageSEO(slug);
+  // 4. Industry detail pages
+  if (basePath.startsWith('/industries/')) {
+    const slug = basePath.replace('/industries/', '');
+    const indSEO = getIndustryPageSEO(slug, lang);
     if (indSEO) return indSEO;
   }
 
-  // Fallback to Homepage SEO with path
+  // Fallback to Homepage SEO for active language
+  const homeSeo = buildCorePageSEO('/', lang);
   return {
-    ...CORE_PAGES['/'],
-    canonicalUrl: `${PRODUCTION_DOMAIN}${normalized === '/' ? '' : normalized}`,
+    ...homeSeo,
+    canonicalUrl: toAbsoluteUrl(localizePath(basePath, lang)),
   };
 }
 
-/**
- * Returns the full catalog of public, indexable URLs for the XML sitemap
- */
-export function getAllIndexablePages(): PageSEO[] {
+function collectPagesForLanguage(lang: Language): PageSEO[] {
   const pages: PageSEO[] = [];
 
-  // Core top-level pages
-  Object.keys(CORE_PAGES).forEach((p) => {
-    pages.push(CORE_PAGES[p]);
+  Object.keys(CORE_PAGES_BASE).forEach((p) => {
+    pages.push(buildCorePageSEO(p, lang));
   });
 
-  // All individual service detail pages
   dedicatedServicesData.forEach((s) => {
-    const svc = getServicePageSEO(s.slug);
+    const svc = getServicePageSEO(s.slug, lang);
     if (svc && !pages.some((p) => p.path === svc.path)) {
       pages.push(svc);
     }
   });
 
-  // All individual leadership profiles
   leadershipTeamData.forEach((l) => {
-    const leader = getLeaderPageSEO(l.slug);
+    const leader = getLeaderPageSEO(l.slug, lang);
     if (leader && !pages.some((p) => p.path === leader.path)) {
       pages.push(leader);
     }
   });
 
-  // All individual industries
   industriesData.forEach((i) => {
-    const ind = getIndustryPageSEO(i.slug);
+    const ind = getIndustryPageSEO(i.slug, lang);
     if (ind && !pages.some((p) => p.path === ind.path)) {
       pages.push(ind);
     }
@@ -561,7 +701,17 @@ export function getAllIndexablePages(): PageSEO[] {
 }
 
 /**
- * Generates valid XML Sitemap string matching sitemaps.org protocol
+ * Returns public, indexable URLs for the XML sitemap (both EN and FR by default = 72 URLs).
+ */
+export function getAllIndexablePages(filterLang?: Language): PageSEO[] {
+  if (filterLang) {
+    return collectPagesForLanguage(filterLang);
+  }
+  return [...collectPagesForLanguage('en'), ...collectPagesForLanguage('fr')];
+}
+
+/**
+ * Generates valid bilingual XML Sitemap string with xhtml:link hreflang alternates
  */
 export function generateSitemapXml(lastModDate: string = new Date().toISOString().split('T')[0]): string {
   const pages = getAllIndexablePages();
@@ -572,6 +722,9 @@ export function generateSitemapXml(lastModDate: string = new Date().toISOString(
       const changefreq = page.changefreq || 'monthly';
       return `  <url>
     <loc>${page.canonicalUrl}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${page.alternateUrls.en}" />
+    <xhtml:link rel="alternate" hreflang="fr" href="${page.alternateUrls.fr}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${page.alternateUrls.xDefault}" />
     <lastmod>${lastModDate}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
@@ -580,7 +733,7 @@ export function generateSitemapXml(lastModDate: string = new Date().toISOString(
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urlEntries}
 </urlset>`;
 }

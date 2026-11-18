@@ -1,12 +1,24 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { NAV_LINKS, isLinkActive } from '../utils/navigation';
+import { getNavLinks, isLinkActive } from '../utils/navigation';
+import { useLanguage } from '../i18n/LanguageContext';
+import { Language } from '../i18n/types';
+import { localizePath } from '../i18n/routing';
 
 interface HeaderProps {
   currentPath: string;
   onNavigate: (path: string) => void;
+  onSwitchLanguage: (lang: Language) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
+export const Header: React.FC<HeaderProps> = ({
+  currentPath,
+  onNavigate,
+  onSwitchLanguage,
+}) => {
+  const { lang, t } = useLanguage();
+  const navLinks = getNavLinks(lang);
+  const homeHref = localizePath('/', lang);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -65,14 +77,14 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         {/* Zone 1: Logo — far left in its own protected layout column */}
         <div className="header-logo-col">
           <a
-            href="/"
+            href={homeHref}
             className="logo"
-            aria-label="MarveThabi Consulting Engineers Home"
-            onClick={(e) => handleLinkClick(e, '/')}
+            aria-label={t.nav.logoAriaLabel}
+            onClick={(e) => handleLinkClick(e, homeHref)}
           >
             <img
               src="/assets/images/marvethabilogo.jpg"
-              alt="MarveThabi Consulting Engineers"
+              alt={t.common.siteName}
               decoding="async"
               width="168"
               height="70"
@@ -84,9 +96,9 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         <nav
           className="nav-desktop"
           id="desktop-nav-links"
-          aria-label="Primary site navigation"
+          aria-label={t.nav.desktopNavLabel}
         >
-          {NAV_LINKS.map((link) => {
+          {navLinks.map((link) => {
             const active = isLinkActive(link.href, currentPath);
             return (
               <a
@@ -103,15 +115,51 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           })}
         </nav>
 
-        {/* Zone 3: Actions — extreme right (LinkedIn, Download Profile button, and Hamburger toggle) */}
+        {/* Zone 3: Actions — extreme right (EN|FR selector, LinkedIn, Download Profile button, and Hamburger toggle) */}
         <div className="header-actions">
+          <div
+            className="lang-switcher"
+            role="group"
+            aria-label={t.langSwitcher.groupLabel}
+          >
+            <button
+              type="button"
+              data-lang="en"
+              className={`lang-switcher-btn ${lang === 'en' ? 'active' : ''}`}
+              aria-pressed={lang === 'en'}
+              aria-label={t.langSwitcher.switchToEn}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onSwitchLanguage('en');
+              }}
+            >
+              EN
+            </button>
+            <span className="lang-switcher-sep" aria-hidden="true">
+              |
+            </span>
+            <button
+              type="button"
+              data-lang="fr"
+              className={`lang-switcher-btn ${lang === 'fr' ? 'active' : ''}`}
+              aria-pressed={lang === 'fr'}
+              aria-label={t.langSwitcher.switchToFr}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onSwitchLanguage('fr');
+              }}
+            >
+              FR
+            </button>
+          </div>
+
           <a
             href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
             target="_blank"
             rel="noopener noreferrer"
             className="header-social-btn"
-            aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
-            title="Follow MarveThabi on LinkedIn"
+            aria-label={t.nav.linkedInAriaLabel}
+            title={t.common.followOnLinkedIn}
           >
             <svg
               viewBox="0 0 24 24"
@@ -137,8 +185,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             className="header-cta-btn"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Download MarveThabi Corporate Profile PDF (Opens in new tab)"
-            title="Download MarveThabi Corporate Profile PDF"
+            aria-label={t.nav.downloadAriaLabel}
+            title={t.nav.downloadAriaLabel}
           >
             <svg
               width="14"
@@ -156,14 +204,14 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span className="cta-btn-text">Download Profile</span>
+            <span className="cta-btn-text">{t.common.downloadProfile}</span>
           </a>
 
           <button
             className={`burger ${mobileMenuOpen ? 'open' : ''}`}
             id="burger"
             type="button"
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-label={mobileMenuOpen ? t.common.closeMenu : t.common.openMenu}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-drawer"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -189,13 +237,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         id="mobile-nav-drawer"
         role="dialog"
         aria-modal="true"
-        aria-label="Site Navigation Menu"
+        aria-label={t.nav.mobileDrawerLabel}
       >
         <div className="mobile-drawer-header">
           <div className="mobile-drawer-brand">
             <img
               src="/assets/images/marvethabilogo.jpg"
-              alt="MarveThabi Consulting Engineers"
+              alt={t.common.siteName}
               width="120"
               height="48"
             />
@@ -204,7 +252,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             ref={closeButtonRef}
             type="button"
             className="mobile-drawer-close"
-            aria-label="Close navigation menu"
+            aria-label={t.common.closeMenu}
             onClick={() => setMobileMenuOpen(false)}
           >
             <svg
@@ -224,8 +272,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           </button>
         </div>
 
-        <nav className="mobile-drawer-links" aria-label="Mobile primary navigation">
-          {NAV_LINKS.map((link) => {
+        <nav className="mobile-drawer-links" aria-label={t.nav.mobileNavLabel}>
+          {navLinks.map((link) => {
             const active = isLinkActive(link.href, currentPath);
             return (
               <a
@@ -258,7 +306,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             className="mobile-drawer-download"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Download MarveThabi Corporate Profile PDF"
+            aria-label={t.nav.downloadAriaLabel}
           >
             <svg
               width="16"
@@ -275,7 +323,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            Download Profile PDF
+            {t.common.downloadProfilePdf}
           </a>
 
           <a
@@ -283,7 +331,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="mobile-drawer-social"
-            aria-label="Visit MarveThabi Consulting Engineers on LinkedIn (opens in a new tab)"
+            aria-label={t.nav.linkedInAriaLabel}
           >
             <img
               src="/assets/images/linkedin.png"
@@ -292,7 +340,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               width="20"
               height="20"
             />
-            <span>Connect on LinkedIn</span>
+            <span>{t.common.connectOnLinkedIn}</span>
           </a>
         </div>
       </div>

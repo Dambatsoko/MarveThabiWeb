@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  SERVICE_CATEGORIES,
   getServiceCategoryById,
   getDefaultServiceCategory,
   generateEnquiryReference,
@@ -8,24 +7,41 @@ import {
   buildMailtoDispatchUrl,
   EnquiryRecord,
 } from '../data/contactRouting';
+import { useLanguage } from '../i18n/LanguageContext';
+import {
+  getLocalizedServiceCategories,
+  getLocalizedServiceCategoryById,
+} from '../i18n/data';
 
 interface ContactPageProps {
   onNavigate?: (path: string) => void;
 }
 
+function interpolate(template: string, vars: Record<string, string>): string {
+  return Object.entries(vars).reduce(
+    (acc, [key, value]) => acc.split(`{${key}}`).join(value),
+    template
+  );
+}
+
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const categories = getLocalizedServiceCategories(lang);
+  const defaultCategoryEn = getDefaultServiceCategory();
+  const defaultLocalizedCategory =
+    getLocalizedServiceCategoryById(defaultCategoryEn.id, lang) || categories[0] || defaultCategoryEn;
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Form state
-  const defaultCategory = getDefaultServiceCategory();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(defaultCategory.id);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(defaultCategoryEn.id);
   const [fullName, setFullName] = useState<string>('');
   const [organisation, setOrganisation] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
-  const [subject, setSubject] = useState<string>(defaultCategory.defaultSubject);
+  const [subject, setSubject] = useState<string>(defaultLocalizedCategory.defaultSubject);
   const [subjectModified, setSubjectModified] = useState<boolean>(false);
   const [details, setDetails] = useState<string>('');
   const [honeypot, setHoneypot] = useState<string>(''); // Anti-spam trap
@@ -41,16 +57,26 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
   } | null>(null);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  // Active category & assigned contact
-  const activeCategory = getServiceCategoryById(selectedCategoryId) || defaultCategory;
-  const assignedContact = activeCategory.assignedContact;
+  // Localized category for UI display & canonical English category for backend email routing
+  const activeLocalizedCategory =
+    getLocalizedServiceCategoryById(selectedCategoryId, lang) || defaultLocalizedCategory;
+  const activeCanonicalCategory =
+    getServiceCategoryById(selectedCategoryId) || defaultCategoryEn;
+  const assignedContact = activeLocalizedCategory.assignedContact;
+
+  // Keep auto-filled default subject synced when switching languages (only if user hasn't typed a custom subject)
+  useEffect(() => {
+    if (!subjectModified) {
+      setSubject(activeLocalizedCategory.defaultSubject);
+    }
+  }, [lang, activeLocalizedCategory.defaultSubject, subjectModified]);
 
   // Handle service category change
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newId = e.target.value;
     setSelectedCategoryId(newId);
 
-    const category = getServiceCategoryById(newId);
+    const category = getLocalizedServiceCategoryById(newId, lang);
     if (category && !subjectModified) {
       setSubject(category.defaultSubject);
     }
@@ -65,26 +91,26 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
     const errors: Record<string, string> = {};
 
     if (!fullName.trim()) {
-      errors.fullName = 'Please enter your full name.';
+      errors.fullName = t.contactPage.validationFullName;
     }
 
     if (!email.trim()) {
-      errors.email = 'Please enter your email address.';
+      errors.email = t.contactPage.validationEmailRequired;
     } else {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email.trim())) {
-        errors.email = 'Please provide a valid email address.';
+        errors.email = t.contactPage.validationEmailInvalid;
       }
     }
 
     if (!subject.trim()) {
-      errors.subject = 'Please enter an enquiry subject.';
+      errors.subject = t.contactPage.validationSubject;
     }
 
     if (!details.trim()) {
-      errors.details = 'Please describe your project scope or enquiry details.';
+      errors.details = t.contactPage.validationDetailsRequired;
     } else if (details.trim().length < 10) {
-      errors.details = 'Please provide at least 10 characters of detail for technical evaluation.';
+      errors.details = t.contactPage.validationDetailsMin;
     }
 
     setFormErrors(errors);
@@ -106,7 +132,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
     setSubmissionError(null);
 
     const refNo = generateEnquiryReference();
-    const timestamp = new Date().toLocaleString('en-ZA', {
+    const timestamp = new Date().toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-ZA', {
       timeZone: 'Africa/Johannesburg',
       year: 'numeric',
       month: 'short',
@@ -115,6 +141,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
       minute: '2-digit',
     });
 
+    // Preserve canonical English category & routing metadata for backend email delivery,
+    // and never translate submitted user fields (fullName, organisation, email, phone, subject, details).
+    const canonicalAssigned = activeCanonicalCategory.assignedContact;
+
     const record: EnquiryRecord = {
       referenceNumber: refNo,
       timestamp,
@@ -122,14 +152,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
       organisation: organisation.trim(),
       email: email.trim(),
       phone: phone.trim(),
-      categoryId: activeCategory.id,
-      categoryName: activeCategory.name,
-      serviceName: activeCategory.name,
-      category: activeCategory.name,
-      assignedContactName: assignedContact.name,
-      assignedContactResponsibility: assignedContact.responsibility,
-      assignedContactDesignation: assignedContact.designation,
-      assignedEmail: assignedContact.verifiedEmail,
+      categoryId: activeCanonicalCategory.id,
+      categoryName: activeCanonicalCategory.name,
+      serviceName: activeCanonicalCategory.name,
+      category: activeCanonicalCategory.name,
+      assignedContactName: canonicalAssigned.name,
+      assignedContactResponsibility: canonicalAssigned.responsibility,
+      assignedContactDesignation: canonicalAssigned.designation,
+      assignedEmail: canonicalAssigned.verifiedEmail,
       subject: subject.trim(),
       details: details.trim(),
       status: 'submitted',
@@ -155,7 +185,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
 
       const resData = await response.json().catch(() => ({}));
       const isDelivered = Boolean(resData.delivered);
-      const targetEmail = resData.targetEmail || assignedContact.verifiedEmail;
+      const targetEmail = resData.targetEmail || canonicalAssigned.verifiedEmail;
 
       setIsSubmitting(false);
       setSubmittedRecord(record);
@@ -163,19 +193,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
         sentDirectly: isDelivered,
         targetEmail,
         message: isDelivered
-          ? resData.message || `Enquiry delivered directly to ${targetEmail}.`
-          : `Enquiry logged under reference ${refNo} and routed to ${assignedContact.name} at ${targetEmail}. A registered specialist will respond within one business day.`,
+          ? (lang === 'en' && resData.message) ||
+            interpolate(t.contactPage.deliveredMessage, { email: targetEmail })
+          : interpolate(t.contactPage.loggedMessage, {
+              ref: refNo,
+              contact: assignedContact.name,
+              email: targetEmail,
+            }),
       });
       window.scrollTo({ top: 160, behavior: 'smooth' });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn('Direct API submission encountered an error, falling back:', err);
       setIsSubmitting(false);
       setSubmittedRecord(record);
-      setSubmissionError('Direct server delivery was unavailable; enquiry recorded in browser registry.');
+      setSubmissionError(t.contactPage.fallbackErrorNotice);
       setSubmissionStatus({
         sentDirectly: false,
-        targetEmail: assignedContact.verifiedEmail,
-        message: `Enquiry logged under reference ${refNo} and assigned to ${assignedContact.name}. You may also send directly via your email client below.`,
+        targetEmail: canonicalAssigned.verifiedEmail,
+        message: interpolate(t.contactPage.fallbackStatusMessage, {
+          ref: refNo,
+          contact: assignedContact.name,
+        }),
       });
       window.scrollTo({ top: 160, behavior: 'smooth' });
     }
@@ -189,11 +227,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
     setOrganisation('');
     setEmail('');
     setPhone('');
-    setSubject(activeCategory.defaultSubject);
+    setSubject(activeLocalizedCategory.defaultSubject);
     setSubjectModified(false);
     setDetails('');
     setFormErrors({});
   };
+
+  // Resolve localized display labels for submitted confirmation screen
+  const submittedLocalizedCategory = submittedRecord
+    ? getLocalizedServiceCategoryById(submittedRecord.categoryId || defaultCategoryEn.id, lang)
+    : undefined;
+  const submittedCategoryDisplay =
+    submittedLocalizedCategory?.name || submittedRecord?.categoryName || submittedRecord?.serviceName || '';
+  const submittedContactDisplay =
+    submittedLocalizedCategory?.assignedContact.name || submittedRecord?.assignedContactName || '';
+  const submittedResponsibilityDisplay =
+    submittedLocalizedCategory?.assignedContact.responsibility ||
+    submittedRecord?.assignedContactResponsibility ||
+    '';
 
   return (
     <main className="contact-page detail-page">
@@ -202,10 +253,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <h1 className="svc-hero-title">Contact Us</h1>
+          <h1 className="svc-hero-title">{t.contactPage.heroTitle}</h1>
           <p className="lead svc-hero-sub">
-            Direct your technical requirement to the registered engineer or scientist responsible
-            for that specific discipline. Our team provides responsive consultation and statutory engineering evaluation.
+            {t.contactPage.heroSubtitle}
           </p>
         </div>
       </section>
@@ -260,20 +310,23 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           color: 'var(--btn-green-dark, #436905)',
                         }}
                       >
-                        ✓ Enquiry Sent Straight to {submittedRecord.assignedEmail || 'info@marvethabi.co.za'}
+                        {t.contactPage.badgePrefix} {submittedRecord.assignedEmail || 'info@marvethabi.co.za'}
                       </span>
                       <span style={{ fontSize: '13px', fontWeight: 700, color: '#334842' }}>
-                        Ref: {submittedRecord.referenceNumber}
+                        {t.contactPage.refPrefix} {submittedRecord.referenceNumber}
                       </span>
                     </div>
 
                     <h2 style={{ fontSize: '22px', color: 'var(--ink, #16211E)', margin: '0 0 8px', fontFamily: 'var(--font-heading)' }}>
-                      Thank you, {submittedRecord.fullName}
+                      {t.contactPage.thankYouPrefix} {submittedRecord.fullName}
                     </h2>
                     <p style={{ fontSize: '15px', color: '#2B3934', lineHeight: 1.6, margin: 0 }}>
-                      Your enquiry regarding <strong>{submittedRecord.categoryName || submittedRecord.serviceName}</strong> has been sent directly from this form to{' '}
-                      <strong>{submittedRecord.assignedEmail || 'info@marvethabi.co.za'}</strong> and routed to{' '}
-                      <strong>{submittedRecord.assignedContactName}</strong> ({submittedRecord.assignedContactResponsibility}).
+                      {interpolate(t.contactPage.confirmationIntro, {
+                        category: submittedCategoryDisplay,
+                        email: submittedRecord.assignedEmail || 'info@marvethabi.co.za',
+                        contact: submittedContactDisplay,
+                        responsibility: submittedResponsibilityDisplay.replace(/\.$/, ''),
+                      })}
                     </p>
                   </div>
 
@@ -298,7 +351,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         letterSpacing: '0.05em',
                       }}
                     >
-                      Enquiry Summary
+                      {t.contactPage.summaryHeading}
                     </h3>
                     <div
                       style={{
@@ -309,29 +362,29 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                       }}
                     >
                       <div>
-                        <strong style={{ color: '#16211E' }}>Full Name:</strong> {submittedRecord.fullName}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelFullName}</strong> {submittedRecord.fullName}
                       </div>
                       <div>
-                        <strong style={{ color: '#16211E' }}>Organisation:</strong>{' '}
-                        {submittedRecord.organisation || 'Not specified'}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelOrganisation}</strong>{' '}
+                        {submittedRecord.organisation || t.contactPage.notSpecified}
                       </div>
                       <div>
-                        <strong style={{ color: '#16211E' }}>Email Address:</strong> {submittedRecord.email}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelEmail}</strong> {submittedRecord.email}
                       </div>
                       <div>
-                        <strong style={{ color: '#16211E' }}>Contact Number:</strong>{' '}
-                        {submittedRecord.phone || 'Not provided'}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelPhone}</strong>{' '}
+                        {submittedRecord.phone || t.contactPage.notProvided}
                       </div>
                       <div style={{ gridColumn: '1 / -1' }}>
-                        <strong style={{ color: '#16211E' }}>Service Category:</strong>{' '}
-                        {submittedRecord.categoryName || submittedRecord.serviceName}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelServiceCategory}</strong>{' '}
+                        {submittedCategoryDisplay}
                       </div>
                       <div style={{ gridColumn: '1 / -1' }}>
-                        <strong style={{ color: '#16211E' }}>Subject:</strong> {submittedRecord.subject}
+                        <strong style={{ color: '#16211E' }}>{t.contactPage.labelSubject}</strong> {submittedRecord.subject}
                       </div>
                     </div>
                     <div style={{ borderTop: '1px solid var(--line, #E1E8E6)', paddingTop: '12px' }}>
-                      <strong style={{ color: '#16211E', display: 'block', marginBottom: '4px' }}>Details:</strong>
+                      <strong style={{ color: '#16211E', display: 'block', marginBottom: '4px' }}>{t.contactPage.labelDetails}</strong>
                       <p style={{ margin: 0, whiteSpace: 'pre-wrap', lineHeight: 1.55 }}>
                         {submittedRecord.details}
                       </p>
@@ -350,7 +403,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         lineHeight: 1.5,
                       }}
                     >
-                      ✓ <strong>Delivery Status:</strong> {submissionStatus.message}
+                      ✓ <strong>{t.contactPage.deliveryStatusLabel}</strong> {submissionStatus.message}
                     </div>
                   )}
 
@@ -361,15 +414,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                       className="btn btn-outline"
                       style={{ padding: '10px 20px', cursor: 'pointer' }}
                     >
-                      Submit Another Enquiry
+                      {t.contactPage.submitAnother}
                     </button>
                     <a
                       href={buildMailtoDispatchUrl(submittedRecord)}
                       className="btn btn-brand"
                       style={{ padding: '10px 22px' }}
-                      title="Open pre-filled draft in your email client"
+                      title={t.contactPage.openEmailClientTitle}
                     >
-                      Open Email Client
+                      {t.contactPage.openEmailClient}
                     </a>
                   </div>
                 </div>
@@ -414,7 +467,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           htmlFor="field-name"
                           style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                         >
-                          Full Name <span style={{ color: '#C85A48' }}>*</span>
+                          {t.home.formFullName} <span style={{ color: '#C85A48' }}>*</span>
                         </label>
                         <input
                           id="field-name"
@@ -425,7 +478,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                             setFullName(e.target.value);
                             if (formErrors.fullName) setFormErrors((p) => ({ ...p, fullName: '' }));
                           }}
-                          placeholder="e.g. John Molefe"
+                          placeholder={t.contactPage.formNamePlaceholder}
                           required
                           style={{
                             width: '100%',
@@ -450,7 +503,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           htmlFor="field-org"
                           style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                         >
-                          Company / Organisation
+                          {t.contactPage.formOrgLabel}
                         </label>
                         <input
                           id="field-org"
@@ -458,7 +511,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           name="organisation"
                           value={organisation}
                           onChange={(e) => setOrganisation(e.target.value)}
-                          placeholder="e.g. Anglo American / City of Ekurhuleni"
+                          placeholder={t.contactPage.formOrgPlaceholder}
                           style={{
                             width: '100%',
                             padding: '11px 14px',
@@ -480,7 +533,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           htmlFor="field-email"
                           style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                         >
-                          Email Address <span style={{ color: '#C85A48' }}>*</span>
+                          {t.contactPage.formEmailLabel} <span style={{ color: '#C85A48' }}>*</span>
                         </label>
                         <input
                           id="field-email"
@@ -491,7 +544,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                             setEmail(e.target.value);
                             if (formErrors.email) setFormErrors((p) => ({ ...p, email: '' }));
                           }}
-                          placeholder="e.g. j.molefe@company.co.za"
+                          placeholder={t.contactPage.formEmailPlaceholder}
                           required
                           style={{
                             width: '100%',
@@ -516,7 +569,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           htmlFor="field-phone"
                           style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                         >
-                          Contact Number
+                          {t.contactPage.formPhoneLabel}
                         </label>
                         <input
                           id="field-phone"
@@ -524,7 +577,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           name="phone"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="e.g. +27 82 000 0000"
+                          placeholder={t.contactPage.formPhonePlaceholder}
                           style={{
                             width: '100%',
                             padding: '11px 14px',
@@ -545,7 +598,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         htmlFor="field-service-select"
                         style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                       >
-                        Service Required <span style={{ color: '#C85A48' }}>*</span>
+                        {t.contactPage.formServiceLabel} <span style={{ color: '#C85A48' }}>*</span>
                       </label>
                       <select
                         id="field-service-select"
@@ -566,7 +619,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           outline: 'none',
                         }}
                       >
-                        {SERVICE_CATEGORIES.map((cat) => (
+                        {categories.map((cat) => (
                           <option key={cat.id} value={cat.id}>
                             {cat.name}
                           </option>
@@ -586,7 +639,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         aria-live="polite"
                       >
                         <p style={{ margin: 0, fontSize: '12px', fontWeight: 600, color: '#55655F' }}>
-                          Your enquiry will be directed to:
+                          {t.contactPage.directedToLabel}
                         </p>
                         <p
                           style={{
@@ -610,7 +663,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         htmlFor="field-subject"
                         style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                       >
-                        Enquiry Subject <span style={{ color: '#C85A48' }}>*</span>
+                        {t.contactPage.formSubjectLabel} <span style={{ color: '#C85A48' }}>*</span>
                       </label>
                       <input
                         id="field-subject"
@@ -618,7 +671,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         name="subject"
                         value={subject}
                         onChange={handleSubjectChange}
-                        placeholder="Brief summary of your enquiry"
+                        placeholder={t.contactPage.formSubjectPlaceholder}
                         required
                         style={{
                           width: '100%',
@@ -644,7 +697,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         htmlFor="field-details"
                         style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink, #16211E)', marginBottom: '6px' }}
                       >
-                        Enquiry Details <span style={{ color: '#C85A48' }}>*</span>
+                        {t.contactPage.formDetailsLabel} <span style={{ color: '#C85A48' }}>*</span>
                       </label>
                       <textarea
                         id="field-details"
@@ -655,7 +708,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           setDetails(e.target.value);
                           if (formErrors.details) setFormErrors((p) => ({ ...p, details: '' }));
                         }}
-                        placeholder="Please provide details regarding your requirements, technical scope, plant location, or project objectives..."
+                        placeholder={t.contactPage.formDetailsPlaceholder}
                         required
                         style={{
                           width: '100%',
@@ -683,7 +736,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         type="submit"
                         disabled={isSubmitting}
                         className="btn btn-brand"
-                        aria-label="Submit enquiry"
+                        aria-label={t.home.formSubmitAria}
                         style={{
                           padding: '13px 28px',
                           fontSize: '15px',
@@ -698,11 +751,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                           opacity: isSubmitting ? 0.75 : 1,
                         }}
                       >
-                        {isSubmitting ? (
-                          <span>Sending to info@marvethabi.co.za...</span>
-                        ) : (
-                          <span>Send Enquiry Straight to info@marvethabi.co.za</span>
-                        )}
+                        <span>
+                          {isSubmitting
+                            ? t.contactPage.submitButtonBusy
+                            : lang === 'en'
+                            ? 'Send Enquiry Straight to info@marvethabi.co.za'
+                            : t.contactPage.submitButtonIdle}
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -712,16 +767,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
           </div>
 
           {/* RIGHT SIDEBAR: DIRECT CONTACT & ACCREDITATIONS */}
-          <aside className="detail-sidebar" aria-label="Practice Contact Information" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <aside className="detail-sidebar" aria-label={t.contactPage.sidebarAria} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* DIRECT CONTACT */}
             <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px', border: '1px solid var(--line, #E1E8E6)' }}>
               <h4 style={{ fontSize: '16px', color: 'var(--ink, #16211E)', margin: '0 0 14px', fontWeight: 700 }}>
-                Direct Contact Channels
+                {t.contactPage.directChannelsHeading}
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '14px', color: '#3C4A45' }}>
                 <div>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand, #336659)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
-                    Email
+                    {t.contactPage.emailHeading}
                   </span>
                   <a href="mailto:info@marvethabi.co.za" style={{ color: 'var(--ink, #16211E)', textDecoration: 'none', fontWeight: 600 }}>
                     info@marvethabi.co.za
@@ -729,30 +784,30 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                 </div>
                 <div>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand, #336659)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
-                    Telephone
+                    {t.contactPage.telephoneHeading}
                   </span>
                   <p style={{ margin: 0, fontWeight: 600, color: 'var(--ink, #16211E)' }}>
-                    +27 82 412 3847 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>(Engineering / Marvelous Ngoatle)</span>
+                    +27 82 412 3847 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>{t.contactPage.phone1Note}</span>
                   </p>
                   <p style={{ margin: '4px 0 0', fontWeight: 600, color: 'var(--ink, #16211E)' }}>
-                    +27 72 834 7953 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>(Environmental / Thabang Ngoatle)</span>
+                    +27 72 834 7953 <span style={{ fontSize: '12px', fontWeight: 400, color: '#667770' }}>{t.contactPage.phone2Note}</span>
                   </p>
                 </div>
                 <div>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand, #336659)', textTransform: 'uppercase', display: 'block', marginBottom: '2px' }}>
-                    Consulting Hours
+                    {t.contactPage.hoursHeading}
                   </span>
-                  <p style={{ margin: 0 }}>Monday &ndash; Friday: 08:00 &ndash; 17:00 SAST</p>
+                  <p style={{ margin: 0 }}>{t.contactPage.hoursValue}</p>
                 </div>
                 <div>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand, #336659)', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
-                    LinkedIn Corporate Profile
+                    {t.contactPage.linkedInHeading}
                   </span>
                   <a
                     href="https://www.linkedin.com/company/marvethabi-consulting-engineers/?viewAsMember=true"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Visit MarveThabi on LinkedIn (opens in a new tab)"
+                    aria-label={t.nav.linkedInAriaLabel}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -778,7 +833,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
                         display: 'block',
                       }}
                     />
-                    MarveThabi on LinkedIn &rarr;
+                    {t.contactPage.linkedInLinkText}
                   </a>
                 </div>
               </div>
@@ -787,39 +842,25 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate: _onNavigat
             {/* HEAD OFFICE LOCATION */}
             <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px', border: '1px solid var(--line, #E1E8E6)' }}>
               <h4 style={{ fontSize: '16px', color: 'var(--ink, #16211E)', margin: '0 0 10px', fontWeight: 700 }}>
-                Practice Head Office
+                {t.contactPage.headOfficeHeading}
               </h4>
               <p style={{ fontSize: '13.5px', color: '#3C4A45', lineHeight: 1.55, margin: 0 }}>
-                Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182, Gauteng, South Africa
+                {t.contactPage.headOfficeAddress}
               </p>
             </div>
 
             {/* REGISTRATIONS & COMPLIANCE */}
             <div className="side-card" style={{ background: '#fff', padding: '24px', borderRadius: '8px', border: '1px solid var(--line, #E1E8E6)' }}>
               <h4 style={{ fontSize: '16px', color: 'var(--ink, #16211E)', margin: '0 0 12px', fontWeight: 700 }}>
-                Statutory Credentials
+                {t.contactPage.credentialsHeading}
               </h4>
               <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px', color: '#47564F' }}>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>B-BBEE Status:</span>
-                  <strong style={{ color: 'var(--btn-green-dark, #436905)' }}>Level 1 (135% Recognition)</strong>
-                </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Engineering Council:</span>
-                  <strong>ECSA Registered</strong>
-                </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Natural Sciences:</span>
-                  <strong>SACNASP Registered</strong>
-                </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Contractor DB:</span>
-                  <strong>CIDB Registered</strong>
-                </li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Public Supplier:</span>
-                  <strong>CSD Registered</strong>
-                </li>
+                {t.contactPage.credentials.map((cred, idx) => (
+                  <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
+                    <span>{cred.label}</span>
+                    <strong style={idx === 0 ? { color: 'var(--btn-green-dark, #436905)' } : undefined}>{cred.value}</strong>
+                  </li>
+                ))}
               </ul>
             </div>
           </aside>

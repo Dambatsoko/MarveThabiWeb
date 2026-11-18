@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { IndustryDetail } from '../data/marvethabi';
+import { useLanguage } from '../i18n/LanguageContext';
 import {
-  getIndustryDetail,
-  industriesData,
-  industryDetailsData,
-  IndustryDetail,
-} from '../data/marvethabi';
+  getLocalizedIndustryDetail,
+  getLocalizedIndustries,
+} from '../i18n/data';
+import { localizePath } from '../i18n/routing';
 
 interface IndustryDetailPageProps {
   slug: string;
@@ -12,20 +13,26 @@ interface IndustryDetailPageProps {
 }
 
 export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, onNavigate }) => {
+  const { lang, t } = useLanguage();
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
 
   const industry: IndustryDetail =
-    getIndustryDetail(slug) || industryDetailsData['government'];
+    getLocalizedIndustryDetail(slug, lang) || getLocalizedIndustryDetail('government', lang)!;
 
   // Other sectors for the footer switcher
-  const otherIndustries = industriesData.filter((ind) => ind.slug !== industry.slug);
+  const allIndustries = getLocalizedIndustries(lang);
+  const otherIndustries = allIndustries.filter((ind) => ind.slug !== industry.slug);
 
   const handleLink = (e: React.MouseEvent, path: string) => {
     e.preventDefault();
-    onNavigate(path);
+    onNavigate(localizePath(path, lang));
   };
+
+  const contactHref = localizePath('/contact', lang);
+  const servicesHref = localizePath('/services', lang);
 
   return (
     <main className="ind-detail-page detail-page">
@@ -47,8 +54,8 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
           </p>
           <p className="lead svc-hero-sub">{industry.summary}</p>
           <div className="svc-hero-tags">
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Critical Infrastructure Domain</span>
-            <span className="svc-hero-tag"><span className="tag-dot"></span>Multi-Disciplinary Engineering Alignment</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>{t.industryDetail.tagDomain}</span>
+            <span className="svc-hero-tag"><span className="tag-dot"></span>{t.industryDetail.tagAlignment}</span>
           </div>
         </div>
       </section>
@@ -67,10 +74,10 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                 marginBottom: '8px',
               }}
             >
-              OPERATIONAL & STATUTORY INTEGRATION
+              {t.industryDetail.eyebrow}
             </span>
             <h2 style={{ fontSize: '32px', color: 'var(--ink, #0f1b18)' }}>
-              Where Our Services Fit in {industry.name}
+              {t.industryDetail.fitHeadingPrefix} {industry.name}
             </h2>
             <p style={{ maxWidth: '820px', fontSize: '16px', color: '#47564F', lineHeight: 1.7 }}>
               {industry.fitDescription}
@@ -112,7 +119,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                         marginBottom: '4px',
                       }}
                     >
-                      DISCIPLINE 0{groupIdx + 1}
+                      {t.industryDetail.disciplinePrefix} 0{groupIdx + 1}
                     </span>
                     <h3
                       style={{
@@ -134,7 +141,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                       color: 'var(--ink, #0f1b18)',
                     }}
                   >
-                    {group.services.length} SERVICE LINES
+                    {group.services.length} {t.industryDetail.serviceLinesSuffix}
                   </span>
                 </div>
 
@@ -145,98 +152,101 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                     gap: '24px',
                   }}
                 >
-                  {group.services.map((svc) => (
-                    <div
-                      key={svc.ref}
-                      style={{
-                        background: '#fff',
-                        border: '1px solid var(--line, #e1e7e4)',
-                        padding: '24px',
-                        borderRadius: '2px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        gap: '16px',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            marginBottom: '10px',
-                          }}
-                        >
-                          <span
-                            className="num"
+                  {group.services.map((svc) => {
+                    const svcHref = localizePath(`/services/${svc.slug}`, lang);
+                    return (
+                      <div
+                        key={svc.ref}
+                        style={{
+                          background: '#fff',
+                          border: '1px solid var(--line, #e1e7e4)',
+                          padding: '24px',
+                          borderRadius: '2px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                          gap: '16px',
+                          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                        }}
+                      >
+                        <div>
+                          <div
                             style={{
-                              fontSize: '12px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              marginBottom: '10px',
+                            }}
+                          >
+                            <span
+                              className="num"
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: 700,
+                                color: 'var(--brand, #336659)',
+                                background: 'var(--grey, #f4f6f5)',
+                                padding: '2px 8px',
+                                borderRadius: '2px',
+                              }}
+                            >
+                              {svc.ref}
+                            </span>
+                            <span
+                              style={{
+                                fontSize: '10px',
+                                fontWeight: 700,
+                                color: '#6e7e78',
+                                letterSpacing: '0.08em',
+                                textTransform: 'uppercase',
+                              }}
+                            >
+                              {t.industryDetail.statutoryDeliverable}
+                            </span>
+                          </div>
+                          <h4
+                            style={{
+                              fontSize: '17px',
+                              color: 'var(--ink, #0f1b18)',
+                              margin: '0 0 10px',
+                              fontWeight: 700,
+                              lineHeight: 1.35,
+                            }}
+                          >
+                            {svc.name}
+                          </h4>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              color: '#47564F',
+                              lineHeight: 1.6,
+                              margin: 0,
+                            }}
+                          >
+                            {svc.description}
+                          </p>
+                        </div>
+
+                        <div style={{ paddingTop: '8px', borderTop: '1px solid #f0f4f2' }}>
+                          <a
+                            href={svcHref}
+                            aria-label={`${svc.name} (${svc.ref})`}
+                            onClick={(e) => handleLink(e, svcHref)}
+                            style={{
+                              fontSize: '13px',
                               fontWeight: 700,
                               color: 'var(--brand, #336659)',
-                              background: 'var(--grey, #f4f6f5)',
-                              padding: '2px 8px',
-                              borderRadius: '2px',
+                              textDecoration: 'none',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
                             }}
                           >
-                            {svc.ref}
-                          </span>
-                          <span
-                            style={{
-                              fontSize: '10px',
-                              fontWeight: 700,
-                              color: '#6e7e78',
-                              letterSpacing: '0.08em',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            STATUTORY DELIVERABLE
-                          </span>
+                            {t.industryDetail.viewDetailsPrefix} {svc.name} {t.industryDetail.viewDetailsSuffix}
+                          </a>
                         </div>
-                        <h4
-                          style={{
-                            fontSize: '17px',
-                            color: 'var(--ink, #0f1b18)',
-                            margin: '0 0 10px',
-                            fontWeight: 700,
-                            lineHeight: 1.35,
-                          }}
-                        >
-                          {svc.name}
-                        </h4>
-                        <p
-                          style={{
-                            fontSize: '14px',
-                            color: '#47564F',
-                            lineHeight: 1.6,
-                            margin: 0,
-                          }}
-                        >
-                          {svc.description}
-                        </p>
                       </div>
-
-                      <div style={{ paddingTop: '8px', borderTop: '1px solid #f0f4f2' }}>
-                        <a
-                          href={`/services/${svc.slug}`}
-                          aria-label={`View technical specifications for ${svc.name} (${svc.ref})`}
-                          onClick={(e) => handleLink(e, `/services/${svc.slug}`)}
-                          style={{
-                            fontSize: '13px',
-                            fontWeight: 700,
-                            color: 'var(--brand, #336659)',
-                            textDecoration: 'none',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                          }}
-                        >
-                          View {svc.name} Details &rarr;
-                        </a>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -275,7 +285,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                   marginBottom: '8px',
                 }}
               >
-                OPERATIONAL & REGULATORY RISKS
+                {t.industryDetail.risksEyebrow}
               </span>
               <h3
                 style={{
@@ -285,7 +295,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                Key Sector Challenges We Solve
+                {t.industryDetail.challengesHeading}
               </h3>
               <ul style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: 0, margin: 0, listStyle: 'none' }}>
                 {industry.keyChallenges.map((challenge, idx) => (
@@ -338,7 +348,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                   marginBottom: '8px',
                 }}
               >
-                MEASURABLE ADVANTAGES
+                {t.industryDetail.advantagesEyebrow}
               </span>
               <h3
                 style={{
@@ -348,7 +358,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                   fontFamily: 'var(--font-heading)',
                 }}
               >
-                Target Outcomes Delivered
+                {t.industryDetail.outcomesHeading}
               </h3>
               <ul style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: 0, margin: 0, listStyle: 'none' }}>
                 {industry.keyOutcomes.map((outcome, idx) => (
@@ -387,10 +397,10 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
       <section className="detail-body-section" style={{ background: '#fff' }}>
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '28px' }}>
-            <h2>Applicable Statutory Standards & Regulators</h2>
+            <h2>{t.industryDetail.standardsHeading}</h2>
             <p>
-              Every engineering design, asset register, and environmental report for{' '}
-              {industry.name} is delivered in strict conformity with national legislation.
+              {t.industryDetail.standardsSubtitlePrefix}{' '}
+              {industry.name} {t.industryDetail.standardsSubtitleSuffix}
             </p>
           </div>
 
@@ -430,30 +440,29 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
               className="label"
               style={{ color: 'var(--brand-light, #5e9e8b)', display: 'block', marginBottom: '8px' }}
             >
-              SECTOR ADVISORY & APPOINTMENTS
+              {t.industryDetail.ctaEyebrow}
             </span>
-            <h2>Partner With Our Registered Specialists</h2>
+            <h2>{t.industryDetail.ctaHeading}</h2>
             <p className="svc-cta-sub">
-              Discuss your sector infrastructure project, statutory compliance review, or asset register
-              with MarveThabi&apos;s registered engineers and scientists.
+              {t.industryDetail.ctaSubtitle}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <a
-              href="/contact"
+              href={contactHref}
               className="btn btn-brand"
-              aria-label="Request consultation for your sector project"
-              onClick={(e) => handleLink(e, '/contact')}
+              aria-label={t.common.requestConsultation}
+              onClick={(e) => handleLink(e, contactHref)}
             >
-              Request Consultation
+              {t.common.requestConsultation}
             </a>
             <a
-              href="/services"
+              href={servicesHref}
               className="btn btn-ghost"
-              aria-label="Browse full master services catalogue"
-              onClick={(e) => handleLink(e, '/services')}
+              aria-label={t.common.masterServicesCatalogue}
+              onClick={(e) => handleLink(e, servicesHref)}
             >
-              Master Services Catalogue
+              {t.common.masterServicesCatalogue}
             </a>
           </div>
         </div>
@@ -478,7 +487,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                 marginBottom: '8px',
               }}
             >
-              CROSS-SECTOR SPECIALISATION
+              {t.industryDetail.otherEyebrow}
             </span>
             <h3
               style={{
@@ -488,7 +497,7 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
                 margin: 0,
               }}
             >
-              Browse Other Industries We Serve
+              {t.industryDetail.otherHeading}
             </h3>
           </div>
 
@@ -499,54 +508,57 @@ export const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ slug, on
               gap: '16px',
             }}
           >
-            {otherIndustries.map((ind) => (
-              <a
-                key={ind.name}
-                href={`/industries/${ind.slug}`}
-                aria-label={`Explore how MarveThabi services fit the ${ind.name} industry`}
-                onClick={(e) => handleLink(e, `/industries/${ind.slug}`)}
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  padding: '20px 16px',
-                  borderRadius: '2px',
-                  textDecoration: 'none',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  gap: '10px',
-                  transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
-                }}
-              >
-                <svg
-                  viewBox="0 0 48 48"
-                  style={{ width: '28px', height: '28px', stroke: 'var(--brand-light, #5e9e8b)', strokeWidth: 1.8 }}
-                  aria-hidden="true"
-                >
-                  <path d={ind.path} fill="none" />
-                </svg>
-                <span
+            {otherIndustries.map((ind) => {
+              const indHref = localizePath(`/industries/${ind.slug}`, lang);
+              return (
+                <a
+                  key={ind.slug}
+                  href={indHref}
+                  aria-label={`${t.home.industryAriaPrefix} ${ind.name}`}
+                  onClick={(e) => handleLink(e, indHref)}
                   style={{
-                    fontSize: '13px',
-                    fontWeight: 700,
-                    color: '#fff',
-                    lineHeight: 1.3,
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    padding: '20px 16px',
+                    borderRadius: '2px',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    gap: '10px',
+                    transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
                   }}
                 >
-                  {ind.name}
-                </span>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    color: 'var(--brand-light, #5e9e8b)',
-                    fontWeight: 600,
-                  }}
-                >
-                  Where We Fit &rarr;
-                </span>
-              </a>
-            ))}
+                  <svg
+                    viewBox="0 0 48 48"
+                    style={{ width: '28px', height: '28px', stroke: 'var(--brand-light, #5e9e8b)', strokeWidth: 1.8 }}
+                    aria-hidden="true"
+                  >
+                    <path d={ind.path} fill="none" />
+                  </svg>
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      color: '#fff',
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {ind.name}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      color: 'var(--brand-light, #5e9e8b)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {t.common.whereWeFit}
+                  </span>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { AccreditationSection } from './AccreditationSection';
 import { AffiliationsSection } from './AffiliationsSection';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface AboutPageProps {
   onNavigate: (path: string) => void;
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate }) => {
+  const { t } = useLanguage();
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -18,10 +21,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <h1 className="svc-hero-title">About MarveThabi Consulting Engineers</h1>
+          <h1 className="svc-hero-title">{t.about.heroTitle}</h1>
           <p className="lead svc-hero-sub">
-            Integrated engineering and consulting solutions in Reliability Engineering, Asset
-            Management, Electrical Engineering, Condition Monitoring, and Environmental Management.
+            {t.about.heroSubtitle}
           </p>
         </div>
       </section>
@@ -32,7 +34,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
           <div className="about-intro-grid">
             <div>
               <span className="label" style={{ color: 'var(--brand)', display: 'block', marginBottom: '8px' }}>
-                ABOUT US
+                {t.about.eyebrow}
               </span>
               <h2
                 style={{
@@ -43,7 +45,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   lineHeight: 1.15,
                 }}
               >
-                Technical Expertise. Practical Experience. Professional Excellence.
+                {t.about.introHeading}
               </h2>
               <div
                 style={{
@@ -55,32 +57,16 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   color: '#33443D',
                 }}
               >
-                <p>
-                  MarveThabi Consulting Engineers (MCE) is a multidisciplinary consulting firm
-                  specialising in engineering and environmental services. Our areas of expertise
-                  include reliability engineering, physical asset management, electrical engineering,
-                  condition monitoring, environmental management, and environmental compliance.
-                </p>
-                <p>
-                  Established in response to the growing demand for specialised technical and
-                  environmental expertise, MCE serves clients across the mining, industrial,
-                  utilities, and infrastructure sectors. We provide professional services that address
-                  engineering challenges, environmental risks, regulatory compliance, and the
-                  sustainable management of resources.
-                </p>
-                <p>
-                  Our approach is grounded in technical expertise, practical industry experience,
-                  scientific assessment, and risk-based decision-making. We are committed to delivering
-                  reliable, technically sound, and environmentally responsible services tailored to
-                  our clients' operational requirements and regulatory obligations.
-                </p>
+                <p>{t.about.introP1}</p>
+                <p>{t.about.introP2}</p>
+                <p>{t.about.introP3}</p>
               </div>
             </div>
 
             <div className="about-collage-wrap">
               <img
                 src="/assets/images/aboutus.png"
-                alt="MarveThabi multidisciplinary engineering operations: plant engineering, open-pit mining, industrial processing infrastructure, and environmental sustainability"
+                alt={t.about.collageAlt}
                 className="about-collage-img"
                 loading="eager"
                 decoding="async"
@@ -103,7 +89,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
       >
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '32px' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)' }}>OUR CORE EXPERTISE</h2>
+            <h2 style={{ fontFamily: 'var(--font-heading)' }}>{t.about.expertiseHeading}</h2>
           </div>
 
           <div className="about-expertise-grid">
@@ -124,7 +110,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                 </svg>
               </div>
-              <span className="about-expertise-label">Reliability Engineering</span>
+              <span className="about-expertise-label">{t.about.expertiseLabels.reliability}</span>
             </div>
 
             {/* Asset Management */}
@@ -144,7 +130,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                 </svg>
               </div>
-              <span className="about-expertise-label">Asset Management</span>
+              <span className="about-expertise-label">{t.about.expertiseLabels.assetManagement}</span>
             </div>
 
             {/* Electrical Engineering */}
@@ -163,7 +149,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
               </div>
-              <span className="about-expertise-label">Electrical Engineering</span>
+              <span className="about-expertise-label">{t.about.expertiseLabels.electrical}</span>
             </div>
 
             {/* Condition Monitoring */}
@@ -182,7 +168,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
               </div>
-              <span className="about-expertise-label">Condition Monitoring</span>
+              <span className="about-expertise-label">{t.about.expertiseLabels.conditionMonitoring}</span>
             </div>
 
             {/* Environmental Management */}
@@ -204,7 +190,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M12 17a6 6 0 0 0-6 3" />
                 </svg>
               </div>
-              <span className="about-expertise-label">Environmental Management</span>
+              <span className="about-expertise-label">{t.about.expertiseLabels.environmental}</span>
             </div>
           </div>
         </div>
@@ -214,7 +200,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
       <section className="detail-body-section" style={{ background: '#fff', paddingTop: '72px', paddingBottom: '72px' }}>
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '32px', textAlign: 'center', marginInline: 'auto' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)' }}>VISION AND MISSION</h2>
+            <h2 style={{ fontFamily: 'var(--font-heading)' }}>{t.about.visionMissionHeading}</h2>
           </div>
 
           <div className="about-vm-grid">
@@ -235,7 +221,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <circle cx="12" cy="12" r="3.2" fill="#FFFFFF" />
                 </svg>
               </div>
-              <h3 className="about-vm-title">VISION</h3>
+              <h3 className="about-vm-title">{t.about.visionTitle}</h3>
               <div className="about-vm-divider" aria-hidden="true">
                 <svg width="180" height="16" viewBox="0 0 180 16" fill="none">
                   <path
@@ -247,10 +233,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   />
                 </svg>
               </div>
-              <p className="about-vm-text">
-                To be a leading multidisciplinary engineering consultancy in Africa, recognised for
-                technical excellence, integrity, and sustainable value creation.
-              </p>
+              <p className="about-vm-text">{t.about.visionText}</p>
             </div>
 
             {/* MISSION PANEL */}
@@ -272,7 +255,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M19 5l-4.5 4.5" strokeWidth="2.5" />
                 </svg>
               </div>
-              <h3 className="about-vm-title">MISSION</h3>
+              <h3 className="about-vm-title">{t.about.missionTitle}</h3>
               <div className="about-vm-divider" aria-hidden="true">
                 <svg width="180" height="16" viewBox="0 0 180 16" fill="none">
                   <path
@@ -284,11 +267,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   />
                 </svg>
               </div>
-              <p className="about-vm-text">
-                To deliver compliant, reliable, and sustainable engineering and environmental
-                management solutions that enhance asset performance, safety, and operational
-                efficiency for our clients.
-              </p>
+              <p className="about-vm-text">{t.about.missionText}</p>
             </div>
           </div>
         </div>
@@ -306,7 +285,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
       >
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: '24px', textAlign: 'center', marginInline: 'auto' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)' }}>OUR VALUES</h2>
+            <h2 style={{ fontFamily: 'var(--font-heading)' }}>{t.about.valuesHeading}</h2>
           </div>
 
           <div className="about-values-grid">
@@ -327,10 +306,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="m9 12 2 2 4-4" strokeWidth="2.4" />
                 </svg>
               </div>
-              <h3 className="about-value-title">INTEGRITY</h3>
-              <p className="about-value-text">
-                We act with honesty, transparency, and professional ethics in everything we do.
-              </p>
+              <h3 className="about-value-title">{t.about.values.integrityTitle}</h3>
+              <p className="about-value-text">{t.about.values.integrityText}</p>
             </div>
 
             {/* EXCELLENCE */}
@@ -350,10 +327,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="m8.2 13.5-2.2 7.5 6-3 6 3-2.2-7.5" />
                 </svg>
               </div>
-              <h3 className="about-value-title">EXCELLENCE</h3>
-              <p className="about-value-text">
-                We are committed to delivering high-quality solutions and continuous improvement.
-              </p>
+              <h3 className="about-value-title">{t.about.values.excellenceTitle}</h3>
+              <p className="about-value-text">{t.about.values.excellenceText}</p>
             </div>
 
             {/* PARTNERSHIP */}
@@ -375,11 +350,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </div>
-              <h3 className="about-value-title">PARTNERSHIP</h3>
-              <p className="about-value-text">
-                We build strong relationships and work collaboratively with our clients and
-                stakeholders.
-              </p>
+              <h3 className="about-value-title">{t.about.values.partnershipTitle}</h3>
+              <p className="about-value-text">{t.about.values.partnershipText}</p>
             </div>
 
             {/* SUSTAINABILITY */}
@@ -399,10 +371,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
                   <path d="M4 13c5.5 0 10-3 10-7" />
                 </svg>
               </div>
-              <h3 className="about-value-title">SUSTAINABILITY</h3>
-              <p className="about-value-text">
-                We promote solutions that are environmentally responsible and economically viable.
-              </p>
+              <h3 className="about-value-title">{t.about.values.sustainabilityTitle}</h3>
+              <p className="about-value-text">{t.about.values.sustainabilityText}</p>
             </div>
           </div>
         </div>
@@ -415,7 +385,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
       <AffiliationsSection />
 
       {/* ============ FOOTER TAGLINE STRIP ============ */}
-      <section className="about-tagline-strip" aria-label="Corporate Tagline">
+      <section className="about-tagline-strip" aria-label={t.about.taglineStripAria}>
         <div className="wrap">
           <div className="about-tagline-inner">
             <svg
@@ -432,7 +402,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate: _onNavigate })
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
             <p className="about-tagline-text">
-              ENGINEERING SOLUTIONS. RELIABLE ASSETS. SUSTAINABLE FUTURES.
+              {t.about.taglineStripText}
             </p>
           </div>
         </div>

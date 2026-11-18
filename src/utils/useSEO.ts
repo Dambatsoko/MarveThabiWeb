@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import { getPageSEO, PageSEO, SITE_NAME } from './seoConfig';
 
 /**
- * Updates DOM head metadata dynamically in client-side React SPA
+ * Updates DOM head metadata dynamically in client-side React SPA,
+ * including html[lang], canonical, hreflang alternates, OpenGraph, Twitter, and JSON-LD.
  */
 export function useSEO(currentPath: string): PageSEO {
   const seo = getPageSEO(currentPath);
 
   useEffect(() => {
-    // 1. Title
+    // 1. Document language & Title
+    document.documentElement.lang = seo.lang;
     document.title = seo.title;
 
     // Helper to set or create meta tag
@@ -33,14 +35,33 @@ export function useSEO(currentPath: string): PageSEO {
       tag.href = href;
     };
 
+    // Helper to set or create hreflang alternate link tag
+    const setHreflangTag = (hreflang: string, href: string) => {
+      let tag = document.querySelector(
+        `link[rel="alternate"][hreflang="${hreflang}"]`
+      ) as HTMLLinkElement | null;
+      if (!tag) {
+        tag = document.createElement('link');
+        tag.rel = 'alternate';
+        tag.hreflang = hreflang;
+        document.head.appendChild(tag);
+      }
+      tag.href = href;
+    };
+
     // 2. Standard Description
     setMetaTag('name', 'description', seo.description);
 
-    // 3. Canonical Link
+    // 3. Canonical & Hreflang Links
     setLinkTag('canonical', seo.canonicalUrl);
+    setHreflangTag('en', seo.alternateUrls.en);
+    setHreflangTag('fr', seo.alternateUrls.fr);
+    setHreflangTag('x-default', seo.alternateUrls.xDefault);
 
     // 4. OpenGraph
     setMetaTag('property', 'og:site_name', SITE_NAME);
+    setMetaTag('property', 'og:locale', seo.lang === 'fr' ? 'fr_FR' : 'en_ZA');
+    setMetaTag('property', 'og:locale:alternate', seo.lang === 'fr' ? 'en_ZA' : 'fr_FR');
     setMetaTag('property', 'og:title', seo.ogTitle || seo.title);
     setMetaTag('property', 'og:description', seo.ogDescription || seo.description);
     setMetaTag('property', 'og:url', seo.canonicalUrl);

@@ -1,38 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import {
   serviceGroupsData,
-  affiliationsData,
   sanitizeTitle,
   getServiceSlugForRef,
 } from '../data/marvethabi';
 import { SvcIcon } from './ServiceIcons';
+import { useLanguage } from '../i18n/LanguageContext';
+import {
+  getLocalizedServiceGroups,
+  getLocalizedAffiliations,
+  getLocalizedServiceAlt,
+} from '../i18n/data';
+import { localizePath } from '../i18n/routing';
 
 interface ServicesPageProps {
   onNavigate: (path: string) => void;
 }
 
-const serviceAltMap: Record<string, string> = {
-  'RE-01': 'Reliability engineering specialist performing vibration analysis and diagnostic testing on industrial rotating plant machinery',
-  'AM-02': 'Physical asset management verification, lifecycle costing, and ISO 55000 asset register hierarchy classification',
-  'CM-01': 'Condition monitoring diagnostics technician utilizing infrared thermography and ultrasonic testing on operational electrical and mechanical equipment',
-  'EC-03': 'Electrical contractor installing commercial switchgear, backup diesel generator, and high-voltage cable reticulation systems',
-  'EE-04': 'High-voltage electrical substation infrastructure, overhead transmission lines, and municipal reticulation network',
-  'ME-05': 'Heavy mining equipment maintenance, pit dewatering pumps, and processing plant infrastructure engineering',
-  'PM-06': 'Engineering project managers reviewing construction blueprints and technical specifications during on-site quality assurance',
-  'GE-04': 'Environmental scientist collecting water samples and conducting catchment resource management in the natural environment',
-  'WS-06': 'Industrial waste classification, emissions monitoring equipment, and environmental waste compliance auditing',
-  'WM-05': 'Hydrogeologist monitoring groundwater borehole yield and water quality for Water Use Licence (WULA) compliance',
-  'AQ-07': 'Specialist air quality monitoring station with dust fallout sampling gauges and atmospheric emissions testing equipment',
-  'GG-08': 'Greenhouse gas emissions monitoring, carbon footprint calculation, and mandatory NAEIS reporting instrumentation',
-  'HS-09': 'Hydrogeologist conducting geophysical resistivity survey and borehole yield testing for groundwater aquifer characterisation',
-  'GS-10': 'Geologist performing rock mass core logging, foundation structural analysis, and geotechnical subsurface mapping',
-  'SS-11': 'Professional land surveyor operating high-precision electronic total station and GNSS rover for topographical site mapping',
-  'AP-10': 'Environmental consultant preparing statutory EIA, EMPr, and environmental authorisation documentation for regulatory compliance',
-  'CA-11': 'Environmental Control Officer (ECO) inspecting site water runoff channels and performing aquatic biomonitoring',
-  'ER-12': 'Mine land environmental rehabilitation featuring contaminated soil remediation and indigenous vegetation restoration',
-};
-
 export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
+  const { lang, t } = useLanguage();
+  const serviceGroups = getLocalizedServiceGroups(lang);
+  const affiliations = getLocalizedAffiliations(lang);
   const [activeSpy, setActiveSpy] = useState<string>('engineering-services');
 
   // Setup scroll reveals
@@ -57,9 +45,9 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
     } else {
       reveals.forEach((el) => el.classList.add('on'));
     }
-  }, []);
+  }, [lang]);
 
-  // Directory scroll-spy
+  // Directory scroll-spy using canonical English anchor IDs so anchors work cleanly across languages
   useEffect(() => {
     const allTargetIds: string[] = [];
     serviceGroupsData.forEach((g) => {
@@ -86,7 +74,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [lang]);
 
   const scrollToTarget = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -103,6 +91,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
     }
   };
 
+  const contactHref = localizePath('/contact', lang);
+
   return (
     <main className="svc-page">
       {/* ============ PAGE HERO ============ */}
@@ -110,24 +100,20 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         <div className="svc-hero-grid-bg" aria-hidden="true"></div>
 
         <div className="wrap">
-          <h1 className="svc-hero-title">Engineering &amp; Environmental Consulting</h1>
+          <h1 className="svc-hero-title">{t.servicesPage.heroTitle}</h1>
           <p className="lead svc-hero-sub" style={{ marginBottom: '12px' }}>
-            MarveThabi Consulting Engineers assists organisations in improving asset reliability,
-            availability, and maintainability through structured, data-driven reliability
-            engineering methodologies.
+            {t.servicesPage.heroP1}
           </p>
           <p className="lead svc-hero-sub">
-            Our services are designed to reduce unplanned downtime, optimise maintenance
-            effectiveness, manage operational risk, and extend asset life across the full asset
-            lifecycle.
+            {t.servicesPage.heroP2}
           </p>
-          <div className="svc-hero-index" role="navigation" aria-label="Service categories quick jump">
-            {serviceGroupsData.map((g) => (
+          <div className="svc-hero-index" role="navigation" aria-label={t.servicesPage.quickJumpAria}>
+            {serviceGroups.map((g) => (
               <a
                 key={g.id}
                 href={`#${g.id}`}
                 className="svc-hero-chip"
-                aria-label={`Jump to Group ${g.no}: ${g.title}`}
+                aria-label={`${t.servicesPage.jumpToPrefix} ${g.no}: ${g.title}`}
                 onClick={(e) => scrollToTarget(e, g.id)}
               >
                 <span className="num" aria-hidden="true">{g.no}</span>
@@ -142,27 +128,28 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
       <section className="svc-catalogue">
         <div className="wrap svc-layout">
           {/* Directory */}
-          <aside className="svc-dir" aria-label="Service directory">
-            <span className="label svc-dir-h">Directory</span>
-            {serviceGroupsData.map((g) => (
+          <aside className="svc-dir" aria-label={t.servicesPage.directoryAria}>
+            <span className="label svc-dir-h">{t.servicesPage.directoryLabel}</span>
+            {serviceGroups.map((g, gIdx) => (
               <React.Fragment key={g.id}>
                 <a
                   href={`#${g.id}`}
                   className={`svc-dir-group ${activeSpy === g.id ? 'active' : ''}`}
-                  aria-label={`Navigate to Group ${g.no}: ${g.title}`}
+                  aria-label={`${t.servicesPage.navigateToPrefix} ${g.no}: ${g.title}`}
                   aria-current={activeSpy === g.id ? 'true' : undefined}
                   onClick={(e) => scrollToTarget(e, g.id)}
                 >
                   <span className="num" aria-hidden="true">{g.no}</span> {g.title}
                 </a>
-                {g.services.map((svc) => {
-                  const sid = sanitizeTitle(svc.title);
+                {g.services.map((svc, sIdx) => {
+                  const canonicalTitle = serviceGroupsData[gIdx]?.services[sIdx]?.title || svc.title;
+                  const sid = sanitizeTitle(canonicalTitle);
                   return (
                     <a
                       key={svc.ref}
                       href={`#${sid}`}
                       className={`svc-dir-item ${activeSpy === sid ? 'active' : ''}`}
-                      aria-label={`Navigate to ${svc.title} (${svc.ref})`}
+                      aria-label={`${t.servicesPage.navigateToPrefix} ${svc.title} (${svc.ref})`}
                       aria-current={activeSpy === sid ? 'true' : undefined}
                       onClick={(e) => scrollToTarget(e, sid)}
                     >
@@ -176,7 +163,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
           {/* Groups */}
           <div className="svc-flow">
-            {serviceGroupsData.map((g) => (
+            {serviceGroups.map((g, gIdx) => (
               <section key={g.id} className="svc-group" id={g.id}>
                 <div className="svc-group-head reveal">
                   <span className="num svc-group-no">{g.no}</span>
@@ -186,16 +173,18 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {g.services.map((svc) => {
-                  const sid = sanitizeTitle(svc.title);
-                  const imageAlt = serviceAltMap[svc.ref] || `${svc.title} - ${svc.ref} engineering service`;
+                {g.services.map((svc, sIdx) => {
+                  const canonicalTitle = serviceGroupsData[gIdx]?.services[sIdx]?.title || svc.title;
+                  const sid = sanitizeTitle(canonicalTitle);
+                  const imageAlt = getLocalizedServiceAlt(svc.ref, svc.title, lang);
+                  const detailHref = localizePath(`/services/${getServiceSlugForRef(svc.ref)}`, lang);
                   return (
                     <article key={svc.ref} className="sline reveal" id={sid}>
                       <div className="sline-media">
                         <img
                           src={`/assets/images/${svc.img}`}
                           alt={imageAlt}
-                          aria-label={`${svc.title} (${svc.ref}) service photograph`}
+                          aria-label={`${svc.title} (${svc.ref}) ${t.servicesPage.photoAriaSuffix}`}
                           referrerPolicy="no-referrer"
                           loading="lazy"
                           decoding="async"
@@ -226,15 +215,15 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                           ))}
                         </ul>
                         <a
-                          href={`/services/${getServiceSlugForRef(svc.ref)}`}
+                          href={detailHref}
                           className="sline-more-btn"
-                          aria-label={`Read technical specifications and deliverables for ${svc.title} (${svc.ref})`}
+                          aria-label={`${t.servicesPage.readMoreAriaPrefix} ${svc.title} (${svc.ref})`}
                           onClick={(e) => {
                             e.preventDefault();
-                            onNavigate(`/services/${getServiceSlugForRef(svc.ref)}`);
+                            onNavigate(detailHref);
                           }}
                         >
-                          Read More
+                          {t.common.readMore}
                           <svg
                             width="15"
                             height="15"
@@ -263,17 +252,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
       {/* ============ AFFILIATIONS ============ */}
       <section className="affil">
         <div className="wrap">
-          <h2 className="affil-head reveal">Professional Affiliations</h2>
+          <h2 className="affil-head reveal">{t.servicesPage.affiliationsTitle}</h2>
           <p className="affil-sub reveal">
-            Our engineers and scientists are registered with the statutory councils that
-            govern South African engineering and natural science practice.
+            {t.servicesPage.affiliationsSubtitle}
           </p>
           <div className="affil-row" role="list">
-            {affiliationsData.map((aff, i) => (
-              <div key={aff.name} className={`affil-card reveal r-delay-${i}`} role="listitem">
+            {affiliations.map((aff, i) => (
+              <div key={aff.logo} className={`affil-card reveal r-delay-${i}`} role="listitem">
                 <img
                   src={`/assets/images/${aff.logo}`}
-                  alt={`${aff.name} logo - professional registration`}
+                  alt={`${aff.name} ${t.servicesPage.affiliationsAltSuffix}`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -287,22 +275,21 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
       <section className="svc-cta">
         <div className="wrap svc-cta-inner">
           <div>
-            <h2>Scope It With an Engineer</h2>
+            <h2>{t.servicesPage.ctaTitle}</h2>
             <p className="svc-cta-sub">
-              Send the requirement, receive a technically scoped response from a registered
-              professional.
+              {t.servicesPage.ctaSubtitle}
             </p>
           </div>
           <a
-            href="/contact"
+            href={contactHref}
             className="btn btn-brand"
-            aria-label="Request a technical consultation with our registered engineers"
+            aria-label={t.servicesPage.ctaAria}
             onClick={(e) => {
               e.preventDefault();
-              onNavigate('/contact');
+              onNavigate(contactHref);
             }}
           >
-            Request Consultation
+            {t.common.requestConsultation}
           </a>
         </div>
       </section>
