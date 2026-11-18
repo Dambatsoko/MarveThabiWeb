@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
           })}
         </nav>
 
-        {/* Zone 3: Actions — extreme right (EN|FR selector, LinkedIn, Download Profile button, and Hamburger toggle) */}
+        {/* Zone 3: Actions — extreme right (Flag language selector, LinkedIn, Download Profile button, and Hamburger toggle) */}
         <div className="header-actions">
           <div
             className="lang-switcher"
@@ -128,28 +128,69 @@ export const Header: React.FC<HeaderProps> = ({
               className={`lang-switcher-btn ${lang === 'en' ? 'active' : ''}`}
               aria-pressed={lang === 'en'}
               aria-label={t.langSwitcher.switchToEn}
+              title="English (South Africa)"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onSwitchLanguage('en');
               }}
             >
-              EN
+              <svg
+                className="lang-flag-svg"
+                viewBox="0 0 30 20"
+                width="22"
+                height="15"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <defs>
+                  <clipPath id="flag-za-clip">
+                    <rect width="30" height="20" rx="2" />
+                  </clipPath>
+                </defs>
+                <g clipPath="url(#flag-za-clip)">
+                  <rect width="30" height="20" fill="#FFFFFF" />
+                  <polygon points="4.2,0 30,0 30,6.6 14.1,6.6" fill="#E03C31" />
+                  <polygon points="4.2,20 30,20 30,13.4 14.1,13.4" fill="#001489" />
+                  <polygon
+                    points="0,0 2.0,0 14.2,8.1 30,8.1 30,11.9 14.2,11.9 2.0,20 0,20"
+                    fill="#007749"
+                  />
+                  <polygon points="0,2.2 11.7,10 0,17.8" fill="#FFB81C" />
+                  <polygon points="0,4.1 8.85,10 0,15.9" fill="#000000" />
+                </g>
+              </svg>
             </button>
-            <span className="lang-switcher-sep" aria-hidden="true">
-              |
-            </span>
             <button
               type="button"
               data-lang="fr"
               className={`lang-switcher-btn ${lang === 'fr' ? 'active' : ''}`}
               aria-pressed={lang === 'fr'}
               aria-label={t.langSwitcher.switchToFr}
+              title="Français (France)"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onSwitchLanguage('fr');
               }}
             >
-              FR
+              <svg
+                className="lang-flag-svg"
+                viewBox="0 0 30 20"
+                width="22"
+                height="15"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <defs>
+                  <clipPath id="flag-fr-clip">
+                    <rect width="30" height="20" rx="2" />
+                  </clipPath>
+                </defs>
+                <g clipPath="url(#flag-fr-clip)">
+                  <rect x="0" y="0" width="10" height="20" fill="#002395" />
+                  <rect x="10" y="0" width="10" height="20" fill="#FFFFFF" />
+                  <rect x="20" y="0" width="10" height="20" fill="#ED2939" />
+                </g>
+              </svg>
             </button>
           </div>
 

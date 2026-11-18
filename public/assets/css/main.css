@@ -3218,7 +3218,7 @@ button{
 }
 
 /* ============================================================
-   COMPACT HEADER LANGUAGE SWITCHER (EN | FR)
+   COMPACT HEADER LANGUAGE SWITCHER (SOUTH AFRICA / FRANCE FLAGS)
    ============================================================ */
 .lang-switcher {
   display: inline-flex;
@@ -3230,54 +3230,53 @@ button{
   border: 1px solid var(--line, #e1e8e6);
   border-radius: 6px;
   box-sizing: border-box;
-  gap: 2px;
+  gap: 3px;
 }
 
 .lang-switcher-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
+  min-width: 30px;
   height: 100%;
-  padding: 0 7px;
-  border: none;
+  padding: 0 5px;
+  border: 1px solid transparent;
   border-radius: 4px;
   background: transparent;
-  color: #465752;
-  font-family: var(--font-head);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1;
   cursor: pointer;
-  transition: background-color 0.16s ease, color 0.16s ease;
+  opacity: 0.56;
+  filter: saturate(0.8);
+  transition: background-color 0.16s ease, border-color 0.16s ease, opacity 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .lang-switcher-btn:hover:not(.active) {
-  background: rgba(51, 102, 89, 0.1);
-  color: var(--ink, #16211e);
+  background: rgba(51, 102, 89, 0.08);
+  opacity: 0.92;
+  filter: saturate(1);
 }
 
 .lang-switcher-btn.active {
-  background: var(--brand, #336659);
-  color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 1px 2px rgba(15, 27, 24, 0.14);
+  background: #ffffff;
+  border-color: var(--brand, #336659);
+  box-shadow: 0 1px 3px rgba(15, 27, 24, 0.14);
+  opacity: 1;
+  filter: saturate(1);
 }
 
 .lang-switcher-btn:focus-visible {
   outline: 2px solid var(--brand, #336659);
   outline-offset: 1px;
+  opacity: 1;
 }
 
-.lang-switcher-sep {
-  font-family: var(--font-head);
-  font-size: 11px;
-  line-height: 1;
-  color: #b4c3be;
-  user-select: none;
-  padding: 0 1px;
+.lang-flag-svg {
+  display: block;
+  width: 22px;
+  height: 15px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(22, 33, 30, 0.16);
+  flex-shrink: 0;
 }
 
 @media (max-width: 1120px) and (min-width: 881px) {
@@ -3293,11 +3292,15 @@ button{
 @media (max-width: 480px) {
   .lang-switcher {
     height: 32px;
+    gap: 2px;
   }
   .lang-switcher-btn {
-    min-width: 26px;
-    padding: 0 6px;
-    font-size: 11.5px;
+    min-width: 28px;
+    padding: 0 4px;
+  }
+  .lang-flag-svg {
+    width: 20px;
+    height: 13.5px;
   }
 }
 
