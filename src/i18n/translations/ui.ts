@@ -4,7 +4,6 @@ export interface UITranslations {
   common: {
     siteName: string;
     legalName: string;
-    regNo: string;
     officeAddress: string;
     officeAddressFull: string;
     requestConsultation: string;
@@ -358,7 +357,6 @@ export const UI_TRANSLATIONS: Record<Language, UITranslations> = {
     common: {
       siteName: 'MarveThabi Consulting Engineers',
       legalName: 'MarveThabi Consulting Engineers (Pty) Ltd',
-      regNo: 'Reg No. 2013/000000/07',
       officeAddress: 'Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182',
       officeAddressFull: 'Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182, Gauteng, South Africa',
       requestConsultation: 'Request Consultation',
@@ -787,7 +785,6 @@ export const UI_TRANSLATIONS: Record<Language, UITranslations> = {
     common: {
       siteName: 'MarveThabi Consulting Engineers',
       legalName: 'MarveThabi Consulting Engineers (Pty) Ltd',
-      regNo: 'N° d’immatriculation : 2013/000000/07',
       officeAddress: 'Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182',
       officeAddressFull: 'Unit 68 Saliehout Street, Stenostelma, Annlin, Pretoria 0182, Gauteng, Afrique du Sud',
       requestConsultation: 'Demander une consultation',

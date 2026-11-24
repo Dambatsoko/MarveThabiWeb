@@ -134,7 +134,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
       <div className="wrap foot-base">
         <span className="num">&copy; {currentYear} {t.common.legalName}</span>
-        <span className="num">{t.common.regNo}</span>
       </div>
     </footer>
   );
